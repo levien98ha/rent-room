@@ -1,0 +1,58 @@
+.rea-products {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.rui-grid-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  .rui-col-xs-4 {
+    width: 32%;
+  }
+}
+
+p {
+  font-size: 16px;
+}
+
+h3 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  a {
+    color: #b08bf8 !important;
+  }
+}
+
+.rea-products .rea-product-content {
+  padding: 0 20px;
+  position: relative;
+}
+
+.rea-products .rea-product-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.rea-products .rea-product-call-to-action {
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 13px;
+  color: #e4002b;
+  padding: 10px 0;
+  display: block;
+  letter-spacing: 1.6px;
+}
+
+.rea-product-blurb {
+  color: #333F48;
+}

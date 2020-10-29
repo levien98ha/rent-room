@@ -1,0 +1,102 @@
+@import "./variables.scss";
+.v-cont-title-warning {
+  height: 35px;
+  border-bottom: $color-warning solid 1px;
+  padding: 3px 0px;
+  width: 95%;
+  position: relative;
+  margin: auto;
+}
+.v-cont-title-success {
+  height: 35px;
+  border-bottom: $color-success solid 1px;
+  padding: 3px 0px;
+  width: 95%;
+  position: relative;
+  margin: auto;
+}
+.v-cont-title-secondary {
+  border-bottom: $color-secondary solid 1px;
+  padding: 3px 0px;
+  width: 95%;
+  margin: auto;
+  position: relative;
+}
+.v-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color: #d20000;
+}
+.v-cont {
+  padding: 10px;
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.v-cont-data{
+  max-height: calc(100vh - 50px);
+}
+.v-cont::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.v-cont::-webkit-scrollbar-thumb {
+  background-color: $scroll-bgr-color;
+  border-radius: 0.25rem;
+}
+.v-error-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+}
+.v-message-warning {
+  text-align: center;
+  color: $color-danger;
+}
+.v-message-warning-fixed {
+  text-align: left;
+  color: $color-danger;
+}
+.v-message-success {
+  text-align: center;
+  color: black;
+}
+.v-message-secondary {
+  text-align: center;
+  color: $color-secondary;
+}
+.v-notify-container {
+  background-color: #22242887;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.v-notify-popup {
+  width: auto;
+  background-color: #ffffff;
+  overflow: hidden;
+  border-radius: 5px;
+  padding: 5px 0px 5px;
+}
+.v-notify-popup-data {
+  max-width: 80%;
+  margin: 5% auto auto;
+}
+.v-notify-popup-msg {
+  margin: 5% auto auto;
+  width: 35%;
+  min-width: 600px;
+}
+.v-notify-popup-pos {
+  width: 35%;
+  min-width: 600px;
+}

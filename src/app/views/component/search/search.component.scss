@@ -1,0 +1,114 @@
+:host ::ng-deep .p-dropdown {
+  font-size: 18px;
+  min-width: 100%!important;
+}
+
+
+p-dropdown {
+  width: 24% !important;
+  min-width: 24% !important;
+}
+$primary: rgb(182, 157, 230);
+.v-container {
+  padding-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.v-left {
+  width: 55%;
+  min-width: 800px !important;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  padding: 1rem 2rem;
+}
+.v-right {
+  width: 15%;
+  min-width: 250px !important;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  padding: 1rem 2rem;
+}
+.v-address {
+  display: flex;
+  justify-content: space-between;
+}
+
+.v-price {
+  margin-top: 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  .v-price-title {
+    font-weight: bold !important;
+
+  }
+}
+
+:host ::ng-deep span.p-slider-range.ng-star-inserted {
+  background: #b08bf8 !important;
+}
+
+:host ::ng-deep span.p-dropdown-label.p-inputtext.ng-star-inserted {
+  font-weight: 400 !important;
+  font-size: 16px;
+}
+
+button {
+  -webkit-appearance: none;
+  width: auto;
+  min-width: 100px;
+  border-radius: 24px;
+  text-align: center;
+  padding: 12px 35px;
+  font-weight: bold;
+  margin-top: 5px;
+  background-color: saturate($primary, 30%);
+  color: #fff;
+  font-size: 16px;
+  margin-left: auto;
+  box-shadow: 0px 2px 6px -1px rgba(0, 0, 0, 0.13);
+  border: none;
+  transition: all 0.3s ease;
+  outline: 0;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 6px -1px rgba($primary, 0.65);
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+}
+
+.v-right-description {
+  color: white;
+}
+
+h3, h4 {
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.v-price-text {
+  font-size: 17px;
+  margin-bottom: 0.25rem !important;
+}
+
+.v-learmore {
+  justify-self: center;
+  text-align: center;
+}
+
+.v-slider {
+  display: flex;
+  width: calc(100% - 125px - 30px);
+  justify-content: space-between;
+  div {
+    min-width: 45%;
+    .v-result {
+      font-size: 15px;
+    }
+  }
+}

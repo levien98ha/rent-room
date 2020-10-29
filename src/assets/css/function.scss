@@ -1,0 +1,36 @@
+// font-size
+@for $i from 10 through 20 {
+  $base: 1;
+  $fontsize: $base * $i;
+  .v-font-#{$fontsize} {
+    font-size: $fontsize + 0px !important;;
+  }
+}
+
+// width & height
+@for $i from 1 through 100 {
+  $base: 5;
+  $size: $base * $i;
+  .v-width-#{$size} {
+    width: $size + 0% !important;
+  }
+  .v-min-width-#{$size} {
+    min-width: $size + 0% !important;
+  }
+  .v-max-width-#{$size} {
+    max-width: $size + 0% !important;
+  }
+  .v-height-#{$size} {
+    height: $size + 0% !important;
+  }
+  .v-min-height-#{$size} {
+    min-height: $size + 0% !important;
+  }
+  .v-max-height-#{$size} {
+    max-height: $size + 0% !important;
+  }
+}
+@mixin make-col($size) {
+  flex: 0 0 percentage($size / 12);
+  max-width: percentage($size / 12);
+}

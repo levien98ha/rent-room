@@ -1,1 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~material-design-icons/iconfont/material-icons.css';
+html {
+  scroll-behavior: smooth;
+}
+:host {
+  font-family: "Museo-Sans-300","Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  font-size: 14px;
+  color: #23282c !important;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", Roboto, "Helvetica Neue", sans-serif !important;
+  background-color: #f7f8f9;
+}
+
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 7px !important;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #b08bf8 !important;
+  border-radius: 0.25rem !important;
+}
+::-webkit-scrollbar:hover {
+  width: 13px !important;
+}
+
+.scroll-top {
+  padding: 10px 10px;
+  background-color: #fff;
+  color: #333F48;
+  position: fixed;
+  bottom: 60px;
+  right: 30px;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  border: 1px solid #333F48;
+  z-index: 1000;
+}
+.scroll-top i {
+  font-size: 20px;
+  font-weight: 900;
+}
+.scroll-top:hover {
+  background-color: #b08bf8;
+  color: white;
+}
+
+body {
+  min-width: 1200px;
+  overflow: auto;
+  height: auto;
+}

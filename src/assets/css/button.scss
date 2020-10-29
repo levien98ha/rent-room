@@ -1,0 +1,41 @@
+@import "variables.scss";
+.v-btn.mat-raised-button {
+  line-height: 2;
+  height: $height;
+  min-width: 100px;
+  border-radius: 5px !important;
+  background-color: $btn-color-default !important;
+  cursor: pointer;
+  color: $btn-color !important;
+
+  &:hover {
+    background-color: $btn-color-hover !important;
+  }
+
+  &:disabled {
+    background-color: $btn-color-disabled !important;
+    pointer-events: none;
+  }
+}
+.v-btn.mat-icon-button {
+  line-height: 2;
+  width: 30px;
+  height: 30px;
+  background-color: $btn-color-default !important;
+  cursor: pointer;
+  color: $btn-color !important;
+  &:hover {
+    background-color: $btn-color-hover !important;
+  }
+
+  &:disabled {
+    background-color: $btn-color-disabled !important;
+    pointer-events: none;
+  }
+  span{
+    font-size: 20px;
+  }
+  .mat-button-wrapper{
+    line-height: 25px;
+  }
+}

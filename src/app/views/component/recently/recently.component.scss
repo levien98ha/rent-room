@@ -1,0 +1,23 @@
+.v-recently-container {
+  border-top: 1px dotted #ccc;
+  border-bottom: 1px dotted #ccc;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  .v-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333F48;
+  }
+  carousel {
+    height: 430px !important;
+    z-index: 1 !important;
+    .carousel-cell {
+      width: 25%;
+    }
+  }
+}

@@ -1,0 +1,93 @@
+<div class="v-container">
+    <div class="v-left">
+        <h4>Search properties for rent:</h4>
+        <div class="v-address">
+            <p-dropdown
+                [options]="listCity"
+                [(ngModel)]="selectedCity"
+                (onChange)="selectCity()"
+                placeholder="Select a City"
+                optionLabel="name"
+                [showClear]="true"
+                class="v-city"
+            ></p-dropdown>
+            <p-dropdown
+                [options]="listDistrict"
+                [(ngModel)]="selectedDistrict"
+                (onChange)="selectDistrict()"
+                placeholder="Select a District"
+                optionLabel="name"
+                [showClear]="true"
+                class="v-city"
+            ></p-dropdown>
+            <p-dropdown
+                [options]="listWard"
+                [(ngModel)]="selectedWard"
+                placeholder="Select a Ward"
+                optionLabel="name"
+                [showClear]="true"
+                class="v-city"
+            ></p-dropdown>
+            <p-dropdown
+                [options]="listCategory"
+                [(ngModel)]="selectedCategory"
+                placeholder="Select category"
+                optionLabel="name"
+                [showClear]="true"
+                class="v-city"
+            ></p-dropdown>
+        </div>
+        <div class="v-price">
+            <div class="v-slider">
+                <div>
+                    <p class="v-price-text">
+                        <b class="v-price-title">Price of room:</b>
+                    </p>
+                    <p class="v-result">{{minPrice + ' - ' + maxPrice}}</p>
+                    <p-slider
+                        [range]="true"
+                        [(ngModel)]="price"
+                        [min]="0"
+                        [max]="10000000"
+                        [step]="50000"
+                        (onChange)="showValuePrice()"
+                    ></p-slider>
+                </div>
+                <div>
+                    <p class="v-price-text">
+                        <b class="v-price-title">Area of room:</b>
+                    </p>
+                    <p v-result>{{minArea + ' - ' + maxArea}}</p>
+                    <p-slider
+                        [range]="true"
+                        [(ngModel)]="area"
+                        [min]="0"
+                        [max]="500"
+                        [step]="10"
+                        (onChange)="showValueArea()"
+                    ></p-slider>
+                </div>
+            </div>
+            <button
+                type="submit"
+                onClick="return false;"
+            >
+                Search
+            </button>
+        </div>
+    </div>
+    <div class="v-right">
+        <h3>RENT ROOM.</h3>
+        <p class="v-right-description">
+            Finally, there’s one place to look for your room and your rent.
+        </p>
+        <div class="v-learmore">
+            <button
+                type="submit"
+                onClick="return false;"
+            >
+                Learn more
+            </button>
+        </div>
+    </div>
+</div>

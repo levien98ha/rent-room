@@ -1,0 +1,14 @@
+<app-header></app-header>
+<app-slide-show></app-slide-show>
+<div class="v-body">
+    <button
+        *ngIf="pageYoffset > 100"
+        class="scroll-top"
+        mdbTooltip="Scroll to Top"
+        placement="top"
+        (click)="scrollTop()"
+    >
+        <i class="pi pi-angle-up"></i>
+    </button>
+</div>
+<app-footer></app-footer>

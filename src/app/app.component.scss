@@ -1,0 +1,9 @@
+@import '../assets/css/button.scss';
+
+:host ::ng-deep .light-blue.accent-2 {
+  background-color: #b08bf8 !important;
+}
+
+:host {
+  min-width: 1200px;
+}
