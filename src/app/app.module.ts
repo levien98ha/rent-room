@@ -16,13 +16,15 @@ import { RecentlyComponent } from './views/component/recently/recently.component
 import {IvyCarouselModule} from 'angular-responsive-carousel';
 import { IntroductionComponent } from './views/component/introduction/introduction.component';
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {MenuItem} from 'primeng/api';import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MenuItem} from 'primeng/api';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ListRoomComponent } from './views/list-room/list-room.component';
 import { SearchComponent } from './views/component/search/search.component';
 import {DropdownModule} from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import {SliderModule} from 'primeng/slider';
+import { CustomerTellComponent } from './views/component/customer-tell/customer-tell.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +39,8 @@ import {SliderModule} from 'primeng/slider';
     RecentlyComponent,
     IntroductionComponent,
     ListRoomComponent,
-    SearchComponent
+    SearchComponent,
+    CustomerTellComponent
   ],
   imports: [
     BrowserModule,

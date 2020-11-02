@@ -4,4 +4,133 @@
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+}
+
+.v-list-room {
+  width: 85%;
+  padding: 0px 10px 10px 10px;
+  .v-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    height: 250px !important;
+    min-height: 250px !important;
+    border: 2px solid grey;
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer;
+    .v-img {
+      width: 30%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px 0px 0px 5px;
+      }
+    }
+    .v-description {
+      width: 69%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .v-title {
+        color: #b08bf8;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .v-info {
+        display: flex;
+        flex-direction: row;
+        .v-dot {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .v-area {
+          margin-right: 25px;
+          font-weight: 700;
+          font-size: 17px;
+          mdb-icon {
+            margin-right: 5px;
+          }
+        }
+        .v-address {
+          margin-left: 25px;
+          font-weight: 700;
+          font-size: 17px;
+          mdb-icon {
+            margin-right: 5px;
+          }
+        }
+      }
+      .v-des-text {
+        display: block;
+        display: -webkit-box;
+        max-height: 80px;
+        min-height: 80px;
+        max-width: 100%;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .v-item-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+    .v-price {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 15px;
+      color: white !important;
+      border-radius: 5px;
+      background-color: #b08bf8;
+      padding: 3px 5px;
+    }
+  }
+}
+
+.v-suggest {
+  width: 14%;
+  display: flex;
+  flex-direction: column;
+  .v-category {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #b08bf8;
+    padding: 10px 5px 10px 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+}
+
+.v-suggest-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #b08bf8;
+}
+
+mdb-badge {
+  font-size: 17px;
+  margin-right: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.v-item:hover .v-hover-opacity{
+  background-color: #b08bf8;
+  opacity: 0.2;
+  z-index: 2;
+}
+
+.v-hover-opacity {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }

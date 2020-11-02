@@ -14,10 +14,39 @@
     color: #333F48;
   }
   carousel {
-    height: 430px !important;
+    height: 450px !important;
     z-index: 1 !important;
     .carousel-cell {
       width: 25%;
     }
   }
+}
+
+:host ::ng-deep .card-title h4{
+  height: 26px !important;
+  font-weight: bold !important;
+  color: #b08bf8 !important;
+  font-size: 15px !important;
+  line-height: 25px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+:host ::ng-deep .card-text {
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+:host ::ng-deep .carousel-cell {
+  border-radius: 5px;
+}
+
+p {
+  color: #747373;
+}
+
+.v-footer-card {
+  display: flex;
+  justify-content: space-between;
 }
