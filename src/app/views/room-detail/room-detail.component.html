@@ -1,0 +1,77 @@
+<app-header></app-header>
+<app-slide-show></app-slide-show>
+<div class="v-body">
+    <button
+        *ngIf="pageYoffset > 100"
+        class="scroll-top"
+        mdbTooltip="Scroll to Top"
+        placement="top"
+        (click)="scrollTop()"
+    >
+        <i class="pi pi-angle-up"></i>
+    </button>
+    <div class="v-room-detail">
+        <p-galleria
+            #galleria
+            [(value)]="images"
+            [(activeIndex)]="activeIndex"
+            [numVisible]="5"
+            [containerStyle]="{'max-width':'800px'}"
+            [containerClass]="galleriaClass()"
+            [showThumbnails]="showThumbnails"
+            [showItemNavigators]="true"
+            [showItemNavigatorsOnHover]="true"
+            [circular]="true"
+            [autoPlay]="true"
+            [transitionInterval]="3000"
+        >
+            <ng-template
+                pTemplate="item"
+                let-item
+            >
+                <img
+                    [src]="item.previewImageSrc"
+                    [ngStyle]="{'width': !fullscreen ? '800px' : '50%', 'height': !fullscreen ? '450px' : '', 'display': !fullscreen ? 'block' : ''}"
+                >
+            </ng-template>
+            <ng-template
+                pTemplate="thumbnail"
+                let-item
+            >
+                <div class="p-grid p-nogutter p-justify-center">
+                    <img [src]="item.thumbnailImageSrc">
+                </div>
+            </ng-template>
+            <ng-template
+                pTemplate="footer"
+                let-item
+            >
+                <div class="custom-galleria-footer">
+                    <button
+                        type="button"
+                        pButton
+                        icon="pi pi-list"
+                        (click)="onThumbnailButtonClick()"
+                    ><i class="pi pi-list" mdbTooltip="Show List" style="font-size: 16px"></i></button>
+                    <span
+                        *ngIf="images"
+                        class="title-container"
+                    >
+                        <span>{{activeIndex + 1}}/{{images.length}}</span>
+                        <span class="title">{{images[activeIndex].title}}</span>
+                        <span>{{images[activeIndex].alt}}</span>
+                    </span>
+                    <button
+                        type="button"
+                        pButton
+                        icon="fullScreenIcon()"
+                        (click)="toggleFullScreen()"
+                        class="fullscreen-button"
+                    ><i class="pi pi-window-maximize" mdbTooltip="Full Screen" style="font-size: 16px"></i></button>
+                </div>
+            </ng-template>
+        </p-galleria>
+    </div>
+    <div class="v-slidebar"></div>
+</div>
+<app-footer></app-footer>

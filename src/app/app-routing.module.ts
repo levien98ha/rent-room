@@ -1,3 +1,4 @@
+import { RoomDetailComponent } from './views/room-detail/room-detail.component';
 import { ListRoomComponent } from './views/list-room/list-room.component';
 import { HomePageComponent } from './views/home-page/home-page.component';
 import { LoginComponent } from './views/login/login.component';
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'room',
     component: ListRoomComponent
+  },
+  {
+    path: 'room/:id',
+    component: RoomDetailComponent
   },
   {
     path: '',

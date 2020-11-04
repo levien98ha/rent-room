@@ -16,7 +16,6 @@ import { RecentlyComponent } from './views/component/recently/recently.component
 import {IvyCarouselModule} from 'angular-responsive-carousel';
 import { IntroductionComponent } from './views/component/introduction/introduction.component';
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {MenuItem} from 'primeng/api';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ListRoomComponent } from './views/list-room/list-room.component';
 import { SearchComponent } from './views/component/search/search.component';
@@ -24,7 +23,10 @@ import {DropdownModule} from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import {SliderModule} from 'primeng/slider';
+import {GalleriaModule} from 'primeng/galleria';
 import { CustomerTellComponent } from './views/component/customer-tell/customer-tell.component';
+import { PaginationComponent } from './common/pagination/pagination.component';
+import { RoomDetailComponent } from './views/room-detail/room-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,9 @@ import { CustomerTellComponent } from './views/component/customer-tell/customer-
     IntroductionComponent,
     ListRoomComponent,
     SearchComponent,
-    CustomerTellComponent
+    CustomerTellComponent,
+    PaginationComponent,
+    RoomDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ import { CustomerTellComponent } from './views/component/customer-tell/customer-
     AccordionModule,
     FormsModule,
     SliderModule,
+    GalleriaModule,
     MDBBootstrapModule.forRoot()
   ],
   exports: [

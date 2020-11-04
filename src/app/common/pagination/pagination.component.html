@@ -1,0 +1,45 @@
+<div class="v-result-paging">
+  <div class="v-result-paging__info">
+    {{recordStart}}~{{recordEnd ? recordEnd : 0}} of {{totalRecord}} Results
+  </div>
+  <div
+      class="v-result-paging__page"
+      *ngIf="totalPage > 1 && showPagging"
+  >
+      <div
+          class="v-result-paging__dbpr {{isFirstPage() ? 'v-pagging-disable' : '' }}"
+          (click)="firstPage()"
+          *ngIf="currentPage > 1"
+      >
+          First
+      </div>
+      <div
+          class="v-result-paging__sgpr {{isFirstPage() ? 'v-pagging-disable' : '' }}"
+          (click)="backPage()"
+          *ngIf="currentPage > 1"
+      >
+          &lt;
+      </div>
+      <div
+          (click)="selectPage(page)"
+          class="v-result-paging__number {{ currentPage == page ? 'v-result-paging__selected' : ''}}"
+          *ngFor="let page of listNumberPage "
+      >
+          {{page}}
+      </div>
+      <div
+          class="v-result-paging__sgfw {{isLastPage() ? 'v-pagging-disable' : '' }}"
+          (click)="nextPage()"
+          *ngIf="currentPage !== totalPage"
+      >
+          &gt;
+      </div>
+      <div
+          class="v-result-paging__sgfw {{isLastPage() ? 'v-pagging-disable' : '' }}"
+          (click)="lastPage()"
+          *ngIf="currentPage !== totalPage"
+      >
+          Last
+      </div>
+  </div>
+</div>

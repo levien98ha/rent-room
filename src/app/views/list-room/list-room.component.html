@@ -12,6 +12,10 @@
     </button>
 
     <div class="v-list-room">
+      <div class="v-title-header">
+        <div class="v-properties-title">Rental Properties</div>
+        <p-dropdown [options]="sort" [(ngModel)]="selectedSort" (onChange)="selectSort()" placeholder="" optionLabel="name" [showClear]="true"></p-dropdown>
+      </div>
       <div class="v-item">
         <div class="v-hover-opacity"></div>
         <div class="v-price">
@@ -201,8 +205,8 @@ Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường Đ
           </div>
         </div>
       </div>
+      <app-pagination [totalRecord]="100" [currentPage]="currentPage" [totalPage]="10" (currentPageChange)="selectPage($event)"></app-pagination>
     </div>
-
     <div class="v-suggest">
       <div class="v-category">
         <div class="v-suggest-title">Category</div>
@@ -233,4 +237,5 @@ Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường Đ
       </div>
     </div>
 </div>
+
 <app-footer></app-footer>

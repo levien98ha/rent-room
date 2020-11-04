@@ -9,6 +9,14 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class ListRoomComponent implements OnInit {
 
   pageYoffset = 100;
+  currentPage = 1;
+  selectedSort;
+  sort = [{id: 1, name: 'Most Relevant'},
+  {id: 2, name: 'Date (Newest - Oldest)'},
+  {id: 3, name: 'Date (Oldest - Newest)'},
+  {id: 4, name: 'Price (Lowest - Highest)'},
+  {id: 5, name: 'Price (Highest - Lowest)'},
+  ];
   constructor(private scroll: ViewportScroller) { }
 
   ngOnInit(): void {
@@ -20,5 +28,13 @@ export class ListRoomComponent implements OnInit {
 
   scrollTop() {
     this.scroll.scrollToPosition([0, 0]);
+  }
+
+  selectPage(event) {
+
+  }
+
+  selectSort() {
+
   }
 }

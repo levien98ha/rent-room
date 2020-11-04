@@ -134,3 +134,25 @@ mdb-badge {
   width: 100%;
   height: 100%;
 }
+
+.v-time {
+  color: #747C87 !important;
+  font-size: 14px;
+}
+
+.v-title-header {
+  border-bottom: 1px dotted #ccc;
+  padding: 20px 0px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  .v-properties-title {
+    font-size: 22px;
+    font-weight: bold;
+  }
+}
+
+:host ::ng-deep span.p-dropdown-label.p-inputtext.ng-star-inserted {
+  font-weight: 400 !important;
+  font-size: 16px;
+}

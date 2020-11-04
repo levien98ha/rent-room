@@ -9,8 +9,18 @@
                 placeholder="Select a City"
                 optionLabel="name"
                 [showClear]="true"
+                [filter]="true"
                 class="v-city"
-            ></p-dropdown>
+            >
+                <ng-template pTemplate="selectedItem">
+                    <div
+                        class="country-item country-item-value"
+                        *ngIf="selectedCity"
+                    >
+                        <div>{{selectedCity.name}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
             <p-dropdown
                 [options]="listDistrict"
                 [(ngModel)]="selectedDistrict"
@@ -18,16 +28,36 @@
                 placeholder="Select a District"
                 optionLabel="name"
                 [showClear]="true"
+                [filter]="true"
                 class="v-city"
-            ></p-dropdown>
+            >
+                <ng-template pTemplate="selectedItem">
+                    <div
+                        class="country-item country-item-value"
+                        *ngIf="selectedDistrict"
+                    >
+                        <div>{{selectedDistrict.name}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
             <p-dropdown
                 [options]="listWard"
                 [(ngModel)]="selectedWard"
                 placeholder="Select a Ward"
                 optionLabel="name"
                 [showClear]="true"
+                [filter]="true"
                 class="v-city"
-            ></p-dropdown>
+            >
+                <ng-template pTemplate="selectedItem">
+                    <div
+                        class="country-item country-item-value"
+                        *ngIf="selectedWard"
+                    >
+                        <div>{{selectedWard.name}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
             <p-dropdown
                 [options]="listCategory"
                 [(ngModel)]="selectedCategory"
