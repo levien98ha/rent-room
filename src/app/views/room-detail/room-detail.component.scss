@@ -65,7 +65,19 @@
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  justify-content: space-between;
   .v-room-detail {
-    height: 700px;
+    width: 70%;
+    .v-image {
+      height: 550px;
+    }
+    .v-title {
+      color: #b08bf8;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  .v-slidebar {
+    width: 29%;
   }
 }

@@ -11,12 +11,12 @@
         <i class="pi pi-angle-up"></i>
     </button>
     <div class="v-room-detail">
+      <div class="v-image">
         <p-galleria
             #galleria
             [(value)]="images"
             [(activeIndex)]="activeIndex"
             [numVisible]="5"
-            [containerStyle]="{'max-width':'800px'}"
             [containerClass]="galleriaClass()"
             [showThumbnails]="showThumbnails"
             [showItemNavigators]="true"
@@ -31,7 +31,7 @@
             >
                 <img
                     [src]="item.previewImageSrc"
-                    [ngStyle]="{'width': !fullscreen ? '800px' : '50%', 'height': !fullscreen ? '450px' : '', 'display': !fullscreen ? 'block' : ''}"
+                    [ngStyle]="{'width': !fullscreen ? '100%' : '50%', 'height': !fullscreen ? '500px' : '', 'display': !fullscreen ? 'block' : ''}"
                 >
             </ng-template>
             <ng-template
@@ -71,6 +71,10 @@
                 </div>
             </ng-template>
         </p-galleria>
+      </div>
+      <div class="v-detail">
+        <div class="v-title">CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY</div>
+      </div>
     </div>
     <div class="v-slidebar"></div>
 </div>
