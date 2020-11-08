@@ -1,3 +1,4 @@
+<p-toast position="bottom-left"></p-toast>
 <div class="v-recently-container">
     <div class="v-title">Latest New Rooms</div>
     <div class>
@@ -28,19 +29,23 @@
                     <!-- Card content -->
                     <mdb-card-body>
                         <!-- Title -->
-                        <mdb-card-title>
-                            <h4>Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa</h4>
+                        <mdb-card-title [routerLink]="['/room/1']">
+                            <h4>
+                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                            </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>
-                          {{price + ' - ' + area}}
-                        </mdb-card-text>
+                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
                         <p>{{address}}</p>
-                       <div class="v-footer-card">
-                          <p>{{time}}</p>
-                        <i class="pi pi-star-o" style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"></i>
-                      </div>
+                        <div class="v-footer-card">
+                            <p>{{time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                (click)="addSingle()"
+                            ></i>
+                        </div>
                     </mdb-card-body>
                 </mdb-card>
                 <!-- Card -->
@@ -64,19 +69,23 @@
                     <!-- Card content -->
                     <mdb-card-body>
                         <!-- Title -->
-                        <mdb-card-title>
-                            <h4>Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa</h4>
+                        <mdb-card-title [routerLink]="['/room/1']">
+                            <h4>
+                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                            </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>
-                          {{price + ' - ' + area}}
-                        </mdb-card-text>
+                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
                         <p>{{address}}</p>
-                       <div class="v-footer-card">
-                          <p>{{time}}</p>
-                        <i class="pi pi-star-o" style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"></i>
-                      </div>
+                        <div class="v-footer-card">
+                            <p>{{time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                (click)="addSingle()"
+                            ></i>
+                        </div>
                     </mdb-card-body>
                 </mdb-card>
                 <!-- Card -->
@@ -100,19 +109,23 @@
                     <!-- Card content -->
                     <mdb-card-body>
                         <!-- Title -->
-                        <mdb-card-title>
-                            <h4>Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa</h4>
+                        <mdb-card-title [routerLink]="['/room/1']">
+                            <h4>
+                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                            </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>
-                          {{price + ' - ' + area}}
-                        </mdb-card-text>
+                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
                         <p>{{address}}</p>
-                       <div class="v-footer-card">
-                          <p>{{time}}</p>
-                        <i class="pi pi-star-o" style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"></i>
-                      </div>
+                        <div class="v-footer-card">
+                            <p>{{time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                (click)="addSingle()"
+                            ></i>
+                        </div>
                     </mdb-card-body>
                 </mdb-card>
                 <!-- Card -->
@@ -136,19 +149,23 @@
                     <!-- Card content -->
                     <mdb-card-body>
                         <!-- Title -->
-                        <mdb-card-title>
-                            <h4>Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa</h4>
+                        <mdb-card-title [routerLink]="['/room/1']">
+                            <h4>
+                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                            </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>
-                           {{price + ' - ' + area}}
-                        </mdb-card-text>
+                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
                         <p>{{address}}</p>
-                       <div class="v-footer-card">
-                          <p>{{time}}</p>
-                        <i class="pi pi-star-o" style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"></i>
-                      </div>
+                        <div class="v-footer-card">
+                            <p>{{time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                (click)="addSingle()"
+                            ></i>
+                        </div>
                     </mdb-card-body>
                 </mdb-card>
                 <!-- Card -->
@@ -172,19 +189,23 @@
                     <!-- Card content -->
                     <mdb-card-body>
                         <!-- Title -->
-                        <mdb-card-title>
-                            <h4>Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa</h4>
+                        <mdb-card-title [routerLink]="['/room/1']">
+                            <h4>
+                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                            </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>
-                          {{price + ' - ' + area}}
-                        </mdb-card-text>
+                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
                         <p>{{address}}</p>
-                       <div class="v-footer-card">
-                          <p>{{time}}</p>
-                        <i class="pi pi-star-o" style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"></i>
-                      </div>
+                        <div class="v-footer-card">
+                            <p>{{time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                (click)="addSingle()"
+                            ></i>
+                        </div>
                     </mdb-card-body>
                 </mdb-card>
                 <!-- Card -->
@@ -208,19 +229,23 @@
                     <!-- Card content -->
                     <mdb-card-body>
                         <!-- Title -->
-                        <mdb-card-title>
-                            <h4>Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa</h4>
+                        <mdb-card-title [routerLink]="['/room/1']">
+                            <h4>
+                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                            </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>
-                          {{price + ' - ' + area}}
-                        </mdb-card-text>
+                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
                         <p>{{address}}</p>
-                       <div class="v-footer-card">
-                          <p>{{time}}</p>
-                        <i class="pi pi-star-o" style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"></i>
-                      </div>
+                        <div class="v-footer-card">
+                            <p>{{time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                (click)="addSingle()"
+                            ></i>
+                        </div>
                     </mdb-card-body>
                 </mdb-card>
                 <!-- Card -->

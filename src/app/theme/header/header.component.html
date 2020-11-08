@@ -1,26 +1,115 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark light-blue accent-2 ie-nav fixed-top" [containerInside]="false">
-  <mdb-navbar-brand>
-      <a class="logo navbar-brand" routerLink="/"><img src="../../../assets/logo/logo.png"><strong>FindSafe.</strong></a>
-  </mdb-navbar-brand>
-  <links>
-      <ul class="navbar-nav mr-auto">
-          <li class="nav-item {{selectTag === 1 ? 'active' : ''}} waves-light" mdbWavesEffect>
-              <a class="nav-link" routerLink="/" (click)="changeHome()">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item {{selectTag === 2 ? 'active' : ''}} waves-light" mdbWavesEffect>
-              <a class="nav-link" routerLink="/room" (click)="changeRoom()">Rent <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item {{selectTag === 3 ? 'active' : ''}} waves-light" mdbWavesEffect>
-              <a class="nav-link" (click)="changeNews()">News <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item {{selectTag === 4 ? 'active' : ''}} waves-light" mdbWavesEffect>
-              <a class="nav-link" (click)="changeAbout()">About us <span class="sr-only">(current)</span></a>
-          </li>
-      </ul>
-      <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item waves-light" mdbWavesEffect>
-              <a class="nav-link" routerLink="/login">Sign in</a>
-          </li>
-      </ul>
-  </links>
+<mdb-navbar
+    SideClass="navbar navbar-expand-lg navbar-dark light-blue accent-2 ie-nav fixed-top"
+    [containerInside]="false"
+>
+    <mdb-navbar-brand>
+        <a
+            class="logo navbar-brand"
+            routerLink="/"
+        >
+            <img src="../../../assets/logo/logo.png">
+            <strong>FindSafe.</strong>
+        </a>
+    </mdb-navbar-brand>
+    <links>
+        <ul class="navbar-nav mr-auto">
+            <li
+                class="nav-item {{selectTag === 1 ? 'active' : ''}} waves-light"
+                mdbWavesEffect
+            >
+                <a
+                    class="nav-link"
+                    routerLink="/"
+                    (click)="changeHome()"
+                >
+                    Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li
+                class="nav-item {{selectTag === 2 ? 'active' : ''}} waves-light"
+                mdbWavesEffect
+            >
+                <a
+                    class="nav-link"
+                    routerLink="/room"
+                    (click)="changeRoom()"
+                >
+                    Rent
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li
+                class="nav-item {{selectTag === 3 ? 'active' : ''}} waves-light"
+                mdbWavesEffect
+            >
+                <a
+                    class="nav-link"
+                    (click)="changeNews()"
+                >
+                    News
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li
+                class="nav-item {{selectTag === 4 ? 'active' : ''}} waves-light"
+                mdbWavesEffect
+            >
+                <a
+                    class="nav-link"
+                    (click)="changeAbout()"
+                >
+                    About us
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav nav-flex-icons">
+            <li>
+                <div class="v-svg">
+                    <svg
+                        mdbTooltip="Room Collections"
+                        placement="bottom"
+                        width="24px"
+                        height="24px"
+                        viewBox="0 0 24 24"
+                        class="sc-pZpft lmyjGa"
+                    >
+                        <g
+                            stroke="none"
+                            stroke-width="1"
+                            fill="none"
+                            fill-rule="evenodd"
+                        >
+                            <g>
+                                <rect
+                                    x="0"
+                                    y="0"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <title>Collection outlined</title>
+                                </rect>
+                                <path
+                                    d="M3.40428549,19.122674 C3.5968225,19.1614633 3.79603418,19.1818182 4,19.1818182 L4.1413261,19.1818182 L14.4347826,19.1818182 C16.0916369,19.1818182 17.4347826,17.8386724 17.4347826,16.1818182 L17.4347826,5.2252264 L17.4347826,5 C17.4347826,4.83549107 17.4215412,4.67407483 17.3960661,4.51675895 C17.1649453,3.08964524 15.9271141,2 14.4347826,2 L4,2 C2.34314575,2 1,3.34314575 1,5 L1,16.1818182 C1,17.6346837 2.03277411,18.8463318 3.40422052,19.1226609 L3.40428549,19.122674 Z M4.44810164,19.8818182 C4.9142669,20.6582395 5.72506341,21.215003 6.69373994,21.3214428 L17.0741334,22.4620581 L17.1017156,22.4649599 C18.7502597,22.6306954 20.221024,21.4286416 20.3867595,19.7800974 L21.504455,8.66256457 C21.6691081,7.02478681 20.4833602,5.5602093 18.8471746,5.38042244 L18.1347826,5.30214359 L18.1347826,16.1818182 C18.1347826,18.2252718 16.4782362,19.8818182 14.4347826,19.8818182 L4.44810164,19.8818182 Z M18.1129288,4.59552904 L18.9236317,4.68461045 C20.9415939,4.90634757 22.4040163,6.71265984 22.200944,8.73258574 L21.0832486,19.8501186 C20.8788414,21.883323 19.0648988,23.3658561 17.0316944,23.161449 L16.9976764,23.1578701 L6.61728294,22.0172548 C5.27130104,21.869356 4.17247312,21.0164961 3.650169,19.8654963 C1.77078264,19.6892426 0.3,18.1072902 0.3,16.1818182 L0.3,5 C0.3,2.95654643 1.95654643,1.3 4,1.3 L14.4347826,1.3 C16.3415549,1.3 17.9114475,2.74235353 18.1129288,4.59552904 Z M10.7176522,8.77438249 L14.6565217,9.12319173 L11.6708696,11.7842686 L12.5638261,15.7393153 L9.17826087,13.6408339 L5.79269565,15.7393153 L6.69113043,11.7842686 L3.7,9.12319173 L7.63886957,8.78000845 L9.17826087,5.05 L10.7176522,8.77438249 Z M10.8972248,11.536124 L12.9823526,9.67767394 L10.2329346,9.43419738 L9.17874916,6.88371545 L8.12358211,9.44042862 L5.37854752,9.67959622 L7.4653343,11.5361184 L6.84590492,14.2629409 L9.17826087,12.8172722 L11.5132435,14.264569 L10.8972248,11.536124 Z"
+                                    fill="#333"
+                                ></path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </li>
+            <li
+                class="nav-item waves-light"
+                mdbWavesEffect
+            >
+                <a
+                    class="nav-link"
+                    routerLink="/login"
+                >
+                    Sign in
+                </a>
+            </li>
+        </ul>
+    </links>
 </mdb-navbar>

@@ -11,71 +11,288 @@
         <i class="pi pi-angle-up"></i>
     </button>
     <div class="v-room-detail">
-      <div class="v-image">
-        <p-galleria
-            #galleria
-            [(value)]="images"
-            [(activeIndex)]="activeIndex"
-            [numVisible]="5"
-            [containerClass]="galleriaClass()"
-            [showThumbnails]="showThumbnails"
-            [showItemNavigators]="true"
-            [showItemNavigatorsOnHover]="true"
-            [circular]="true"
-            [autoPlay]="true"
-            [transitionInterval]="3000"
-        >
-            <ng-template
-                pTemplate="item"
-                let-item
+        <div class="v-image">
+            <p-galleria
+                #galleria
+                [(value)]="images"
+                [(activeIndex)]="activeIndex"
+                [numVisible]="5"
+                [containerClass]="galleriaClass()"
+                [showThumbnails]="showThumbnails"
+                [showItemNavigators]="true"
+                [showItemNavigatorsOnHover]="true"
+                [circular]="true"
+                [autoPlay]="true"
+                [transitionInterval]="3000"
             >
-                <img
-                    [src]="item.previewImageSrc"
-                    [ngStyle]="{'width': !fullscreen ? '100%' : '50%', 'height': !fullscreen ? '500px' : '', 'display': !fullscreen ? 'block' : ''}"
+                <ng-template
+                    pTemplate="item"
+                    let-item
                 >
-            </ng-template>
-            <ng-template
-                pTemplate="thumbnail"
-                let-item
-            >
-                <div class="p-grid p-nogutter p-justify-center">
-                    <img [src]="item.thumbnailImageSrc">
-                </div>
-            </ng-template>
-            <ng-template
-                pTemplate="footer"
-                let-item
-            >
-                <div class="custom-galleria-footer">
-                    <button
-                        type="button"
-                        pButton
-                        icon="pi pi-list"
-                        (click)="onThumbnailButtonClick()"
-                    ><i class="pi pi-list" mdbTooltip="Show List" style="font-size: 16px"></i></button>
-                    <span
-                        *ngIf="images"
-                        class="title-container"
+                    <img
+                        [src]="item.previewImageSrc"
+                        [ngStyle]="{'width': !fullscreen ? '100%' : '50%', 'height': !fullscreen ? '500px' : '', 'display': !fullscreen ? 'block' : ''}"
                     >
-                        <span>{{activeIndex + 1}}/{{images.length}}</span>
-                        <span class="title">{{images[activeIndex].title}}</span>
-                        <span>{{images[activeIndex].alt}}</span>
-                    </span>
-                    <button
-                        type="button"
-                        pButton
-                        icon="fullScreenIcon()"
-                        (click)="toggleFullScreen()"
-                        class="fullscreen-button"
-                    ><i class="pi pi-window-maximize" mdbTooltip="Full Screen" style="font-size: 16px"></i></button>
+                </ng-template>
+                <ng-template
+                    pTemplate="thumbnail"
+                    let-item
+                >
+                    <div class="p-grid p-nogutter p-justify-center">
+                        <img [src]="item.thumbnailImageSrc">
+                    </div>
+                </ng-template>
+                <ng-template
+                    pTemplate="footer"
+                    let-item
+                >
+                    <div class="custom-galleria-footer">
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-list"
+                            (click)="onThumbnailButtonClick()"
+                        >
+                            <i
+                                class="pi pi-list"
+                                mdbTooltip="Show List"
+                                style="font-size: 16px"
+                            ></i>
+                        </button>
+                        <span
+                            *ngIf="images"
+                            class="title-container"
+                        >
+                            <span>{{activeIndex + 1}}/{{images.length}}</span>
+                            <span class="title">{{images[activeIndex].title}}</span>
+                            <span>{{images[activeIndex].alt}}</span>
+                        </span>
+                        <button
+                            type="button"
+                            pButton
+                            icon="fullScreenIcon()"
+                            (click)="toggleFullScreen()"
+                            class="fullscreen-button"
+                        >
+                            <i
+                                class="pi pi-window-maximize"
+                                mdbTooltip="Full Screen"
+                                style="font-size: 16px"
+                            ></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+        <div class="v-detail">
+            <div class="v-title">
+                CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
+            </div>
+            <div class="v-address">
+                K47/16 Nguyễn Lương Bằng, Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
+            </div>
+        </div>
+        <div class="v-price-social">
+            <div class="v-price-total">
+                <div class="v-price">
+                    <div class="v-price-title">Price room:</div>
+                    <div class="v-price-number">{{room.price}} / month</div>
                 </div>
-            </ng-template>
-        </p-galleria>
-      </div>
-      <div class="v-detail">
-        <div class="v-title">CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY</div>
-      </div>
+                <div class="v-price">
+                    <div class="v-price-title">Price electric:</div>
+                    <div class="v-price-number">{{room.electric}} / month</div>
+                </div>
+                <div class="v-price">
+                    <div class="v-price-title">Price water:</div>
+                    <div class="v-price-number">{{room.water}} / month</div>
+                </div>
+            </div>
+            <div class="v-social">
+                <div class="v-share">
+                    <div class="c-share">
+                        <input
+                            class="c-share__input"
+                            type="checkbox"
+                            id="checkbox"
+                        >
+                        <label
+                            class="c-share__toggler"
+                            for="checkbox"
+                        >
+                            <span class="c-share__icon"></span>
+                        </label>
+
+                        <ul
+                            class="c-share_options"
+                            data-title="Share"
+                        >
+                            <li>
+                                <mdb-icon
+                                    fab
+                                    icon="facebook"
+                                ></mdb-icon>
+                                <span (click)="shareLinkClick()">Facebook</span>
+                            </li>
+                            <li>
+                                <mdb-icon
+                                    fas
+                                    icon="link"
+                                ></mdb-icon>
+                                <span (click)="copyText()">Copy link</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="v-mark">
+                    <i
+                        class="pi pi-star-o"
+                        mdbTooltip="Marks Room"
+                        placement="top"
+                        style="font-size: 32px;cursor: pointer;margin-top: auto;margin-bottom: auto;margin-left: 20px;"
+                    ></i>
+                </div>
+            </div>
+        </div>
+        <div class="v-icon-room">
+            <div
+                class="v-time-icon"
+                mdbTooltip="Time"
+                placement="top"
+            >
+                <mdb-icon
+                    far
+                    icon="clock"
+                ></mdb-icon>
+                : Thoải mái
+            </div>
+            <div
+                class="v-area-icon"
+                mdbTooltip="Area"
+                placement="top"
+            >
+                <mdb-icon
+                    fas
+                    icon="expand"
+                ></mdb-icon>
+                : 25m2
+            </div>
+        </div>
+        <div class="v-description">
+            <div class="v-description-title">Description:</div>
+            <div class="v-description-text">
+                <pre>
+- Chủ đầu tư: Tập đoàn Hòa Phát.
+- Vị trí: Mandarin Garden 2 sở hữu vị trí đắc địa bậc nhất phía Nam Hà Nội, nằm ngay trung tâm quận Hoàng Mai, ngã tư Tân Mai Kim Đồng Trương Định, cách Hồ Gươm chỉ 4km rất thuận tiện trong việc di chuyển và giao dịch.
+- Diện tích cho thuê: Linh hoạt, đáp ứng nhu cầu các doanh nghiệp mới thành lập và tăng trưởng quy mô.
+- Giá thuê: Thỏa thuận (bao gồm điều hòa và các tiện ích cao cấp đi kèm).
+- Quy mô: Mandarin Garden 2 gồm 4 tòa nhà cao 25 - 30 tầng và 6 tầng khu văn phòng với diện tích lên tới 5.200 m2. Không gian thoáng tạo cảm giác dễ chịu cho khách thuê khi làm việc tại tòa nhà.
+- Cơ sở hạ tầng hiện đại, chất lượng dịch vụ hoàn hảo đáp ứng yêu cầu của nhiều loại hình doanh nghiệp.
+
+Tiện ích.
+- Được trang bị 2 thang máy tốc độ cao Thyssen Krupp (phục vụ riêng cho khối văn phòng).
+- Hệ thống điều hòa trung tâm Chiller.
+- Hệ thống phòng cháy chữa cháy đạt tiêu chuẩn.
+- Máy phát điện dự phòng công suất lớn.
+- Hệ thống an ninh đạt tiêu chuẩn giám sát 24/24.
+- Mặt bằng hoàn thiện cơ bản với trang thiết bị hiện đại (gồm: Trần nhôm cao cấp, đèn led panel, điều hòa trung tâm, thông gió, tường sơn bả đẹp, sàn bê tông đã láng phẳng).
+- Tầng hầm để xe: Lên tới 13.000 m2.
+- Cam kết cho thuê lâu dài.
+          </pre>
+            </div>
+        </div>
     </div>
-    <div class="v-slidebar"></div>
+    <div class="v-slidebar">
+        <div class="v-owner-info">
+            <div class="v-img-profile">
+                <img
+                    src={{profile.img_profile}}
+                    alt
+                >
+            </div>
+            <div class="v-profile">
+                <div class="v-name">{{profile.name}}</div>
+                <mdb-badge class="v-phone">{{profile.phone}}</mdb-badge>
+                <mdb-badge class="v-mail">Send mail</mdb-badge>
+            </div>
+        </div>
+        <div class="v-room-suggest">
+            <div class="v-suggest-title">More Room</div>
+            <!-- Card -->
+            <mdb-card>
+                <div
+                    class="view rgba-white-slight waves-light"
+                    mdbWavesEffect
+                >
+                    <!-- Card img -->
+                    <mdb-card-img
+                        src="../../../../assets/img/room3.jpg"
+                        alt="Card image cap"
+                    ></mdb-card-img>
+                    <a>
+                        <div class="mask"></div>
+                    </a>
+                </div>
+                <!-- Card content -->
+                <mdb-card-body>
+                    <!-- Title -->
+                    <mdb-card-title>
+                        <h4>
+                            Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                        </h4>
+                    </mdb-card-title>
+
+                    <!-- Text -->
+                    <mdb-card-text>{{room.price + ' - ' + '25m2'}}</mdb-card-text>
+                    <p>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</p>
+                    <div class="v-footer-card">
+                        <p>2020/10/10</p>
+                        <i
+                            class="pi pi-star-o"
+                            style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                        ></i>
+                    </div>
+                </mdb-card-body>
+            </mdb-card>
+            <!-- Card -->
+
+            <!-- Card -->
+            <mdb-card>
+                <div
+                    class="view rgba-white-slight waves-light"
+                    mdbWavesEffect
+                >
+                    <!-- Card img -->
+                    <mdb-card-img
+                        src="../../../../assets/img/room3.jpg"
+                        alt="Card image cap"
+                    ></mdb-card-img>
+                    <a>
+                        <div class="mask"></div>
+                    </a>
+                </div>
+                <!-- Card content -->
+                <mdb-card-body>
+                    <!-- Title -->
+                    <mdb-card-title>
+                        <h4>
+                            Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                        </h4>
+                    </mdb-card-title>
+
+                    <!-- Text -->
+                    <mdb-card-text>{{room.price + ' - ' + '25m2'}}</mdb-card-text>
+                    <p>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</p>
+                    <div class="v-footer-card">
+                        <p>2020/10/10</p>
+                        <i
+                            class="pi pi-star-o"
+                            style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                        ></i>
+                    </div>
+                </mdb-card-body>
+            </mdb-card>
+            <!-- Card -->
+        </div>
+    </div>
 </div>
 <app-footer></app-footer>

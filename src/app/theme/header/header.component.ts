@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
       case '/about':
         this.selectTag = 4;
         break;
-      default: this.selectTag = 1;
+      default: this.selectTag = undefined;
     }
   }
 

@@ -1,6 +1,9 @@
 import { Component, HostListener, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { Galleria } from 'primeng/galleria';
+import { Utilities } from '../../common/utilites';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-room-detail',
   templateUrl: './room-detail.component.html',
@@ -9,37 +12,38 @@ import { Galleria } from 'primeng/galleria';
 export class RoomDetailComponent implements OnInit {
 
   pageYoffset = 100;
-
+  shareLink = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F';
+  currentUrl = '';
   images: any[] = [{
     previewImageSrc: 'assets/img/room1.jpg',
     thumbnailImageSrc: 'assets/img/room1.jpg',
     alt: 'Description for Image 1',
     title: 'Title 1'
   },
-{
+  {
     previewImageSrc: 'assets/img/room2.jpg',
     thumbnailImageSrc: 'assets/img/room2.jpg',
     alt: 'Description for Image 2',
     title: 'Title 2'
-},
-{
+  },
+  {
     previewImageSrc: 'assets/img/room3.jpg',
     thumbnailImageSrc: 'assets/img/room3.jpg',
     alt: 'Description for Image 3',
     title: 'Title 3'
-},
-{
+  },
+  {
     previewImageSrc: 'assets/img/room4.jpg',
     thumbnailImageSrc: 'assets/img/room4.jpg',
     alt: 'Description for Image 4',
     title: 'Title 4'
-},
-{
+  },
+  {
     previewImageSrc: 'assets/img/room5.jpg',
     thumbnailImageSrc: 'assets/img/room5.jpg',
     alt: 'Description for Image 5',
     title: 'Title 5'
-}];
+  }];
 
   showThumbnails: boolean;
 
@@ -64,12 +68,37 @@ export class RoomDetailComponent implements OnInit {
     }
   ];
 
+  profile = {
+    img_profile: '../../../assets/photo/img_profile.jpg',
+    name: 'Nguyen Le Vien',
+    phone: '0345.920.977'
+  };
+
+  roomClone = {
+    price: 2000000,
+    electric: 3000,
+    water: 5000
+  };
+
+  room = {
+    price: '',
+    electric: '',
+    water: '',
+    title: ''
+  }
   @ViewChild('galleria') galleria: Galleria;
 
-  constructor(private scroll: ViewportScroller, private cd: ChangeDetectorRef) { }
+  constructor(private scroll: ViewportScroller, private cd: ChangeDetectorRef, private utilities: Utilities, private router: Router) { }
 
   ngOnInit(): void {
     this.bindDocumentListeners();
+    // tslint:disable-next-line: forin
+    for (const value in this.roomClone) {
+      this.room[value] = this.utilities.formatCurrency(this.roomClone[value]) + ' VNĐ';
+    }
+    // this.room.price = this.utilities.formatCurrency(this.roomClone.price) + ' VNĐ';
+    this.currentUrl = this.router.url;
+    this.shareLink += 'www.fb.com';
   }
 
   @HostListener('window:scroll', ['$event']) onScroll(event) {
@@ -153,4 +182,21 @@ export class RoomDetailComponent implements OnInit {
     return `pi ${this.fullscreen ? 'pi-window-minimize' : 'pi-window-maximize'}`;
   }
 
+  shareLinkClick() {
+    window.open(this.shareLink);
+  }
+
+  copyText() {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = window.location.href;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
 }

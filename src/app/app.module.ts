@@ -27,6 +27,7 @@ import {GalleriaModule} from 'primeng/galleria';
 import { CustomerTellComponent } from './views/component/customer-tell/customer-tell.component';
 import { PaginationComponent } from './common/pagination/pagination.component';
 import { RoomDetailComponent } from './views/room-detail/room-detail.component';
+import {ToastModule} from 'primeng/toast';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +59,7 @@ import { RoomDetailComponent } from './views/room-detail/room-detail.component';
     AccordionModule,
     FormsModule,
     SliderModule,
+    ToastModule,
     GalleriaModule,
     MDBBootstrapModule.forRoot()
   ],

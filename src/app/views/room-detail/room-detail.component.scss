@@ -56,7 +56,7 @@
     }
   }
 }
-
+$primary: rgb(182, 157, 230);
 .v-body {
   padding: 0 2rem 0 2rem;
   margin-top: 10px;
@@ -73,11 +73,341 @@
     }
     .v-title {
       color: #b08bf8;
-      font-size: 18px;
+      font-size: 22px;
       font-weight: bold;
+    }
+    .v-address {
+      margin-top: 5px;
+      font-size: 16px;
+      color: #747c87;
     }
   }
   .v-slidebar {
     width: 29%;
+    display: flex;
+    flex-direction: column;
+    .v-owner-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border: 3px solid #b08bf8;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .v-room-suggest {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 3px solid #b08bf8;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      .v-suggest-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      mdb-card {
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+:host ::ng-deep .card-title h4{
+  height: 26px !important;
+  font-weight: bold !important;
+  color: #b08bf8 !important;
+  font-size: 15px !important;
+  line-height: 25px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+:host ::ng-deep .card-text {
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+:host ::ng-deep .carousel-cell {
+  border-radius: 5px;
+}
+
+p {
+  color: #747373;
+}
+
+.v-footer-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.v-detail {
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 20px;
+}
+
+.v-price-social {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0px;
+  border-bottom: 1px dotted #ccc;
+  .v-price-total {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .v-price {
+      display: flex;
+      margin-right: 20px;
+      .v-price-title {
+        width: 100px;
+        color: #747c87;
+        font-size: 15px;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .v-price-number {
+        font-weight: bold;
+        font-size: 17px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 20px;
+      }
+    }
+  }
+  .v-social {
+    display: flex;
+  }
+}
+
+.v-description {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 20px 0px;
+  border-bottom: 1px dotted #ccc;
+  .v-description-title {
+    font-weight: bold;
+    font-size: 17px;
+  }
+  .v-description-text {
+    pre {
+      font-size: 14px;
+      white-space: break-spaces;
+    }
+  }
+}
+
+.v-share {
+  height: 100%;
+    display: flex;
+    justify-items: center;
+}
+$azure-radiance: #b08bf8;
+$black: #000000;
+$concrete: #f2f2f2;
+$malibu: #639eff;
+$tundora: #b08bf8;
+
+.c-share {
+  position: relative;
+  width: 3.4375em;
+  height: 3.4375em;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.c-share__input {
+  display: none;
+
+  &:checked ~  {
+    .c-share__toggler .c-share__icon {
+      transition: 0s;
+      width: 0;
+      height: 0;
+      color: $malibu;
+
+      &::before {
+        transform: rotate(-45deg);
+      }
+
+      &::after {
+        transform: rotate(45deg);
+      }
+    }
+
+    .c-share_options {
+      width: 11.0625em;
+      height: 8em;
+      border-radius: 0.3125em;
+      li {
+        font-size: 14px;
+        a {
+          color: #b08bf8;
+        }
+        mdb-icon {
+          margin-right: 5px;
+        }
+      }
+      &::before,
+      li {
+        transition: 0.3s 0.15s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.c-share__toggler,
+.c-share_options {
+  position: absolute;
+  right: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  background-color: $concrete;
+}
+
+.c-share__toggler {
+  cursor: pointer;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.c-share__icon {
+  position: relative;
+  left: -0.3125em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  border: 2px solid #b08bf8;
+  color: $azure-radiance;
+  background-color: currentColor;
+  box-shadow: 0.625em -0.625em, 0.625em 0.625em;
+  transition: 0.1s 0.05s;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 1em;
+    height: 0.125em;
+    background-color: currentColor;
+    transition: 0.1s;
+  }
+
+  &::before {
+    top: 0.1875em;
+    left: 0.1875em;
+    transform-origin: bottom left;
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    top: -0.125em;
+    left: 0.03125em;
+    transform-origin: center;
+    transform: rotate(-45deg);
+  }
+}
+
+.c-share_options {
+  list-style: none;
+  margin: 0;
+  padding: 1.0625em 1.25em;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: 0.2s;
+  box-shadow: 0 0.125em 0.125em rgba($black, 0.3);
+
+  &::before {
+    content: attr(data-title);
+    display: block;
+    margin-bottom: 1.25em;
+    font-weight: 700;
+  }
+
+  li {
+    font-size: 0.875em;
+    color: $tundora;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-bottom: 0.75em;
+    }
+  }
+
+  &::before,
+  li {
+    opacity: 0;
+    transform: translateY(0.625em);
+    transition: 0s;
+  }
+}
+
+.v-mark {
+  height: 100%;
+  display: flex;
+  justify-items: center;
+}
+
+.v-img-profile {
+  width: 50%;
+  img {
+    width: 100%;
+  }
+}
+
+.v-profile {
+  width: 45%;
+  text-align: center;
+  .v-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .v-phone, .v-mail {
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 2px 6px -1px rgba($primary, 0.65);
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+  mdb-badge.v-phone.badge {
+    background-color: #b08bf8;
+    padding: 10px 12px;
+    width: 100%;
+  }
+  mdb-badge.v-mail.badge {
+    background-color: #b08bf8;
+    padding: 10px 12px;
+    width: 100%;
+  }
+}
+
+.v-icon-room {
+  border-bottom: 1px dotted #ccc;
+  display: flex;
+  // justify-content: space-between;
+  padding: 20px 0px;
+  div {
+    margin-right: 30px;
+  }
+  mdb-icon {
+    font-size: 20px;
+    margin-right: 10px;
   }
 }

@@ -18,6 +18,14 @@ export class SearchComponent implements OnInit {
     {
       id: 2,
       name: 'House'
+    },
+    {
+      id: 3,
+      name: 'Townhouse'
+    },
+    {
+      id: 4,
+      name: 'Villa'
     }
   ];
   selectedCity: any;
