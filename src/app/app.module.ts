@@ -28,6 +28,11 @@ import { CustomerTellComponent } from './views/component/customer-tell/customer-
 import { PaginationComponent } from './common/pagination/pagination.component';
 import { RoomDetailComponent } from './views/room-detail/room-detail.component';
 import {ToastModule} from 'primeng/toast';
+import { AdminPageComponent } from './views/admin/admin-page/admin-page.component';
+import { DashboardComponent } from './views/admin/admin-page/dashboard/dashboard.component';
+import { InvoiceComponent } from './views/admin/admin-page/invoice/invoice.component';
+import { ManageRoomComponent } from './views/admin/admin-page/manage-room/manage-room.component';
+import { ProfileAdminComponent } from './views/admin/admin-page/profile-admin/profile-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +50,12 @@ import {ToastModule} from 'primeng/toast';
     SearchComponent,
     CustomerTellComponent,
     PaginationComponent,
-    RoomDetailComponent
+    RoomDetailComponent,
+    AdminPageComponent,
+    DashboardComponent,
+    InvoiceComponent,
+    ManageRoomComponent,
+    ProfileAdminComponent
   ],
   imports: [
     BrowserModule,

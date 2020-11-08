@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  isLogin = true;
   selectTag = 1;
   constructor(private router: Router) { }
 
@@ -39,5 +40,9 @@ export class HeaderComponent implements OnInit {
 
   changeAbout() {
     this.selectTag = 4;
+  }
+
+  logOut() {
+    this.isLogin = false;
   }
 }
