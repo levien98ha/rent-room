@@ -1,3 +1,4 @@
+import { AdminPageComponent } from './views/admin/admin-page/admin-page.component';
 import { RoomDetailComponent } from './views/room-detail/room-detail.component';
 import { ListRoomComponent } from './views/list-room/list-room.component';
 import { HomePageComponent } from './views/home-page/home-page.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomePageComponent
+  },
+  {
+    path: 'admin',
+    component: AdminPageComponent
   }
 ];
 

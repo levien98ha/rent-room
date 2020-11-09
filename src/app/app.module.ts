@@ -33,6 +33,11 @@ import { DashboardComponent } from './views/admin/admin-page/dashboard/dashboard
 import { InvoiceComponent } from './views/admin/admin-page/invoice/invoice.component';
 import { ManageRoomComponent } from './views/admin/admin-page/manage-room/manage-room.component';
 import { ProfileAdminComponent } from './views/admin/admin-page/profile-admin/profile-admin.component';
+import { StartCardComponent } from './views/admin/admin-page/start-card/start-card.component';
+import { StartCard2Component } from './views/admin/admin-page/start-card2/start-card2.component';
+import { FooterAdminComponent } from './views/admin/admin-page/footer-admin/footer-admin.component';
+import { ChartsModule, WavesModule } from 'angular-bootstrap-md'
+import { NavigationAdminComponent } from './views/admin/admin-page/navigation-admin/navigation-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +60,11 @@ import { ProfileAdminComponent } from './views/admin/admin-page/profile-admin/pr
     DashboardComponent,
     InvoiceComponent,
     ManageRoomComponent,
-    ProfileAdminComponent
+    ProfileAdminComponent,
+    StartCardComponent,
+    StartCard2Component,
+    FooterAdminComponent,
+    NavigationAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +80,8 @@ import { ProfileAdminComponent } from './views/admin/admin-page/profile-admin/pr
     SliderModule,
     ToastModule,
     GalleriaModule,
+    ChartsModule,
+    WavesModule,
     MDBBootstrapModule.forRoot()
   ],
   exports: [

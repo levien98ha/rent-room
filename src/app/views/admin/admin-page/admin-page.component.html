@@ -1,1 +1,10 @@
-<p>admin-page works!</p>
+<app-navigation-admin></app-navigation-admin>
+
+<main [ngClass]="{'py-0 px-0 my-0 mx-0': specialPage}"  class="mx-lg-5" >
+
+  <div class="mt-5">
+    <app-dashboard></app-dashboard>
+  </div>
+</main>
+
+<app-footer-admin></app-footer-admin>

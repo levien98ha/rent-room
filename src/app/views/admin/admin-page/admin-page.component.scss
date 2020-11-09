@@ -1,0 +1,16 @@
+.mt-5 {
+  padding-left: 300px;
+  background-color: #eeeeee;
+  margin-top: 0px !important;
+  padding-top: 2rem !important;
+}
+
+main {
+  background-color: #eeeeee;
+  margin: 0px !important;
+  padding-right: 2rem;
+}
+
+:host ::ng-deep body {
+  background-color: #eeeeee;
+}
