@@ -1,4 +1,4 @@
-<section class="mt-lg-5">
+<section class="">
   <!--Grid row-->
   <div class="row">
       <!--Grid column-->
@@ -9,17 +9,17 @@
                   <div class="pull-right">
                       <mdb-icon far icon="money-bill-alt"></mdb-icon>
                   </div>
-                  <p class="white-text">SALES</p>
+                  <p class="white-text">TOTAL REVENUE</p>
                   <h4>
-                      <strong>$2000</strong>
+                      <strong>{{objectCard.price}}</strong>
                   </h4>
               </mdb-card-body>
               <div class="progress">
-                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 25%" aria-valuenow="25"
+                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 100%" aria-valuenow="100"
                        aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="card-body">
-                  <p>Better than last week (25%)</p>
+                  <p>Increae of this month: {{objectCard.price_append}}</p>
               </div>
           </mdb-card>
           <!--/.Card Primary-->
@@ -33,17 +33,17 @@
                   <div class="pull-right">
                       <mdb-icon fas icon="chart-line"></mdb-icon>
                   </div>
-                  <p>SUBSCRIPTIONS</p>
+                  <p>TOTAL ROOM</p>
                   <h4>
-                      <strong>200</strong>
+                      <strong>{{objectCard.total_room}}</strong>
                   </h4>
               </mdb-card-body>
               <div class="progress">
-                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 25%" aria-valuenow="25"
+                  <div class="progress-bar bg grey darken-3" role="progressbar" [style.width.%]="objectCard.room_rent/objectCard.total_room*100" aria-valuenow="25"
                        aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="card-body">
-                  <p>Worse than last week (25%)</p>
+                  <p>Room for rent: {{objectCard.room_rent}}</p>
               </div>
           </mdb-card>
           <!--/.Card Warning-->
@@ -57,17 +57,17 @@
                   <div class="pull-right">
                       <mdb-icon fas icon="chart-pie"></mdb-icon>
                   </div>
-                  <p>TRAFFIC</p>
+                  <p>TOTAL PEOPLE</p>
                   <h4>
-                      <strong>20000</strong>
+                      <strong>{{objectCard.people}}</strong>
                   </h4>
               </mdb-card-body>
               <div class="progress">
-                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 75%" aria-valuenow="75"
+                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 100%" aria-valuenow="100"
                        aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="card-body">
-                  <p>Better than last week (75%)</p>
+                  <p>TOTAL NUMBER OF TENANTS</p>
               </div>
           </mdb-card>
           <!--/.Card Blue-->
@@ -81,17 +81,17 @@
                   <div class="pull-right">
                       <mdb-icon fas icon="chart-bar"></mdb-icon>
                   </div>
-                  <p>ORGANIC TRAFFIC</p>
+                  <p></p>
                   <h4>
-                      <strong>2000</strong>
+                      <strong></strong>
                   </h4>
               </mdb-card-body>
               <div class="progress">
-                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 25%" aria-valuenow="25"
+                  <div class="progress-bar bg grey darken-3" role="progressbar" style="width: 100%" aria-valuenow="25"
                        aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="card-body">
-                  <p>Better than last week (25%)</p>
+                  <p></p>
               </div>
           </mdb-card>
           <!--/.Card Red-->

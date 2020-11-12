@@ -38,6 +38,21 @@ import { StartCard2Component } from './views/admin/admin-page/start-card2/start-
 import { FooterAdminComponent } from './views/admin/admin-page/footer-admin/footer-admin.component';
 import { ChartsModule, WavesModule } from 'angular-bootstrap-md'
 import { NavigationAdminComponent } from './views/admin/admin-page/navigation-admin/navigation-admin.component';
+import {InputTextModule} from 'primeng/inputtext';
+import {TableModule} from 'primeng/table';
+import {CalendarModule} from 'primeng/calendar';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {ToolbarModule} from 'primeng/toolbar';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {InputNumberModule} from 'primeng/inputnumber';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +82,18 @@ import { NavigationAdminComponent } from './views/admin/admin-page/navigation-ad
     NavigationAdminComponent
   ],
   imports: [
+    TableModule,
+    CalendarModule,
+    MultiSelectModule,
+    ContextMenuModule,
+    DialogModule,
+    ButtonModule,
+    ProgressBarModule,
+    ToolbarModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ConfirmDialogModule,
+    InputTextareaModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -82,12 +109,13 @@ import { NavigationAdminComponent } from './views/admin/admin-page/navigation-ad
     GalleriaModule,
     ChartsModule,
     WavesModule,
+    InputTextModule,
     MDBBootstrapModule.forRoot()
   ],
   exports: [
     ModelTypeDirective
   ],
-  providers: [],
+  providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

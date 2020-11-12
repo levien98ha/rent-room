@@ -1,63 +1,115 @@
+import { DashboardService } from './dashboard.service';
 import { Component, OnInit } from '@angular/core';
-
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  providers: [MessageService,ConfirmationService]
 })
 export class DashboardComponent implements OnInit {
+  submitted: boolean;
 
+  productDialog: boolean;
 
-  public map: any = { lat: 51.678418, lng: 7.809007 };
-  public chart1Type:string = 'bar';
-  public chart2Type:string = 'pie';
-  public chart3Type:string = 'line';
-  public chart4Type:string = 'radar';
-  public chart5Type:string = 'doughnut';
+  products: Product[];
 
-  public chartType = 'line';
+  product: Product;
 
-  public chartDatasets: Array<any> = [
-    {data: [50, 40, 60, 51, 56, 55, 40], label: '#1'},
-    {data: [28, 80, 40, 69, 36, 37, 110], label: '#2'},
-    {data: [38, 58, 30, 90, 45, 65, 30], label: '#3'}
-  ];
+  selectedProducts: Product[];
 
-  public chartLabels: Array<any> = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-
-  public chartColors:Array<any> = [
-
-  ];
-
-  public dateOptionsSelect: any[];
-  public bulkOptionsSelect: any[];
-  public showOnlyOptionsSelect: any[];
-  public filterOptionsSelect: any[];
-
-  public chartOptions: any = {
-    responsive: true,
-    legend: {
-      labels: {
-        fontColor: '#5b5f62',
-      }
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          fontColor: '#5b5f62',
-        }
-      }],
-      xAxes: [{
-        ticks: {
-          fontColor: '#5b5f62',
-        }
-      }]
-    }
-  };
-
-  constructor() { }
+  constructor(
+    private productService: DashboardService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.productService.getProducts().then(data => this.products = data);
   }
 
+  editProduct(product: Product) {
+    this.product = {...product};
+    this.productDialog = true;
+  }
+
+  openNew() {
+    this.product = {};
+    this.submitted = false;
+    this.productDialog = true;
+  }
+
+  deleteProduct(product: Product) {
+    this.confirmationService.confirm({
+        message: 'Are you sure you want to delete ' + product.name + '?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.products = this.products.filter(val => val.id !== product.id);
+            this.product = {};
+            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+        }
+    });
+  }
+
+  hideDialog() {
+    this.productDialog = false;
+    this.submitted = false;
+  }
+
+  saveProduct() {
+    this.submitted = true;
+
+    if (this.product.name.trim()) {
+        if (this.product.id) {
+            this.products[this.findIndexById(this.product.id)] = this.product;
+            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
+        } else {
+            this.product.id = this.createId();
+            this.product.image = 'product-placeholder.svg';
+            this.products.push(this.product);
+            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+        }
+
+        this.products = [...this.products];
+        this.productDialog = false;
+        this.product = {};
+    }
+  }
+
+  findIndexById(id: string): number {
+    let index = -1;
+    for (let i = 0; i < this.products.length; i++) {
+        if (this.products[i].id === id) {
+            index = i;
+            break;
+        }
+    }
+    return index;
+  }
+
+  createId(): string {
+      let id = '';
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      for (let i = 0; i < 5; i++ ) {
+          id += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return id;
+  }
+}
+
+export interface Product {
+  id?: string;
+  name?: string;
+  code?: string;
+  description?: string;
+  city?: string;
+  district?: string;
+  ward?: string;
+  price?: number;
+  electric_price?: number;
+  water_price?: number;
+  inventoryStatus?: string;
+  category?: string;
+  image?: string;
 }

@@ -23,6 +23,8 @@ export class AdminPageComponent implements OnInit {
 
   private currentUrl = '';
 
+  chooseTag = 1;
+
   constructor(
     private router: Router,
     private location: Location) {
@@ -38,6 +40,10 @@ export class AdminPageComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  choose(event) {
+    this.chooseTag = event;
   }
 
 }

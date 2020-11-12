@@ -37,3 +37,7 @@ main {
     padding: 2rem 2.25rem;
   }
 }
+
+:host ::ng-deep .navbar-collapse.collapse {
+  height: auto !important;
+}

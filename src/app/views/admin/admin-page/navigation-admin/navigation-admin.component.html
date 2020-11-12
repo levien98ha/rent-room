@@ -13,8 +13,6 @@
 
         <div class="list-group list-group-flush">
             <a
-                routerLink="admin"
-                routerLinkActive="active"
                 class="list-group-item list-group-item-action waves-effect {{choseTag == 1? 'active' : ''}}"
                 (click)="choseDashboard()"
             >
@@ -26,8 +24,8 @@
                 Dashboard
             </a>
             <a
-                routerLink="room"
-                class="list-group-item list-group-item-action waves-effect"
+                class="list-group-item list-group-item-action waves-effect {{choseTag == 2? 'active' : ''}}"
+                (click)="choseProfile()"
             >
                 <mdb-icon
                     fas
@@ -37,29 +35,28 @@
                 Profile
             </a>
             <a
-                routerLink=""
-                class="list-group-item list-group-item-action waves-effect"
+                class="list-group-item list-group-item-action waves-effect {{choseTag == 3? 'active' : ''}}"
+                (click)="choseManager()"
             >
                 <mdb-icon
                     fas
                     icon="table"
                     class="mr-3"
                 ></mdb-icon>
-                Tables
+                Manager Room
             </a>
             <a
-                routerLink=""
-                class="list-group-item list-group-item-action waves-effect"
+                class="list-group-item list-group-item-action waves-effect {{choseTag == 4? 'active' : ''}}"
+                (click)="choseInvoice()"
             >
                 <mdb-icon
                     far
                     icon="map"
                     class="mr-3"
                 ></mdb-icon>
-                Maps
+                Invoice Room
             </a>
             <a
-                routerLink=""
                 class="list-group-item list-group-item-action waves-effect"
             >
                 <mdb-icon
@@ -80,16 +77,6 @@
         [containerInside]="false"
         SideClass="navbar navbar-expand-lg navbar-light white"
     >
-
-        <!-- Navbar brand -->
-        <logo class="ml-3">
-            <a
-                class="navbar-brand"
-                href="https://mdbootstrap.com/angular/angular-bootstrap-getting-started/"
-            >
-                <strong class="blue-text">MDB</strong>
-            </a>
-        </logo>
 
         <!-- Collapsible content -->
         <links>

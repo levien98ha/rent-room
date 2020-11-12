@@ -38,3 +38,23 @@
       box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15), 0 3px 12px 0 rgba(0, 0, 0, 0.15);
   }
 }
+
+:host ::ng-deep .p-dialog .product-image {
+  width: 150px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+.product-badge.status-unavailable {
+  background: #ffcdd2;
+  color: #c63737;
+}
+
+.product-badge.status-available {
+  background: #c8e6c9;
+  color: #256029;
+}
+
+:host ::ng-deep .p-field .p-formgrid .p-field-radiobutton label {
+  margin-bottom: 0px !important;
+}
