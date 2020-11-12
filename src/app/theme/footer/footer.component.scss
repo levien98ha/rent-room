@@ -1,20 +1,44 @@
+.page-footer {
+  line-height: 2.4;
+  padding-top: 80px;
+}
+
 .v-log-footer {
   width: 200px;
 }
 
 .row {
-  margin-bottom: 10px;
+  padding-bottom: 30px;
 }
 
 ul {
   li {
-    padding-top: 0.5rem;
-    font-size: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 14px;
+    a {
+      font-size: 14px;
+      -webkit-transition: all 0.3s ease 0s;
+      -moz-transition: all 0.3s ease 0s;
+      -o-transition: all 0.3s ease 0s;
+      transition: all 0.3s ease 0s;
+    }
+    a:hover {
+      transform: translate3d(0,0,0,);
+      -webkit-transform: scale(1.025, 1.025);
+      -moz-transform: scale(1.025, 1.025);
+      -o-transform: scale(1.025, 1.025);
+      -ms-transform: scale(1.025, 1.025);
+      transform: scale(1.025, 1.025);
+      padding-left: 8px;
+      font-weight: bold !important;
+    }
   }
 }
 
 h5 {
   border-bottom: 3px solid white;
+  padding-bottom: 15px;
 }
 
 mdb-badge {
@@ -27,4 +51,8 @@ mdb-badge {
   font-size: 15px !important;
   font-weight: 400 !important;
   letter-spacing: 0.75px !important;
+}
+
+.text-uppercase {
+  font-weight: bold;
 }

@@ -12,7 +12,8 @@ export class StartCard2Component implements OnInit {
     price_append: '3,000,000 VNĐ',
     total_room: 10,
     room_rent: 7,
-    people: 10
+    people: 10,
+    mark: 2000
   };
 
   constructor() { }

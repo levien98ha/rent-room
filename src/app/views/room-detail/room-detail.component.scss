@@ -58,7 +58,7 @@
 }
 $primary: rgb(182, 157, 230);
 .v-body {
-  padding: 0 2rem 0 2rem;
+  padding: 30px 2rem 30px 2rem;
   margin-top: 10px;
   margin-bottom: 10px;
   width: 80%;
@@ -148,13 +148,16 @@ p {
 
 .v-detail {
   border-bottom: 1px dotted #ccc;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
+  .v-title {
+    line-height: 1.8;
+  }
 }
 
 .v-price-social {
   display: flex;
   justify-content: space-between;
-  padding: 20px 0px;
+  padding: 25px 0px;
   border-bottom: 1px dotted #ccc;
   .v-price-total {
     display: flex;
@@ -175,7 +178,11 @@ p {
         font-size: 17px;
         margin-top: auto;
         margin-bottom: auto;
-        margin-left: 20px;
+        // margin-left: 20px;
+        background-color: #b08bf8;
+        padding: 10px;
+        border-radius: 15px;
+        color: white;
       }
     }
   }
@@ -196,7 +203,8 @@ p {
   }
   .v-description-text {
     pre {
-      font-size: 14px;
+      line-height: 30px;
+      font-size: 15px;
       white-space: break-spaces;
     }
   }
@@ -402,12 +410,19 @@ $tundora: #b08bf8;
   border-bottom: 1px dotted #ccc;
   display: flex;
   // justify-content: space-between;
-  padding: 20px 0px;
+  padding: 25px 0px;
   div {
-    margin-right: 30px;
+    margin-right: 50px;
+    font-size: 18px;
   }
   mdb-icon {
     font-size: 20px;
     margin-right: 10px;
+    color: #b08bf8;
+  }
+  i {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #b08bf8;
   }
 }

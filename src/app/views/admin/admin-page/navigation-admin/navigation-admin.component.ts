@@ -38,8 +38,13 @@ export class NavigationAdminComponent implements OnInit {
     this.chooseComponent.emit(3);
   }
 
-  choseInvoice() {
+  choseRequest() {
     this.choseTag = 4;
     this.chooseComponent.emit(4);
+  }
+
+  choseInvoice() {
+    this.choseTag = 5;
+    this.chooseComponent.emit(5);
   }
 }

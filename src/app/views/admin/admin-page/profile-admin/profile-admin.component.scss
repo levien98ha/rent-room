@@ -15,8 +15,8 @@
   position: relative;
   display: block;
   cursor: pointer;
-  height: 200px;
-  width: 200px;
+  height: 12rem;
+  width: 12rem;
   border: 5px solid #b08bf8;
   border-radius: 50%;
 }
@@ -82,13 +82,13 @@ $primary: rgb(182, 157, 230);
   flex-direction: row;
   .v-name {
     margin-left: 20px;
-    width: calc(100% - 220px);
+    width: calc(100% - 12.2rem);
     text-align: center;
     h3 {
       font-weight: bold;
     }
     .description {
-      font-size: 16px;
+      font-size: 14px;
       margin-top: 5px;
     }
     b {

@@ -71,7 +71,7 @@
             [value]="products"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['name','country.name','representative.name','status']"
+            [globalFilterFields]="['name', 'operator_id','category', 'inventoryStatus']"
             [(selection)]="selectedProducts"
             [rowHover]="true"
             dataKey="id"
@@ -99,7 +99,7 @@
                         Title
                         <p-sortIcon field="name"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="operator_id">
+                    <th pSortableColumn="operator_id" class="v-110px">
                       Operator
                       <p-sortIcon field="operator_id"></p-sortIcon>
                   </th>
@@ -107,14 +107,6 @@
                     <th pSortableColumn="price">
                         Price
                         <p-sortIcon field="price"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="electric_price">
-                        Electric price
-                        <p-sortIcon field="electric_price"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="water_price">
-                        Water price
-                        <p-sortIcon field="water_price"></p-sortIcon>
                     </th>
                     <th pSortableColumn="category">
                         Category
@@ -137,7 +129,7 @@
                 <tr>
                     <td class="v-90px">{{findIndexById(product.id) + 1}}</td>
                     <td>{{product.name}}</td>
-                    <td>{{product.operator_id}}</td>
+                    <td class="v-110px">{{product.operator_id}}</td>
                     <td>
                         <img
                             [src]="'assets/img/' + product.image"
@@ -148,14 +140,6 @@
                     </td>
                     <td>
                         {{product.price | number :''}}
-                        <span *ngIf="product.electric_price">VNĐ</span>
-                    </td>
-                    <td>
-                        {{product.electric_price | number :''}}
-                        <span *ngIf="product.electric_price">VNĐ</span>
-                    </td>
-                    <td>
-                        {{product.water_price | number :''}}
                         <span *ngIf="product.electric_price">VNĐ</span>
                     </td>
                     <td>{{product.category}}</td>
@@ -182,7 +166,7 @@
             </ng-template>
             <ng-template pTemplate="summary">
                 <div class="p-d-flex p-ai-center p-jc-between">
-                    In total there are {{products ? products.length : 0 }} products.
+                    In total there are {{products ? products.length : 0 }} rooms.
                 </div>
             </ng-template>
         </p-table>
@@ -256,11 +240,11 @@
                 <div>
                   <label for="price">Area</label>
                   <p-inputNumber
-                      id="price"
-                      [(ngModel)]="product.electric_price"
-                      mode="currency"
-                      currency="VND"
+                      id="area"
+                      [(ngModel)]="product.area"
+                      mode="decimal"
                       locale="vi-VN"
+                      suffix=" m2"
                   ></p-inputNumber>
               </div>
             </div>
@@ -439,34 +423,4 @@
 </div>
 <!-- Grid row -->
 
-<!-- Grid row -->
-<div class="row wow fadeIn">
 
-    <!-- Grid column -->
-    <div class="col-md-12 mb-4">
-
-        <!-- Card -->
-        <mdb-card>
-
-            <!-- Card header -->
-            <div class="card-header">Google map</div>
-
-            <!-- Card content -->
-            <mdb-card-body>
-
-                <!-- Google map -->
-                <div class="card-body text-center">
-                    <!-- <agm-map [latitude]="map.lat" [longitude]="map.lng" [mapTypeId]="'roadmap'" style="height: 300px">
-                      <agm-marker [latitude]="map.lat" [longitude]="map.lng"></agm-marker>
-                  </agm-map> -->
-
-                </div>
-            </mdb-card-body>
-
-        </mdb-card>
-        <!-- /.Card -->
-
-    </div>
-    <!-- Grid column -->
-</div>
-<!-- Grid row -->

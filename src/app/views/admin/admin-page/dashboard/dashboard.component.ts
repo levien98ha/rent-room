@@ -252,4 +252,5 @@ export interface Product {
   category?: string;
   image?: string;
   operator_id?: number;
+  area?: number;
 }
