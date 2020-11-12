@@ -58,3 +58,17 @@
 :host ::ng-deep .p-field .p-formgrid .p-field-radiobutton label {
   margin-bottom: 0px !important;
 }
+:host ::ng-deep .p-component {
+  font-size: 16px !important;
+}
+p-dialog {
+  font-size: 16px;
+}
+
+p-dialog label {
+  font-weight: bold;
+}
+
+.v-address p-dropdown {
+  margin-bottom: 10px;
+}

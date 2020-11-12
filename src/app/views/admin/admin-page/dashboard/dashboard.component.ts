@@ -2,11 +2,12 @@ import { DashboardService } from './dashboard.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [MessageService,ConfirmationService]
+  providers: [MessageService, ConfirmationService]
 })
 export class DashboardComponent implements OnInit {
   submitted: boolean;
@@ -19,17 +20,50 @@ export class DashboardComponent implements OnInit {
 
   selectedProducts: Product[];
 
+  listCity = [];
+  listDistrict = [];
+  listWard = [];
+  // 'Room', 'House', 'Townhouse', 'Villa'
+  listCategory = [{
+      id: 1,
+      name: 'Room'
+    },
+    {
+      id: 2,
+      name: 'House'
+    },
+    {
+      id: 3,
+      name: 'Townhouse'
+    },
+    {
+      id: 4,
+      name: 'Villa'
+    }
+  ];
+  selectedCity: any;
+  selectedDistrict: any;
+  selectedWard: any;
+  selectedCategory: any;
+
   constructor(
-    private productService: DashboardService,
+    private dashboardService: DashboardService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.productService.getProducts().then(data => this.products = data);
+    this.dashboardService.getProducts().then(data => this.products = data);
+    this.getListCity();
   }
 
-  editProduct(product: Product) {
+  async editProduct(product: Product) {
     this.product = {...product};
+    this.selectedCategory = this.listCategory.find(item => item.name === product.category);
+    this.selectedCity = await this.listCity.find(async (item) => item.name === product.city);
+    this.selectCity();
+    this.selectedDistrict = await this.listDistrict.find(async (item) => item.name === product.district);
+    this.selectDistrict();
+    this.selectedWard = await this.listWard.find(async (item) => item.name === product.ward);
     this.productDialog = true;
   }
 
@@ -95,6 +129,53 @@ export class DashboardComponent implements OnInit {
           id += chars.charAt(Math.floor(Math.random() * chars.length));
       }
       return id;
+  }
+
+  changeCategory() {
+
+  }
+
+  getListCity() {
+    this.listCity = [];
+    this.dashboardService.getCity().map(item => {
+      const city = {id: '', name: ''};
+      city.id = item.level1_id;
+      city.name = item.name;
+      this.listCity.push(city);
+    });
+  }
+
+  // event
+  selectCity() {
+    this.listDistrict = [];
+    this.listWard = [];
+    this.selectedDistrict = null;
+    this.selectedWard = null;
+    if (this.selectedCity !== null) {
+      this.dashboardService.getDistrict(this.selectedCity.id).map(itemLv1 => {
+        itemLv1.level2s.map(item => {
+          const district = {id: '', name: ''};
+          district.id = item.level2_id;
+          district.name = item.name;
+          this.listDistrict.push(district);
+        });
+      });
+    }
+  }
+
+  selectDistrict() {
+    this.listWard = [];
+    this.selectedWard = null;
+    if (this.selectedDistrict !== null && this.selectedCity !== null) {
+      this.dashboardService.getWard(this.selectedCity.id, this.selectedDistrict.id).map(item => {
+        item.map(itemWard => {
+          const ward = {id: '', name: ''};
+          ward.id = itemWard.level3_id;
+          ward.name = itemWard.name;
+          this.listWard.push(ward);
+        });
+      });
+    }
   }
 }
 

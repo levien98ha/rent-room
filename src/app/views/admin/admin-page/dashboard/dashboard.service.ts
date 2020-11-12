@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import * as dataAddress from '../../../../config/localtion/local.json';
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  status: string[] = ['AVAILABLE', 'INSTOCK', 'LOWSTOCK'];
+  status: string[] = ['AVAILABLE', 'UNAVAILABLE', 'LOWSTOCK'];
 
   data = [
         {
@@ -486,7 +487,8 @@ export class DashboardService {
           electric_price: 3000,
           water_price: 6500
         }
-      ]
+      ];
+
   constructor(private http: HttpClient) { }
 
   getProducts() {
@@ -494,6 +496,28 @@ export class DashboardService {
     .toPromise()
     .then(res => <Product[]>res.data)
     .then(data => { return data; });
+  }
+
+  getCity() {
+    return (dataAddress as any).default.data;
+  }
+
+  getDistrict(id: string) {
+    return (dataAddress as any).default.data.filter(item => item.level1_id === id);
+  }
+
+  getWard(idCity: string, idDistrict: string) {
+    const arr = [];
+    (dataAddress as any).default.data.map(itemLv1 => {
+      if (itemLv1.level1_id === idCity) {
+        itemLv1.level2s.map(item => {
+          if (item.level2_id === idDistrict) {
+            arr.push(item.level3s);
+          }
+        });
+      }
+    });
+    return arr;
   }
 }
 
