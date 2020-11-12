@@ -16,11 +16,27 @@ export class ProfileAdminComponent implements OnInit {
     address: '',
     image_url: '',
 
-  }
+  };
+  name = 'Angular 4';
+  url: any;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.target.result;
+      };
+    }
+  }
+  public delete() {
+    this.url = null;
+  }
 }

@@ -69,6 +69,55 @@ p-dialog label {
   font-weight: bold;
 }
 
-.v-address p-dropdown {
-  margin-bottom: 10px;
+:host ::ng-deep .p-dropdown.p-component.p-dropdown-clearable {
+  margin-bottom: 10px !important;
+}
+
+.v-price-detail {
+  display: flex;
+  justify-content: space-between;
+  div {
+    width: 45%;
+  }
+}
+
+.v-flexRow {
+  display: flex;
+  justify-content: space-between;
+  div {
+    width: 45%;
+  }
+  div .p-formgrid {
+    width: 100%;
+  }
+}
+
+:host ::ng-deep input.p-inputnumber-input.p-inputtext.p-component.p-filled {
+  text-align: right;
+}
+
+:host ::ng-deep .btn-default {
+  background-color: #FBC02D!important;
+}
+
+:host ::ng-deep .btn-success {
+  background-color: #b08bf8!important;
+}
+
+:host ::ng-deep .btn {
+  font-size: 14px;
+}
+
+.list-group-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  a {
+    text-overflow: ellipsis;
+    width: 80%;
+  }
+}
+
+.v-90px {
+  width: 90px !important;
 }

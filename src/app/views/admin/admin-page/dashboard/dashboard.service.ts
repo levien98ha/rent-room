@@ -535,4 +535,5 @@ export interface Product {
   inventoryStatus?: string;
   category?: string;
   image?: string;
+  area?: number;
 }

@@ -2,7 +2,7 @@ import { DashboardService } from './dashboard.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -46,6 +46,13 @@ export class DashboardComponent implements OnInit {
   selectedWard: any;
   selectedCategory: any;
 
+  selectedFiles: FileList;
+  progressInfos = [];
+  message = '';
+
+  // fileInfos: Observable<any>;
+  fileInfos = [];
+
   constructor(
     private dashboardService: DashboardService,
     private messageService: MessageService,
@@ -81,7 +88,19 @@ export class DashboardComponent implements OnInit {
         accept: () => {
             this.products = this.products.filter(val => val.id !== product.id);
             this.product = {};
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+        }
+    });
+  }
+
+  deleteImage(index, fileName) {
+    this.confirmationService.confirm({
+        message: 'Are you sure you want to delete ' + fileName + '?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.fileInfos.splice(index, 1);
+          this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Image Deleted', life: 3000});
         }
     });
   }
@@ -177,6 +196,45 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
+
+  selectFiles(event) {
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+  }
+
+  uploadFiles() {
+    this.message = '';
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      this.upload(i, this.selectedFiles[i]);
+    }
+  }
+
+  delay (amount: number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, amount);
+    });
+  }
+
+  async upload(idx, file) {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+    for (var i = 0; i <= 10; i++) {
+      await this.delay(200);
+      this.progressInfos[idx].value = Math.round(100 * i / 10);
+    }
+    this.fileInfos.push({url: 'https://url.image.com', name: `image${idx}`})
+    // this.uploadService.upload(file).subscribe(
+    //   event => {
+    //     if (event.type === HttpEventType.UploadProgress) {
+    //       this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+    //     } else if (event instanceof HttpResponse) {
+    //       this.fileInfos = this.uploadService.getFiles();
+    //     }
+    //   },
+    //   err => {
+    //     this.progressInfos[idx].value = 0;
+    //     this.message = 'Could not upload the file:' + file.name;
+    //   });
+  }
 }
 
 export interface Product {
@@ -193,4 +251,5 @@ export interface Product {
   inventoryStatus?: string;
   category?: string;
   image?: string;
+  operator_id?: number;
 }

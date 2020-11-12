@@ -34,24 +34,32 @@
     </div>
     <div class="col-md-4">
       <div class="card card-user">
-        <div class="image">
-          <img src="../assets/img/bg5.jpg" alt="...">
-        </div>
         <div class="card-body">
           <div class="author">
-            <a href="#">
-              <img class="avatar border-gray" src="../assets/img/mike.jpg" alt="...">
-              <h5 class="title">Mike Andrew</h5>
-            </a>
-            <p class="description">
-              michael24
-            </p>
+            <div>
+              <div class="profile-picture">
+                <label class="hoverable" for="fileInput">
+                  <img [src]="url ? url : 'https://www.w3schools.com/howto/img_avatar.png'">
+                  <div class="hover-text">Choose file</div>
+                  <div class="background"></div>
+                </label>
+                <br/>
+                <input id="fileInput" type='file' (change)="onSelectFile($event)">
+                <button *ngIf="url" (click)="delete()" class="v-del">Remove Image Profile</button>
+              </div>
+            </div>
+            <div class="v-name">
+              <h3 class="title">{{profile.first_name + ' ' + profile.last_name}}</h3>
+              <p class="description">
+                <b>Username for Login:</b> {{profile.username_login}}
+              </p>
+              <p class="description text-center v-mT1">
+                "Lamborghini Mercy
+                <br> Your chick she so thirsty
+                <br> I'm in that two seat Lambo"
+              </p>
+            </div>
           </div>
-          <p class="description text-center">
-            "Lamborghini Mercy
-            <br> Your chick she so thirsty
-            <br> I'm in that two seat Lambo"
-          </p>
         </div>
         <hr>
         <div class="button-container">
