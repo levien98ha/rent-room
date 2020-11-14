@@ -25,13 +25,13 @@ export class ManageUserComponent implements OnInit {
   listWard = [];
   // 'Room', 'House', 'Townhouse', 'Villa'
   listCategory = [{
-      id: 0,
-      name: 'User'
-    },
-    {
-      id: 1,
-      name: 'Operator'
-    }
+    id: 0,
+    name: 'User'
+  },
+  {
+    id: 1,
+    name: 'Operator'
+  }
   ];
   selectedCity: any;
   selectedDistrict: any;
@@ -55,16 +55,16 @@ export class ManageUserComponent implements OnInit {
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.users.length; i++) {
-        if (this.users[i].id === id) {
-            index = i;
-            break;
-        }
+      if (this.users[i].id === id) {
+        index = i;
+        break;
+      }
     }
     return index;
   }
 
   async editUser(user: User) {
-    this.user = {...user};
+    this.user = { ...user };
     this.selectedCategory = this.listCategory.find(item => item.id === user.role);
     this.selectedCity = await this.listCity.find(async (item) => item.name === user.city);
     this.selectCity();
@@ -82,20 +82,20 @@ export class ManageUserComponent implements OnInit {
 
   deleteUser(user: User) {
     this.confirmationService.confirm({
-        message: 'Are you sure you want to delete ' + user.id + '?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.users = this.users.filter(val => val.id !== user.id);
-            this.user = {};
-            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000});
-        }
+      message: 'Are you sure you want to delete ' + user.id + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.users = this.users.filter(val => val.id !== user.id);
+        this.user = {};
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
+      }
     });
   }
   getListCity() {
     this.listCity = [];
     this.manageUserService.getCity().map(item => {
-      const city = {id: '', name: ''};
+      const city = { id: '', name: '' };
       city.id = item.level1_id;
       city.name = item.name;
       this.listCity.push(city);
@@ -111,7 +111,7 @@ export class ManageUserComponent implements OnInit {
     if (this.selectedCity !== null) {
       this.manageUserService.getDistrict(this.selectedCity.id).map(itemLv1 => {
         itemLv1.level2s.map(item => {
-          const district = {id: '', name: ''};
+          const district = { id: '', name: '' };
           district.id = item.level2_id;
           district.name = item.name;
           this.listDistrict.push(district);
@@ -126,7 +126,7 @@ export class ManageUserComponent implements OnInit {
     if (this.selectedDistrict !== null && this.selectedCity !== null) {
       this.manageUserService.getWard(this.selectedCity.id, this.selectedDistrict.id).map(item => {
         item.map(itemWard => {
-          const ward = {id: '', name: ''};
+          const ward = { id: '', name: '' };
           ward.id = itemWard.level3_id;
           ward.name = itemWard.name;
           this.listWard.push(ward);
