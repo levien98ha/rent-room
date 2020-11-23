@@ -54,6 +54,8 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ManageUserComponent } from './views/admin/admin-page/manage-user/manage-user.component';
+import { OverlayComponent } from './common/overlay/overlay.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +83,8 @@ import { ManageUserComponent } from './views/admin/admin-page/manage-user/manage
     StartCard2Component,
     FooterAdminComponent,
     NavigationAdminComponent,
-    ManageUserComponent
+    ManageUserComponent,
+    OverlayComponent
   ],
   imports: [
     TableModule,

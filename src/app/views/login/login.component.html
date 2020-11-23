@@ -1,3 +1,5 @@
+<p-toast position="bottom-left"></p-toast>
+<p-confirmDialog header="Error" icon="pi pi-exclamation-triangle" rejectVisible="false"></p-confirmDialog>
 <body>
     <div class="session">
         <div class="left">
@@ -41,7 +43,12 @@
                     type="email"
                     name="email"
                     id="email"
+                    class="{{errMessageLogin.user? 'v-invalid-bottom' : ''}}"
                     autocomplete="off"
+                    mdbTooltip="{{errMessageLogin.user? errMessageLogin.user : ''}}"
+                    placement="top"
+                    [(ngModel)]="dataLogin.email"
+                    (focusout)="validateUserName()"
                 >
                 <label for="email">Email:</label>
                 <div class="icon">
@@ -71,6 +78,11 @@
                     name="password"
                     id="password"
                     autocomplete="off"
+                    class="{{errMessageLogin.pass? 'v-invalid-bottom' : ''}}"
+                    mdbTooltip="{{errMessageLogin.pass? errMessageLogin.pass : ''}}"
+                    placement="top"
+                    [(ngModel)]="dataLogin.password"
+                    (focusout)="validateUserPassword()"
                 >
                 <label for="password">Password:</label>
                 <div class="icon">
@@ -112,7 +124,7 @@
             </div>
             <button
                 type="submit"
-                onClick="return false;"
+                (click)="loginClick()"
             >
                 Log in
             </button>
@@ -138,6 +150,11 @@
                     name="email"
                     id="email"
                     autocomplete="off"
+                    class="{{errMessageReset.email? 'v-invalid-bottom' : ''}}"
+                    mdbTooltip="{{errMessageReset.email? errMessageReset.email : ''}}"
+                    placement="top"
+                    [(ngModel)]="dataReset.email"
+                    (focusout)="validateUserReset()"
                 >
                 <label for="email">Email:</label>
                 <div class="icon">
@@ -165,7 +182,7 @@
             </div>
             <button
                 type="submit"
-                onClick="return false;"
+                (click)="resetPassword()"
             >
                 Reset my password
             </button>
@@ -192,6 +209,11 @@
                     name="email"
                     id="email"
                     autocomplete="off"
+                    class="{{errMessageRegister.email? 'v-invalid-bottom' : ''}}"
+                    mdbTooltip="{{errMessageRegister.email? errMessageRegister.email : ''}}"
+                    placement="top"
+                    [(ngModel)]="dataRegister.email"
+                    (focusout)="validateUserRegister()"
                 >
                 <label for="email">Email:</label>
                 <div class="icon">
@@ -221,6 +243,11 @@
                     name="password"
                     id="password"
                     autocomplete="off"
+                    class="{{errMessageRegister.password? 'v-invalid-bottom' : ''}}"
+                    mdbTooltip="{{errMessageRegister.password? errMessageRegister.password : ''}}"
+                    placement="top"
+                    [(ngModel)]="dataRegister.password"
+                    (focusout)="validatePasswordRegister()"
                 >
                 <label for="password">Password:</label>
                 <div class="icon">
@@ -264,6 +291,11 @@
                     name="password"
                     id="password"
                     autocomplete="off"
+                    class="{{errMessageRegister.confirmPassword? 'v-invalid-bottom' : ''}}"
+                    mdbTooltip="{{errMessageRegister.confirmPassword? errMessageRegister.confirmPassword : ''}}"
+                    placement="top"
+                    [(ngModel)]="dataRegister.confirmPassword"
+                    (focusout)="validateConfirmPasswordRegister()"
                 >
                 <label for="password">Password:</label>
                 <div class="icon">
@@ -306,7 +338,7 @@
             </div>
             <button
                 type="submit"
-                onClick="return false;"
+                (click)="registerUser()"
             >
                 Create account.
             </button>

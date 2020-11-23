@@ -86,7 +86,7 @@ export class Message_EN {
   public static MSE00071 = 'No data exists.';
   public static MSE00072 = 'Please input half-width characters or the hyphen "-".';
   public static MSE00073 = 'You can only select up to 6 files.';
-  public static MSE00074 = 'The "UserID" or "Mail" address is incorrect.';
+  public static MSE00074 = 'The "Email" or "Pasword" is incorrect.';
   public static MSE00075 = 'There are {0} invalid files.';
   public static MSE00076 = 'There is {0} invalid file.';
   public static MSE00077 = 'Please select photo {0} larger than 0KB.';
@@ -101,4 +101,6 @@ export class Message_EN {
   public static MSE00086 = 'You are not allowed to update uploaded file.';
   public static MSE00087 = 'Calculation result exceeds the allowed value. Please re-enter the data.';
   public static MSE00088 = 'File upload has been deleted or does not exist.';
+  public static MSE00089 = 'The format "Email" is incorrect.';
+  public static MSE00090 = 'Passwords must be at least 8 characters in length.';
 }

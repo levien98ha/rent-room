@@ -24,7 +24,7 @@ const routes: Routes = [
     component: HomePageComponent
   },
   {
-    path: 'admin',
+    path: 'manage',
     component: AdminPageComponent
   }
 ];
