@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as dataAddress from '../../../../config/localtion/local.json';
+import { PathAPI } from 'src/app/common/path-api';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  status: string[] = ['AVAILABLE', 'UNAVAILABLE', 'LOWSTOCK'];
+  status: string[] = ['AVAILABLE', 'UNAVAILABLE'];
 
   data = [
         {
@@ -519,12 +521,19 @@ export class DashboardService {
     });
     return arr;
   }
+
+  createNewRoom(json) {
+    return this.http.post<any>(PathAPI.PATH_ROOM, json);
+  }
+
+  getListRoom(json) {
+    return this.http.post<any>(PathAPI.PATH_LIST_ROOM_CUSTOMER, json);
+  }
 }
 
 export interface Product {
   id?: string;
   name?: string;
-  code?: string;
   description?: string;
   city?: string;
   district?: string;

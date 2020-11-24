@@ -69,8 +69,8 @@ p-dialog label {
   font-weight: bold;
 }
 
-:host ::ng-deep .p-dropdown.p-component.p-dropdown-clearable {
-  margin-bottom: 10px !important;
+:host ::ng-deep .v-address .p-dropdown.p-component.p-dropdown-clearable {
+  margin-top: 10px !important;
 }
 
 .v-price-detail {
@@ -140,4 +140,8 @@ p-dialog label {
 
 .v-200px {
   width: 200px !important;
+}
+
+:host ::ng-deep .v-category .p-dropdown  {
+  height: 39.55px !important;
 }

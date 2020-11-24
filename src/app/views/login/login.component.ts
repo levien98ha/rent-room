@@ -99,6 +99,9 @@ export class LoginComponent implements OnInit {
       this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
       this.loginService.loginUser(this.dataLogin).subscribe((res: any) => {
         if (res) {
+          if (localStorage.getItem('session')) {
+            localStorage.removeItem('session');
+          }
           localStorage.setItem('session', JSON.stringify(res));
           this.router.navigate(['/']);
           this.overlayService.close();

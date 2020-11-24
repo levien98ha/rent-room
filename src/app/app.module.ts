@@ -55,6 +55,14 @@ import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ManageUserComponent } from './views/admin/admin-page/manage-user/manage-user.component';
 import { OverlayComponent } from './common/overlay/overlay.component';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import {
+  AngularFireStorageModule,
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+  BUCKET
+} from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -84,7 +92,7 @@ import { OverlayComponent } from './common/overlay/overlay.component';
     FooterAdminComponent,
     NavigationAdminComponent,
     ManageUserComponent,
-    OverlayComponent
+    OverlayComponent,
   ],
   imports: [
     TableModule,
@@ -115,7 +123,9 @@ import { OverlayComponent } from './common/overlay/overlay.component';
     ChartsModule,
     WavesModule,
     InputTextModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud')
   ],
   exports: [
     ModelTypeDirective

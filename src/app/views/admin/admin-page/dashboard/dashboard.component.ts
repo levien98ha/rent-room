@@ -1,8 +1,15 @@
+import { Constants } from 'src/app/common/constant/Constants';
 import { DashboardService } from './dashboard.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { map, finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { OverlayService } from 'src/app/common/overlay/overlay.service';
+import { Utilities } from 'src/app/common/utilites';
+import { MessageSystem } from 'src/app/config/message/messageSystem';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,15 +17,18 @@ import { Observable } from 'rxjs';
   providers: [MessageService, ConfirmationService]
 })
 export class DashboardComponent implements OnInit {
+  downloadURL: Observable<string>;
+
   submitted: boolean;
 
   productDialog: boolean;
+  productDialogNew: boolean;
 
   products: Product[];
 
   product: Product;
 
-  selectedProducts: Product[];
+  selectedProducts: any[];
 
   listCity = [];
   listDistrict = [];
@@ -41,26 +51,92 @@ export class DashboardComponent implements OnInit {
       name: 'Villa'
     }
   ];
+
+  // edit
   selectedCity: any;
   selectedDistrict: any;
   selectedWard: any;
   selectedCategory: any;
 
+  // create
+  selectedCityNew: any;
+  selectedDistrictNew: any;
+  selectedWardNew: any;
+  selectedCategoryNew: any;
+
   selectedFiles: FileList;
+  selectedFilesNew: FileList;
   progressInfos = [];
+  progressInfosNew = [];
   message = '';
 
   // fileInfos: Observable<any>;
   fileInfos = [];
 
+  // obj new room
+  objNew = {
+    title: '',
+    category: '',
+    photo: [],
+    price: 0,
+    area: 0,
+    time_description: '',
+    toilet: '',
+    city: '',
+    district: '',
+    ward: '',
+    description: '',
+    user_id: ''
+  };
+
+  listRoom = [];
+
+  currentPage = 1;
+  totalPage = 0;
+  totalRecord = 0;
+
+  userId: string;
+  mess: MessageSystem = new MessageSystem();
   constructor(
     private dashboardService: DashboardService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private storage: AngularFireStorage,
+    public utilities: Utilities,
+    private overlayService: OverlayService,) { }
 
   ngOnInit(): void {
     this.dashboardService.getProducts().then(data => this.products = data);
     this.getListCity();
+    this.userId = JSON.parse(localStorage.getItem('session')).userId;
+    this.getListRoom();
+  }
+
+  // get data list room by user id
+  async getListRoom() {
+    this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    const obj = {
+      user_id: await this.userId,
+      page: await this.currentPage
+    };
+    await this.dashboardService.getListRoom(obj).subscribe(async (res: any) => {
+      if (res.data) {
+        this.totalPage = res.pageSize;
+        this.totalRecord = res.total;
+        this.listRoom = res.data;
+      }
+      this.overlayService.close();
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        message: this.mess.getMessage('MSE00051'),
+        accept: () => {
+
+        }
+      });
+    });
   }
 
   async editProduct(product: Product) {
@@ -77,7 +153,19 @@ export class DashboardComponent implements OnInit {
   openNew() {
     this.product = {};
     this.submitted = false;
-    this.productDialog = true;
+    this.productDialogNew = true;
+    this.objNew.title = '';
+    this.objNew.category = '';
+    this.objNew.photo = [];
+    this.objNew.price = 0;
+    this.objNew.area = 0;
+    this.objNew.time_description = '';
+    this.objNew.toilet = '';
+    this.objNew.city = '';
+    this.objNew.district = '';
+    this.objNew.ward = '';
+    this.objNew.description = '';
+    this.objNew.user_id = this.userId;
   }
 
   deleteProduct(product: Product) {
@@ -105,6 +193,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
+  // dialog edit
   hideDialog() {
     this.productDialog = false;
     this.submitted = false;
@@ -123,17 +213,157 @@ export class DashboardComponent implements OnInit {
             this.products.push(this.product);
             this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
         }
-
         this.products = [...this.products];
         this.productDialog = false;
         this.product = {};
     }
   }
 
+  // create room
+  hideDialogNew() {
+    this.productDialogNew = false;
+    this.submitted = false;
+  }
+
+  async saveProductNew() {
+    this.submitted = true;
+
+    if (this.objNew.title.trim() && this.objNew.price && this.objNew.category
+        && this.objNew.area && this.objNew.description && this.objNew.city) {
+        this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+        await this.dashboardService.createNewRoom(this.objNew).subscribe((res: any) => {
+          this.overlayService.close();
+          this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+          this.productDialogNew = false;
+        }, (err) => {
+          this.overlayService.close();
+          this.confirmationService.confirm({
+            rejectVisible: false,
+            acceptLabel: 'OK',
+            message: this.mess.getMessage('MSE00051'),
+            accept: () => {
+
+            }
+          });
+        });
+        // get lại data table
+    }
+  }
+
+  changeCategoryNew() {
+    this.objNew.category = this.selectedCategoryNew.name;
+  }
+
+  // event
+  selectCityNew() {
+    this.listDistrict = [];
+    this.listWard = [];
+    this.selectedDistrict = null;
+    this.selectedWard = null;
+    if (this.selectedCityNew !== null) {
+      this.dashboardService.getDistrict(this.selectedCityNew.id).map(itemLv1 => {
+        itemLv1.level2s.map(item => {
+          const district = {id: '', name: ''};
+          district.id = item.level2_id;
+          district.name = item.name;
+          this.listDistrict.push(district);
+        });
+      });
+      this.objNew.city = this.selectedCityNew.name;
+    }
+  }
+
+  selectDistrictNew() {
+    this.listWard = [];
+    this.selectedWard = null;
+    if (this.selectedDistrictNew !== null && this.selectedCityNew !== null) {
+      this.dashboardService.getWard(this.selectedCityNew.id, this.selectedDistrictNew.id).map(item => {
+        item.map(itemWard => {
+          const ward = {id: '', name: ''};
+          ward.id = itemWard.level3_id;
+          ward.name = itemWard.name;
+          this.listWard.push(ward);
+        });
+      });
+      this.objNew.district = this.selectedDistrictNew.name;
+    }
+  }
+
+  selectWardNew() {
+    this.objNew.ward = this.selectedWardNew.name;
+  }
+
+  // upload file new
+  uploadFilesNew() {
+    this.message = '';
+    for (let i = 0; i < this.selectedFilesNew.length; i++) {
+      this.uploadNew(i, this.selectedFilesNew[i]);
+    }
+  }
+
+  async uploadNew(idx, fileNew) {
+    this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    this.progressInfosNew[idx] = { value: 0, fileName: fileNew.name };
+    const n = Date.now();
+    const file = fileNew;
+    const filePath = `RoomsImages/${n}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(`RoomsImages/${n}`, file);
+
+    this.progressInfosNew[idx].value = task.percentageChanges();
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            if (url) {
+              this.objNew.photo.push({
+                name: fileNew.name,
+                img_url: url
+              });
+            }
+          });
+        })
+      )
+      .subscribe(url => {
+        if (url) {
+          this.overlayService.close();
+        }
+        this.overlayService.close();
+      });
+  }
+
+  selectFilesNew(event) {
+    this.progressInfosNew = [];
+    this.selectedFilesNew = event.target.files;
+  }
+
+  async deleteImageNew(index, data) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + data.name + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+        this.objNew.photo.splice(index, 1);
+        await this.storage.storage.refFromURL(data.img_url).delete();
+        this.overlayService.close();
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Image Deleted', life: 3000});
+      }
+    });
+  }
+  // end create new room
+
+  changeCategory() {
+
+  }
+  //
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.products.length; i++) {
-        if (this.products[i].id === id) {
+    for (let i = 0; i < this.listRoom.length; i++) {
+        if (this.listRoom[i]._id === id) {
             index = i;
             break;
         }
@@ -148,10 +378,6 @@ export class DashboardComponent implements OnInit {
           id += chars.charAt(Math.floor(Math.random() * chars.length));
       }
       return id;
-  }
-
-  changeCategory() {
-
   }
 
   getListCity() {
@@ -209,7 +435,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  delay (amount: number) {
+  delay(amount: number) {
     return new Promise((resolve) => {
       setTimeout(resolve, amount);
     });
@@ -222,25 +448,17 @@ export class DashboardComponent implements OnInit {
       this.progressInfos[idx].value = Math.round(100 * i / 10);
     }
     this.fileInfos.push({url: 'https://url.image.com', name: `image${idx}`})
-    // this.uploadService.upload(file).subscribe(
-    //   event => {
-    //     if (event.type === HttpEventType.UploadProgress) {
-    //       this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
-    //     } else if (event instanceof HttpResponse) {
-    //       this.fileInfos = this.uploadService.getFiles();
-    //     }
-    //   },
-    //   err => {
-    //     this.progressInfos[idx].value = 0;
-    //     this.message = 'Could not upload the file:' + file.name;
-    //   });
+  }
+
+  // format
+  formatPrice(value) {
+    return this.utilities.formatCurrency(value);
   }
 }
 
 export interface Product {
   id?: string;
   name?: string;
-  code?: string;
   description?: string;
   city?: string;
   district?: string;
