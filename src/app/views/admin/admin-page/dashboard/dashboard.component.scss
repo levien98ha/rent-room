@@ -108,6 +108,9 @@ p-dialog label {
   font-size: 14px;
 }
 
+:host ::ng-deep .list-group-item a{
+  width: calc(80% - 110px) !important;
+}
 .list-group-item {
   display: flex;
   flex-direction: row;

@@ -1,6 +1,6 @@
 import { Constants } from 'src/app/common/constant/Constants';
 import { DashboardService } from './dashboard.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { Utilities } from 'src/app/common/utilites';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,16 +18,14 @@ import { MessageSystem } from 'src/app/config/message/messageSystem';
   providers: [MessageService, ConfirmationService]
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('imageEdit') imageEdit: ElementRef;
+
   downloadURL: Observable<string>;
 
   submitted: boolean;
 
   productDialog: boolean;
   productDialogNew: boolean;
-
-  products: Product[];
-
-  product: Product;
 
   selectedProducts: any[];
 
@@ -75,6 +74,7 @@ export class DashboardComponent implements OnInit {
 
   // obj new room
   objNew = {
+    id: '',
     title: '',
     category: '',
     photo: [],
@@ -86,7 +86,9 @@ export class DashboardComponent implements OnInit {
     district: '',
     ward: '',
     description: '',
-    user_id: ''
+    user_id: '',
+    user_rent: '',
+    status: ''
   };
 
   listRoom = [];
@@ -95,6 +97,8 @@ export class DashboardComponent implements OnInit {
   totalPage = 0;
   totalRecord = 0;
 
+  statusRoom = [{name: 'AVAILABLE'}, {name: 'UNAVAILABLE'}];
+  selectedStatus: any;
   userId: string;
   mess: MessageSystem = new MessageSystem();
   constructor(
@@ -106,7 +110,7 @@ export class DashboardComponent implements OnInit {
     private overlayService: OverlayService,) { }
 
   ngOnInit(): void {
-    this.dashboardService.getProducts().then(data => this.products = data);
+    // this.dashboardService.getProducts().then(data => this.products = data);
     this.getListCity();
     this.userId = JSON.parse(localStorage.getItem('session')).userId;
     this.getListRoom();
@@ -131,6 +135,7 @@ export class DashboardComponent implements OnInit {
       this.confirmationService.confirm({
         rejectVisible: false,
         acceptLabel: 'OK',
+        key: 'err',
         message: this.mess.getMessage('MSE00051'),
         accept: () => {
 
@@ -139,19 +144,31 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  async editProduct(product: Product) {
-    this.product = {...product};
+  // click edit room
+  async editProduct(product: any) {
+    this.progressInfos = [];
+    this.selectedFiles = null;
+    await this.statusRoom.map(async (item) => {
+      if (item.name === product.status) {
+        this.selectedStatus = item;
+      }
+    });
+    this.objNew = {...product};
     this.selectedCategory = this.listCategory.find(item => item.name === product.category);
-    this.selectedCity = await this.listCity.find(async (item) => item.name === product.city);
+    await this.listCity.map(async (item) => {
+      if (item.name.trim() === product.city.trim()) {
+        this.selectedCity = item;
+      }
+    });
     this.selectCity();
     this.selectedDistrict = await this.listDistrict.find(async (item) => item.name === product.district);
     this.selectDistrict();
     this.selectedWard = await this.listWard.find(async (item) => item.name === product.ward);
+    this.fileInfos = product.photo;
     this.productDialog = true;
   }
 
   openNew() {
-    this.product = {};
     this.submitted = false;
     this.productDialogNew = true;
     this.objNew.title = '';
@@ -168,14 +185,12 @@ export class DashboardComponent implements OnInit {
     this.objNew.user_id = this.userId;
   }
 
-  deleteProduct(product: Product) {
+  deleteProduct(product) {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete ' + product.name + '?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.products = this.products.filter(val => val.id !== product.id);
-            this.product = {};
             this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
         }
     });
@@ -200,23 +215,28 @@ export class DashboardComponent implements OnInit {
     this.submitted = false;
   }
 
-  saveProduct() {
-    this.submitted = true;
+  // save edit room
+  saveProduct(data) {
+    this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    this.dashboardService.updateRoom(data).subscribe(async (res: any) => {
+      this.overlayService.close();
+      this.hideDialog();
+      await this.getListRoom();
+      this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Edited', life: 3000});
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        message: this.mess.getMessage('MSE00051'),
+        header: 'Error',
+        key: 'err',
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
 
-    if (this.product.name.trim()) {
-        if (this.product.id) {
-            this.products[this.findIndexById(this.product.id)] = this.product;
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-        } else {
-            this.product.id = this.createId();
-            this.product.image = 'product-placeholder.svg';
-            this.products.push(this.product);
-            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
         }
-        this.products = [...this.products];
-        this.productDialog = false;
-        this.product = {};
-    }
+      });
+    });
   }
 
   // create room
@@ -225,6 +245,7 @@ export class DashboardComponent implements OnInit {
     this.submitted = false;
   }
 
+  // save new room
   async saveProductNew() {
     this.submitted = true;
 
@@ -252,6 +273,10 @@ export class DashboardComponent implements OnInit {
 
   changeCategoryNew() {
     this.objNew.category = this.selectedCategoryNew.name;
+  }
+
+  changeStatus() {
+    this.objNew.status = this.selectedStatus.name;
   }
 
   // event
@@ -299,10 +324,10 @@ export class DashboardComponent implements OnInit {
     for (let i = 0; i < this.selectedFilesNew.length; i++) {
       this.uploadNew(i, this.selectedFilesNew[i]);
     }
+    this.imageEdit.nativeElement.value = '';
   }
 
   async uploadNew(idx, fileNew) {
-    this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
     this.progressInfosNew[idx] = { value: 0, fileName: fileNew.name };
     const n = Date.now();
     const file = fileNew;
@@ -310,7 +335,7 @@ export class DashboardComponent implements OnInit {
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(`RoomsImages/${n}`, file);
 
-    this.progressInfosNew[idx].value = task.percentageChanges();
+    this.progressInfos[idx].value = ((await task).bytesTransferred / (await task).totalBytes) * 100;
 
     task
       .snapshotChanges()
@@ -329,9 +354,7 @@ export class DashboardComponent implements OnInit {
       )
       .subscribe(url => {
         if (url) {
-          this.overlayService.close();
         }
-        this.overlayService.close();
       });
   }
 
@@ -357,8 +380,9 @@ export class DashboardComponent implements OnInit {
   // end create new room
 
   changeCategory() {
-
+    this.objNew.category = this.selectedCategory.name;
   }
+
   //
   findIndexById(id: string): number {
     let index = -1;
@@ -369,15 +393,6 @@ export class DashboardComponent implements OnInit {
         }
     }
     return index;
-  }
-
-  createId(): string {
-      let id = '';
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      for (let i = 0; i < 5; i++ ) {
-          id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return id;
   }
 
   getListCity() {
@@ -425,7 +440,21 @@ export class DashboardComponent implements OnInit {
 
   selectFiles(event) {
     this.progressInfos = [];
-    this.selectedFiles = event.target.files;
+    const temp = 10 - this.fileInfos.length;
+    if (event.target.files.length < temp) {
+      this.selectedFiles = event.target.files;
+    } else {
+      this.confirmationService.confirm({
+        message: 'You can only select up to 6 files.',
+        header: 'Warning',
+        key: 'err',
+        icon: 'pi pi-exclamation-triangle',
+        rejectVisible: false,
+        accept: async () => {
+          this.imageEdit.nativeElement.value = '';
+        }
+      });
+    }
   }
 
   uploadFiles() {
@@ -433,42 +462,42 @@ export class DashboardComponent implements OnInit {
     for (let i = 0; i < this.selectedFiles.length; i++) {
       this.upload(i, this.selectedFiles[i]);
     }
+    this.imageEdit.nativeElement.value = '';
   }
 
-  delay(amount: number) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, amount);
-    });
-  }
+  async upload(idx, fileEdit) {
+    this.progressInfos[idx] = { value: 0, fileName: fileEdit.name };
+    const n = Date.now();
+    const file = fileEdit;
+    const filePath = `RoomsImages/${n}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(`RoomsImages/${n}`, file);
 
-  async upload(idx, file) {
-    this.progressInfos[idx] = { value: 0, fileName: file.name };
-    for (var i = 0; i <= 10; i++) {
-      await this.delay(200);
-      this.progressInfos[idx].value = Math.round(100 * i / 10);
-    }
-    this.fileInfos.push({url: 'https://url.image.com', name: `image${idx}`})
+    this.progressInfos[idx].value = ((await task).bytesTransferred / (await task).totalBytes) * 100;
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            if (url) {
+              this.objNew.photo.push({
+                name: fileEdit.name,
+                img_url: url
+              });
+            }
+          });
+        })
+      )
+      .subscribe(url => {
+        if (url) {
+        }
+      });
   }
 
   // format
   formatPrice(value) {
     return this.utilities.formatCurrency(value);
   }
-}
-
-export interface Product {
-  id?: string;
-  name?: string;
-  description?: string;
-  city?: string;
-  district?: string;
-  ward?: string;
-  price?: number;
-  electric_price?: number;
-  water_price?: number;
-  inventoryStatus?: string;
-  category?: string;
-  image?: string;
-  operator_id?: number;
-  area?: number;
 }

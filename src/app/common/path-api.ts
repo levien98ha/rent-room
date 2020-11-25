@@ -15,20 +15,21 @@ export class PathAPI {
   public static PATH_SEARCH_ROOM = PathAPI.ApplicationProperties.concat('room/search');
   public static PATH_SEARCH_SAME_ROOM = PathAPI.ApplicationProperties.concat('room/search/same');
   public static PATH_LIST_ROOM_CUSTOMER = PathAPI.ApplicationProperties.concat('user/room');
+  public static PATH_DELETE_ROOM = PathAPI.ApplicationProperties.concat('room/delete');
 
-    // REQUEST
-    public static PATH_REQUEST = PathAPI.ApplicationProperties.concat('request');
-    public static PATH_LIST_REQUEST_SEND = PathAPI.ApplicationProperties.concat('request/send');
-    public static PATH_LIST_REQUEST_RECEIVE = PathAPI.ApplicationProperties.concat('request/receive');
+  // REQUEST
+  public static PATH_REQUEST = PathAPI.ApplicationProperties.concat('request');
+  public static PATH_LIST_REQUEST_SEND = PathAPI.ApplicationProperties.concat('request/send');
+  public static PATH_LIST_REQUEST_RECEIVE = PathAPI.ApplicationProperties.concat('request/receive');
 
-    // MARKS ROOM
-    public static PATH_MARK = PathAPI.ApplicationProperties.concat('mark');
-    public static PATH_LIST_MARK = PathAPI.ApplicationProperties.concat('mark/list');
+  // MARKS ROOM
+  public static PATH_MARK = PathAPI.ApplicationProperties.concat('mark');
+  public static PATH_LIST_MARK = PathAPI.ApplicationProperties.concat('mark/list');
 
-    // INVOICE
-    public static PATH_INVOICE = PathAPI.ApplicationProperties.concat('invoice');
-    public static PATH_LIST_INVOCIE = PathAPI.ApplicationProperties.concat('invoice/list');
+  // INVOICE
+  public static PATH_INVOICE = PathAPI.ApplicationProperties.concat('invoice');
+  public static PATH_LIST_INVOCIE = PathAPI.ApplicationProperties.concat('invoice/list');
 
-    // INVOICE
-    public static PATH_CATEGORY = PathAPI.ApplicationProperties.concat('category');
+  // INVOICE
+  public static PATH_CATEGORY = PathAPI.ApplicationProperties.concat('category');
 }
