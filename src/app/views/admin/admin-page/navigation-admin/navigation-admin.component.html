@@ -12,8 +12,19 @@
         </a>
 
         <div class="list-group list-group-flush">
+          <a
+          class="list-group-item list-group-item-action waves-effect {{choseTag == 1? 'active' : ''}}"
+          (click)="choseProfile()"
+      >
+          <mdb-icon
+              fas
+              icon="user"
+              class="mr-3"
+          ></mdb-icon>
+          Profile
+      </a>
             <a
-                class="list-group-item list-group-item-action waves-effect {{choseTag == 1? 'active' : ''}}"
+                class="list-group-item list-group-item-action waves-effect {{choseTag == 2? 'active' : ''}}"
                 (click)="choseDashboard()"
             >
                 <mdb-icon
@@ -21,18 +32,7 @@
                     icon="chart-pie"
                     class="mr-3"
                 ></mdb-icon>
-                Dashboard
-            </a>
-            <a
-                class="list-group-item list-group-item-action waves-effect {{choseTag == 2? 'active' : ''}}"
-                (click)="choseProfile()"
-            >
-                <mdb-icon
-                    fas
-                    icon="user"
-                    class="mr-3"
-                ></mdb-icon>
-                Profile
+                Manage Room
             </a>
             <a
                 class="list-group-item list-group-item-action waves-effect {{choseTag == 3? 'active' : ''}}"

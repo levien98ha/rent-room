@@ -74,7 +74,6 @@ export class DashboardComponent implements OnInit {
 
   // obj new room
   objNew = {
-    id: '',
     title: '',
     category: '',
     photo: [],
@@ -107,21 +106,21 @@ export class DashboardComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private storage: AngularFireStorage,
     public utilities: Utilities,
-    private overlayService: OverlayService,) { }
+    private overlayService: OverlayService) { }
 
   ngOnInit(): void {
     // this.dashboardService.getProducts().then(data => this.products = data);
     this.getListCity();
     this.userId = JSON.parse(localStorage.getItem('session')).userId;
-    this.getListRoom();
+    this.getListRoom(this.currentPage);
   }
 
   // get data list room by user id
-  async getListRoom() {
+  async getListRoom(index: number) {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
     const obj = {
       user_id: await this.userId,
-      page: await this.currentPage
+      page: index
     };
     await this.dashboardService.getListRoom(obj).subscribe(async (res: any) => {
       if (res.data) {
@@ -170,7 +169,12 @@ export class DashboardComponent implements OnInit {
 
   openNew() {
     this.submitted = false;
+    this.progressInfosNew = [];
     this.productDialogNew = true;
+    this.selectedCategoryNew = null;
+    this.selectedCityNew = null;
+    this.selectedDistrictNew = null;
+    this.selectedWardNew = null;
     this.objNew.title = '';
     this.objNew.category = '';
     this.objNew.photo = [];
@@ -185,24 +189,47 @@ export class DashboardComponent implements OnInit {
     this.objNew.user_id = this.userId;
   }
 
-  deleteProduct(product) {
+  async deleteProduct(product) {
     this.confirmationService.confirm({
-        message: 'Are you sure you want to delete ' + product.name + '?',
+        message: 'Are you sure you want to delete room ?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+          const obj = {
+            user_id: this.userId,
+            _id: product._id
+          };
+
+          this.dashboardService.deleteRoom(obj).subscribe(async (res: any) => {
+            if (!res.Error) {
+              await this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+              this.getListRoom(this.currentPage);
+            } else {
+              this.confirmationService.confirm({
+                message: this.mess.getMessage('MSE00051'),
+                header: 'Error',
+                key: 'err',
+                rejectVisible: false,
+                acceptLabel: 'OK',
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+
+                }
+              });
+            }
+          });
         }
     });
   }
 
-  deleteImage(index, fileName) {
+  async deleteImage(index, fileName) {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete ' + fileName + '?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.fileInfos.splice(index, 1);
+          this.storage.storage.refFromURL(fileName).delete();
           this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Image Deleted', life: 3000});
         }
     });
@@ -218,25 +245,27 @@ export class DashboardComponent implements OnInit {
   // save edit room
   saveProduct(data) {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
-    this.dashboardService.updateRoom(data).subscribe(async (res: any) => {
-      this.overlayService.close();
-      this.hideDialog();
-      await this.getListRoom();
-      this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Edited', life: 3000});
-    }, (err) => {
-      this.overlayService.close();
-      this.confirmationService.confirm({
-        message: this.mess.getMessage('MSE00051'),
-        header: 'Error',
-        key: 'err',
-        rejectVisible: false,
-        acceptLabel: 'OK',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
+    if (data.title && data.description && data.price && data.area && data.status && data.category) {
+      this.dashboardService.updateRoom(data).subscribe(async (res: any) => {
+        this.overlayService.close();
+        this.hideDialog();
+        await this.getListRoom(this.currentPage);
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Edited', life: 3000});
+      }, (err) => {
+        this.overlayService.close();
+        this.confirmationService.confirm({
+          message: this.mess.getMessage('MSE00051'),
+          header: 'Error',
+          key: 'err',
+          rejectVisible: false,
+          acceptLabel: 'OK',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
 
-        }
+          }
+        });
       });
-    });
+    }
   }
 
   // create room
@@ -252,10 +281,13 @@ export class DashboardComponent implements OnInit {
     if (this.objNew.title.trim() && this.objNew.price && this.objNew.category
         && this.objNew.area && this.objNew.description && this.objNew.city) {
         this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
-        await this.dashboardService.createNewRoom(this.objNew).subscribe((res: any) => {
-          this.overlayService.close();
-          this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-          this.productDialogNew = false;
+        await this.dashboardService.createNewRoom(this.objNew).subscribe(async (res: any) => {
+          if (res) {
+            await this.getListRoom(this.currentPage);
+            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+            this.productDialogNew = false;
+            this.overlayService.close();
+          }
         }, (err) => {
           this.overlayService.close();
           this.confirmationService.confirm({
@@ -272,11 +304,11 @@ export class DashboardComponent implements OnInit {
   }
 
   changeCategoryNew() {
-    this.objNew.category = this.selectedCategoryNew.name;
+    this.objNew.category = this.selectedCategoryNew.name ? this.selectedCategoryNew.name : this.objNew.category;
   }
 
   changeStatus() {
-    this.objNew.status = this.selectedStatus.name;
+    this.objNew.status = this.selectedStatus.name ? this.selectedStatus.name : this.objNew.status;
   }
 
   // event
@@ -319,10 +351,10 @@ export class DashboardComponent implements OnInit {
   }
 
   // upload file new
-  uploadFilesNew() {
+  async uploadFilesNew() {
     this.message = '';
     for (let i = 0; i < this.selectedFilesNew.length; i++) {
-      this.uploadNew(i, this.selectedFilesNew[i]);
+      await this.uploadNew(i, this.selectedFilesNew[i]);
     }
     this.imageEdit.nativeElement.value = '';
   }
@@ -335,7 +367,7 @@ export class DashboardComponent implements OnInit {
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(`RoomsImages/${n}`, file);
 
-    this.progressInfos[idx].value = ((await task).bytesTransferred / (await task).totalBytes) * 100;
+    this.progressInfosNew[idx].value = ((await task).bytesTransferred / (await task).totalBytes) * 100;
 
     task
       .snapshotChanges()
@@ -354,6 +386,7 @@ export class DashboardComponent implements OnInit {
       )
       .subscribe(url => {
         if (url) {
+
         }
       });
   }
@@ -380,7 +413,7 @@ export class DashboardComponent implements OnInit {
   // end create new room
 
   changeCategory() {
-    this.objNew.category = this.selectedCategory.name;
+    this.objNew.category = this.selectedCategory.name ? this.selectedCategory.name : this.objNew.category;
   }
 
   //
@@ -420,6 +453,7 @@ export class DashboardComponent implements OnInit {
           this.listDistrict.push(district);
         });
       });
+      this.objNew.city = this.selectedCity.name;
     }
   }
 
@@ -435,7 +469,12 @@ export class DashboardComponent implements OnInit {
           this.listWard.push(ward);
         });
       });
+      this.objNew.district = this.selectedDistrict.name;
     }
+  }
+
+  selectWard() {
+    this.objNew.ward = this.selectedWard.name;
   }
 
   selectFiles(event) {
@@ -457,10 +496,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  uploadFiles() {
+  async uploadFiles() {
     this.message = '';
     for (let i = 0; i < this.selectedFiles.length; i++) {
-      this.upload(i, this.selectedFiles[i]);
+      await this.upload(i, this.selectedFiles[i]);
     }
     this.imageEdit.nativeElement.value = '';
   }
@@ -499,5 +538,11 @@ export class DashboardComponent implements OnInit {
   // format
   formatPrice(value) {
     return this.utilities.formatCurrency(value);
+  }
+
+  // change page
+  loadData(event) {
+    this.currentPage = event.page + 1;
+    this.getListRoom(this.currentPage);
   }
 }

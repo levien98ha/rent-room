@@ -6,9 +6,7 @@ import { PathAPI } from 'src/app/common/path-api';
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
-
-  status: string[] = ['AVAILABLE', 'UNAVAILABLE'];
+export class ProfileAdminService {
 
   constructor(private http: HttpClient) { }
 
@@ -34,37 +32,15 @@ export class DashboardService {
     return arr;
   }
 
-  createNewRoom(json) {
-    return this.http.post<any>(PathAPI.PATH_ROOM, json);
+  getProfileUser(json) {
+    return this.http.post<any>(PathAPI.PATH_USER_PROFILE, json);
   }
 
-  updateRoom(json) {
-    return this.http.put<any>(PathAPI.PATH_ROOM, json);
+  updateProfile(json) {
+    return this.http.put<any>(PathAPI.PATH_USER_PROFILE, json);
   }
 
-  getListRoom(json) {
-    return this.http.post<any>(PathAPI.PATH_LIST_ROOM_CUSTOMER, json);
-  }
-
-  deleteRoom(json) {
-    return this.http.post<any>(PathAPI.PATH_DELETE_ROOM, json);
+  changePass(json) {
+    return this.http.put<any>(PathAPI.PATH_CHANGE_PASS, json);
   }
 }
-
-export interface Product {
-  id?: string;
-  name?: string;
-  description?: string;
-  city?: string;
-  district?: string;
-  ward?: string;
-  price?: number;
-  electric_price?: number;
-  water_price?: number;
-  inventoryStatus?: string;
-  category?: string;
-  image?: string;
-  area?: number;
-}
-
-

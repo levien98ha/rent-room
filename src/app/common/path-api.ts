@@ -7,6 +7,8 @@ export class PathAPI {
   public static PATH_RESET_PASSWORD = PathAPI.ApplicationProperties.concat('users/reset/password');
   public static PATH_USERS = PathAPI.ApplicationProperties.concat('users');
   public static PATH_LIST_USER = PathAPI.ApplicationProperties.concat('users/list');
+  public static PATH_USER_PROFILE = PathAPI.ApplicationProperties.concat('users/profile');
+  public static PATH_CHANGE_PASS = PathAPI.ApplicationProperties.concat('users/password');
 
   // ROOM
   public static PATH_ROOM = PathAPI.ApplicationProperties.concat('room');

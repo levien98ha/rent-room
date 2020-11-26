@@ -1,4 +1,9 @@
-<p-confirmDialog key='err' header="Error" icon="pi pi-exclamation-triangle" rejectVisible="false"></p-confirmDialog>
+<p-confirmDialog
+    key='err'
+    header="Error"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
 <!-- Heading -->
 <mdb-card class="mb-4 wow fadeIn">
 
@@ -13,7 +18,7 @@
                 Home Page
             </a>
             <span>/</span>
-            <span>Dashboard</span>
+            <span>Manage Room</span>
         </h4>
 
         <form class="d-flex md-form justify-content-center my-0">
@@ -46,7 +51,7 @@
 <!-- Heading -->
 
 <!-- <app-start-card></app-start-card> -->
-<app-start-card2></app-start-card2>
+<!-- <app-start-card2></app-start-card2> -->
 
 <!-- Grid row -->
 <div class="row wow fadeIn mt-5 v-mB2">
@@ -71,11 +76,12 @@
             #dt
             [value]="listRoom"
             [rows]="10"
-            [paginator]="true"
+            [paginator]="false"
             [globalFilterFields]="['name']"
             [(selection)]="selectedProducts"
             [rowHover]="true"
             dataKey="id"
+            totalRecords={{totalRecord}}
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true"
         >
@@ -106,7 +112,7 @@
                         <p-sortIcon field="name"></p-sortIcon>
                     </th>
                     <th pSortableColumn="operator_id">
-                        Operator
+                        Area
                         <p-sortIcon field="operator_id"></p-sortIcon>
                     </th>
                     <th class="v-200px">Image</th>
@@ -127,17 +133,28 @@
             </ng-template>
             <ng-template
                 pTemplate="body"
-                ngFor let-product [ngForOf]="listRoom" let-i="index"
+                ngFor
+                let-product
+                [ngForOf]="listRoom"
+                let-i="index"
             >
                 <tr>
                     <td class="v-90px">{{findIndexById(product._id) + 1}}</td>
-                    <td>{{product.title}}</td>
-                    <td class="v-110px">{{product.user_id}}</td>
+                    <td>
+                        <span
+                            mdbTooltip={{product.title}}
+                            placement="top"
+                        >
+                            {{product.title}}
+                        </span>
+                    </td>
+                    <td class="v-110px">{{product.area}}</td>
                     <td>
                         <img
                             [src]="product.photo[0]?.img_url"
                             [alt]="product.photo[0]?.name"
                             width="100"
+                            height="100"
                             class="p-shadow-4"
                         >
                     </td>
@@ -173,570 +190,617 @@
                 </div>
             </ng-template>
         </p-table>
-    </div>
-
-    <!-- Room Details -->
-    <p-dialog
-        [(visible)]="productDialog"
-        [style]="{width: '550px'}"
-        header="Room Details"
-        [modal]="true"
-        styleClass="p-fluid"
-    >
-        <ng-template pTemplate="content">
-            <img
-                [src]="objNew.photo[0].img_url"
-                [alt]="objNew.photo[0].name"
-                class="product-image"
-                *ngIf="objNew.photo[0]"
+        <div style="position: relative;">
+            <p-paginator
+                rows="10"
+                (onPageChange)="loadData($event)"
+                [totalRecords]="totalRecord"
             >
-            <div class="p-field">
-                <label for="name">Title</label>
-                <input
-                    type="text"
-                    pInputText
-                    id="name"
-                    [(ngModel)]="objNew.title"
-                    required
-                    autofocus
-                >
-                <small
-                    class="p-invalid"
-                    *ngIf="submitted && !objNew.title"
-                >
-                    Title is required.
-                </small>
-            </div>
-            <div class="p-field v-mT1">
-                <label for="description">Description</label>
-                <textarea
-                    id="description"
-                    pInputTextarea
-                    [(ngModel)]="objNew.description"
-                    required
-                    rows="3"
-                    cols="20"
-                ></textarea>
-            </div>
+                <!-- [rowsPerPageOptions]="[10, 25]" -->
+            </p-paginator>
+        </div>
 
-            <div class="p-field v-mT1 v-flexRow">
-                <div>
-                    <div style="width: 100%;">
-                        <label for="time">Time Description</label>
+        <!-- Room Details -->
+        <p-dialog
+            [(visible)]="productDialog"
+            [style]="{width: '550px'}"
+            header="Room Details"
+            [modal]="true"
+            styleClass="p-fluid"
+        >
+            <ng-template pTemplate="content">
+                <img
+                    [src]="objNew.photo[0].img_url"
+                    [alt]="objNew.photo[0].name"
+                    class="product-image"
+                    *ngIf="objNew.photo[0]"
+                >
+                <div class="p-field">
+                    <label for="name">Title</label>
+                    <input
+                        type="text"
+                        pInputText
+                        id="name"
+                        [(ngModel)]="objNew.title"
+                        required
+                        autofocus
+                    >
+                    <small
+                        class="p-invalid"
+                        *ngIf="submitted && !objNew.title"
+                    >
+                        Title is required.
+                    </small>
+                </div>
+                <div class="p-field v-mT1">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        pInputTextarea
+                        [(ngModel)]="objNew.description"
+                        required
+                        rows="3"
+                        cols="20"
+                    ></textarea>
+                </div>
+
+                <div class="p-field v-mT1 v-flexRow">
+                    <div>
+                        <div style="width: 100%;">
+                            <label for="time">Time Description</label>
+                            <input
+                                pInputText
+                                id="area"
+                                [(ngModel)]="objNew.time_description"
+                            >
+                        </div>
+                    </div>
+                    <div>
+                        <label for="toilet">Toilet</label>
                         <input
                             pInputText
                             id="area"
-                            [(ngModel)]="objNew.time_description"
+                            [(ngModel)]="objNew.toilet"
                         >
                     </div>
                 </div>
-                <div>
-                    <label for="toilet">Toilet</label>
-                    <input
-                        pInputText
-                        id="area"
-                        [(ngModel)]="objNew.toilet"
-                    >
-                </div>
-            </div>
 
-            <div class="p-field v-mT1 v-flexRow">
-                <div>
-                    <label class="p-mb-3">Category</label>
-                    <div class="p-formgrid p-grid">
-                        <p-dropdown
-                            [options]="listCategory"
-                            [(ngModel)]="selectedCategory"
-                            placeholder="Select category"
-                            optionLabel="name"
-                            [showClear]="true"
-                            class="v-category"
-                            (onChange)="changeCategory()"
-                            required
-                        ></p-dropdown>
+                <div class="p-field v-mT1 v-flexRow">
+                    <div>
+                        <label class="p-mb-3">Category</label>
+                        <div class="p-formgrid p-grid">
+                            <p-dropdown
+                                [options]="listCategory"
+                                [(ngModel)]="selectedCategory"
+                                placeholder="Select category"
+                                optionLabel="name"
+                                [showClear]="true"
+                                class="v-category"
+                                (onChange)="changeCategory()"
+                                required
+                            ></p-dropdown>
+                            <small
+                                class="p-invalid"
+                                *ngIf="!selectedCategory"
+                            >
+                                Category is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="price">Area</label>
+                        <p-inputNumber
+                            id="area"
+                            [(ngModel)]="objNew.area"
+                            mode="decimal"
+                            locale="vi-VN"
+                            suffix=" m2"
+                        ></p-inputNumber>
                         <small
                             class="p-invalid"
-                            *ngIf="!selectedCategory"
+                            *ngIf="!objNew.area && submitted"
                         >
-                            Category is required.
+                            Area is required.
                         </small>
                     </div>
                 </div>
-                <div>
-                    <label for="price">Area</label>
-                    <p-inputNumber
-                        id="area"
-                        [(ngModel)]="objNew.area"
-                        mode="decimal"
-                        locale="vi-VN"
-                        suffix=" m2"
-                    ></p-inputNumber>
-                </div>
-            </div>
 
-            <div class="p-field v-mT1 v-address">
-                <label class="p-mb-3">Address</label>
-                <div class="p-formgrid p-grid">
-                    <p-dropdown
-                        [options]="listCity"
-                        [(ngModel)]="selectedCity"
-                        (onChange)="selectCity()"
-                        placeholder="Select a City"
-                        optionLabel="name"
-                        [showClear]="true"
-                        [filter]="true"
-                        class="v-city"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <div
-                                class="country-item country-item-value"
-                                *ngIf="selectedCity"
-                            >
-                                <div>{{selectedCity.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                    <p-dropdown
-                        [options]="listDistrict"
-                        [(ngModel)]="selectedDistrict"
-                        (onChange)="selectDistrict()"
-                        placeholder="Select a District"
-                        optionLabel="name"
-                        [showClear]="true"
-                        [filter]="true"
-                        class="v-city"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <div
-                                class="country-item country-item-value"
-                                *ngIf="selectedDistrict"
-                            >
-                                <div>{{selectedDistrict.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                    <p-dropdown
-                        [options]="listWard"
-                        [(ngModel)]="selectedWard"
-                        placeholder="Select a Ward"
-                        optionLabel="name"
-                        [showClear]="true"
-                        [filter]="true"
-                        class="v-city"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <div
-                                class="country-item country-item-value"
-                                *ngIf="selectedWard"
-                            >
-                                <div>{{selectedWard.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-            </div>
-
-            <div class="p-formgrid p-grid v-mT1">
-                <div class="p-field p-col">
-                    <label for="price">Price</label>
-                    <p-inputNumber
-                        id="price"
-                        [(ngModel)]="objNew.price"
-                        mode="currency"
-                        currency="VND"
-                        locale="vi-VN"
-                    ></p-inputNumber>
+                <div class="p-field v-mT1 v-address">
+                    <label class="p-mb-3">Address</label>
+                    <div class="p-formgrid p-grid">
+                        <p-dropdown
+                            [options]="listCity"
+                            [(ngModel)]="selectedCity"
+                            (onChange)="selectCity()"
+                            placeholder="Select a City"
+                            optionLabel="name"
+                            [showClear]="true"
+                            [filter]="true"
+                            class="v-city"
+                        >
+                            <ng-template pTemplate="selectedItem">
+                                <div
+                                    class="country-item country-item-value"
+                                    *ngIf="selectedCity"
+                                >
+                                    <div>{{selectedCity.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <small
+                            class="p-invalid"
+                            *ngIf="!selectedCity && submitted"
+                        >
+                            City is required.
+                        </small>
+                        <p-dropdown
+                            [options]="listDistrict"
+                            [(ngModel)]="selectedDistrict"
+                            (onChange)="selectDistrict()"
+                            placeholder="Select a District"
+                            optionLabel="name"
+                            [showClear]="true"
+                            [filter]="true"
+                            class="v-city"
+                        >
+                            <ng-template pTemplate="selectedItem">
+                                <div
+                                    class="country-item country-item-value"
+                                    *ngIf="selectedDistrict"
+                                >
+                                    <div>{{selectedDistrict.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <p-dropdown
+                            [options]="listWard"
+                            [(ngModel)]="selectedWard"
+                            placeholder="Select a Ward"
+                            optionLabel="name"
+                            (onChange)="selectWard()"
+                            [showClear]="true"
+                            [filter]="true"
+                            class="v-city"
+                        >
+                            <ng-template pTemplate="selectedItem">
+                                <div
+                                    class="country-item country-item-value"
+                                    *ngIf="selectedWard"
+                                >
+                                    <div>{{selectedWard.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
 
-                <div>
-                  <label class="p-mb-3">Status Room</label>
-                  <div class="p-formgrid p-grid">
-                      <p-dropdown
-                          [options]="statusRoom"
-                          [(ngModel)]="selectedStatus"
-                          placeholder="Select status"
-                          optionLabel="name"
-                          [showClear]="true"
-                          class="v-category"
-                          (onChange)="changeStatus()"
-                          required
-                      ></p-dropdown>
-                  </div>
-              </div>
+                <div class="p-formgrid p-grid v-mT1">
+                    <div class="p-field p-col">
+                        <label for="price">Price</label>
+                        <p-inputNumber
+                            id="price"
+                            [(ngModel)]="objNew.price"
+                            mode="currency"
+                            currency="VND"
+                            locale="vi-VN"
+                        ></p-inputNumber>
+                        <small
+                            class="p-invalid"
+                            *ngIf="!objNew.price && submitted"
+                        >
+                            Price is required.
+                        </small>
+                    </div>
 
-                <div class="v-mT1">
-                    <div
-                        *ngFor="let progressInfo of progressInfos"
-                        class="mb-2"
-                    >
-                        <span>{{ progressInfo.fileName }}</span>
-                        <div class="progress">
-                            <div
-                                class="progress-bar progress-bar-info progress-bar-striped"
-                                role="progressbar"
-                                attr.aria-valuenow="{{ progressInfo.value }}"
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                                [ngStyle]="{ width: progressInfo.value + '%' }"
+                    <div>
+                        <label class="p-mb-3">Status Room</label>
+                        <div class="p-formgrid p-grid">
+                            <p-dropdown
+                                [options]="statusRoom"
+                                [(ngModel)]="selectedStatus"
+                                placeholder="Select status"
+                                optionLabel="name"
+                                [showClear]="true"
+                                class="v-category"
+                                (onChange)="changeStatus()"
+                                required
+                            ></p-dropdown>
+                            <small
+                                class="p-invalid"
+                                *ngIf="!selectedStatus && submitted"
                             >
-                                {{ progressInfo.value }}%
-                            </div>
+                                Status is required.
+                            </small>
                         </div>
                     </div>
 
-                    <div class="v-flex">
-                        <label class="btn btn-default">
-                            <input
-                                type="file"
-                                multiple
-                                (change)="selectFiles($event)"
-                                accept="image/*"
-                                locale="us-US"
-                                [disabled]="fileInfos.length > 10"
-                                #imageEdit
-                            >
-                        </label>
-
-                        <button
-                            class="btn btn-success"
-                            [disabled]="!selectedFiles"
-                            (click)="uploadFiles()"
-                        >
-                            Upload
-                        </button>
+                    <div class="v-mT1">
                         <div
-                            class="alert alert-light"
-                            role="alert"
+                            *ngFor="let progressInfo of progressInfos"
+                            class="mb-2"
                         >
-                            {{ message }}
+                            <span>{{ progressInfo.fileName }}</span>
+                            <div class="progress">
+                                <div
+                                    class="progress-bar progress-bar-info progress-bar-striped"
+                                    role="progressbar"
+                                    attr.aria-valuenow="{{ progressInfo.value }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    [ngStyle]="{ width: progressInfo.value + '%' }"
+                                >
+                                    {{ progressInfo.value }}%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="v-flex">
+                            <label class="btn btn-default">
+                                <input
+                                    type="file"
+                                    multiple
+                                    (change)="selectFiles($event)"
+                                    accept="image/*"
+                                    locale="us-US"
+                                    [disabled]="fileInfos.length > 10"
+                                    #imageEdit
+                                >
+                            </label>
+
+                            <button
+                                class="btn btn-success"
+                                [disabled]="!selectedFiles"
+                                (click)="uploadFiles()"
+                            >
+                                Upload
+                            </button>
+                            <div
+                                class="alert alert-light"
+                                role="alert"
+                            >
+                                {{ message }}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">List of Files</div>
+                            <ul
+                                class="list-group list-group-flush"
+                                *ngFor="let file of fileInfos; let i = index;"
+                            >
+                                <li class="list-group-item">
+                                    <img
+                                        [src]="file.img_url"
+                                        [alt]="file.name"
+                                        width="100"
+                                        height="100"
+                                        class="p-shadow-4"
+                                    >
+                                    <a href="{{ file.url }}">{{ file.name }}</a>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warnnig"
+                                        (click)="deleteImage(i, file.name)"
+                                    ></button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">List of Files</div>
-                        <ul
-                            class="list-group list-group-flush"
-                            *ngFor="let file of fileInfos; let i = index;"
-                        >
-                            <li class="list-group-item">
-                              <img [src]="file.img_url"
-                              [alt]="file.name"
-                              width="100"
-                              class="p-shadow-4">
-                                <a href="{{ file.url }}">{{ file.name }}</a>
-                                <button
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-trash"
-                                    class="p-button-rounded p-button-warnnig"
-                                    (click)="deleteImage(i, file.name)"
-                                ></button>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
-            </div>
-        </ng-template>
+            </ng-template>
 
-        <ng-template pTemplate="footer">
-            <button
-                pButton
-                pRipple
-                label="Cancel"
-                icon="pi pi-times"
-                class="p-button-text"
-                (click)="hideDialog()"
-            ></button>
-            <button
-                pButton
-                pRipple
-                label="Save"
-                icon="pi pi-check"
-                class="p-button-text"
-                (click)="saveProduct(objNew)"
-            ></button>
-        </ng-template>
-    </p-dialog>
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Cancel"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    (click)="hideDialog()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Save"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    (click)="saveProduct(objNew)"
+                ></button>
+            </ng-template>
+        </p-dialog>
 
-    <!-- create new room -->
-    <p-dialog
-        [(visible)]="productDialogNew"
-        [style]="{width: '550px'}"
-        header="New Room"
-        [modal]="true"
-        styleClass="p-fluid"
-    >
-        <ng-template pTemplate="content">
-            <div class="p-field">
-                <label for="name">Title</label>
-                <input
-                    type="text"
-                    pInputText
-                    id="name"
-                    [(ngModel)]="objNew.title"
-                    required
-                    autofocus
-                >
-                <small
-                    class="p-invalid"
-                    *ngIf="submitted && !objNew.title"
-                >
-                    Title is required.
-                </small>
-            </div>
-            <div class="p-field v-mT1">
-                <label for="description">Description</label>
-                <textarea
-                    id="description"
-                    pInputTextarea
-                    autofocus
-                    [(ngModel)]="objNew.description"
-                    required
-                    rows="3"
-                    cols="20"
-                ></textarea>
-                <small
-                    class="p-invalid"
-                    *ngIf="submitted && !objNew.description"
-                >
-                    Description is required.
-                </small>
-            </div>
+        <!-- create new room -->
+        <p-dialog
+            [(visible)]="productDialogNew"
+            [style]="{width: '550px'}"
+            header="New Room"
+            [modal]="true"
+            styleClass="p-fluid"
+        >
+            <ng-template pTemplate="content">
+                <div class="p-field">
+                    <label for="name">Title</label>
+                    <input
+                        type="text"
+                        pInputText
+                        id="name"
+                        [(ngModel)]="objNew.title"
+                        required
+                        autofocus
+                    >
+                    <small
+                        class="p-invalid"
+                        *ngIf="submitted && !objNew.title"
+                    >
+                        Title is required.
+                    </small>
+                </div>
+                <div class="p-field v-mT1">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        pInputTextarea
+                        autofocus
+                        [(ngModel)]="objNew.description"
+                        required
+                        rows="3"
+                        cols="20"
+                    ></textarea>
+                    <small
+                        class="p-invalid"
+                        *ngIf="submitted && !objNew.description"
+                    >
+                        Description is required.
+                    </small>
+                </div>
 
-            <div class="p-field v-mT1 v-flexRow">
-                <div>
-                    <div style="width: 100%;">
-                        <label for="time">Time Description</label>
+                <div class="p-field v-mT1 v-flexRow">
+                    <div>
+                        <div style="width: 100%;">
+                            <label for="time">Time Description</label>
+                            <input
+                                pInputText
+                                id="time_description"
+                                [(ngModel)]="objNew.time_description"
+                            >
+                        </div>
+                    </div>
+                    <div>
+                        <label for="toilet">Toilet</label>
                         <input
                             pInputText
-                            id="time_description"
-                            [(ngModel)]="objNew.time_description"
+                            id="toilet"
+                            [(ngModel)]="objNew.toilet"
                         >
                     </div>
                 </div>
-                <div>
-                    <label for="toilet">Toilet</label>
-                    <input
-                        pInputText
-                        id="toilet"
-                        [(ngModel)]="objNew.toilet"
-                    >
-                </div>
-            </div>
 
-            <div class="p-field v-mT1 v-flexRow">
-                <div>
-                    <label class="p-mb-3">Category</label>
-                    <div class="p-formgrid p-grid">
-                        <p-dropdown
-                            [options]="listCategory"
-                            [(ngModel)]="selectedCategoryNew"
-                            placeholder="Select category"
-                            optionLabel="name"
-                            [showClear]="true"
-                            class="v-category"
-                            (onChange)="changeCategoryNew()"
-                            required
-                        ></p-dropdown>
+                <div class="p-field v-mT1 v-flexRow">
+                    <div>
+                        <label class="p-mb-3">Category</label>
+                        <div class="p-formgrid p-grid">
+                            <p-dropdown
+                                [options]="listCategory"
+                                [(ngModel)]="selectedCategoryNew"
+                                placeholder="Select category"
+                                optionLabel="name"
+                                [showClear]="true"
+                                class="v-category"
+                                (onChange)="changeCategoryNew()"
+                                required
+                            ></p-dropdown>
+                            <small
+                                class="p-invalid"
+                                *ngIf="!selectedCategoryNew && submitted"
+                            >
+                                Category is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="price">Area</label>
+                        <p-inputNumber
+                            id="area"
+                            [(ngModel)]="objNew.area"
+                            mode="decimal"
+                            locale="vi-VN"
+                            suffix=" m2"
+                        ></p-inputNumber>
                         <small
                             class="p-invalid"
-                            *ngIf="!selectedCategoryNew && submitted"
+                            *ngIf="!objNew.area && submitted"
                         >
-                            Category is required.
+                            Area is required.
                         </small>
                     </div>
                 </div>
-                <div>
-                    <label for="price">Area</label>
-                    <p-inputNumber
-                        id="area"
-                        [(ngModel)]="objNew.area"
-                        mode="decimal"
-                        locale="vi-VN"
-                        suffix=" m2"
-                    ></p-inputNumber>
-                    <small
-                        class="p-invalid"
-                        *ngIf="!objNew.area && submitted"
-                    >
-                        Area is required.
-                    </small>
-                </div>
-            </div>
 
-            <div class="p-field v-mT1 v-address">
-                <label class="p-mb-3">Address</label>
-                <div class="p-formgrid p-grid">
-                    <p-dropdown
-                        [options]="listCity"
-                        [(ngModel)]="selectedCityNew"
-                        (onChange)="selectCityNew()"
-                        placeholder="Select a City"
-                        optionLabel="name"
-                        [showClear]="true"
-                        [filter]="true"
-                        class="v-city"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <div
-                                class="country-item country-item-value"
-                                *ngIf="selectedCityNew"
-                            >
-                                <div>{{selectedCityNew.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                    <small
-                        class="p-invalid"
-                        *ngIf="!selectedCityNew && submitted"
-                    >
-                        City is required.
-                    </small>
-                    <p-dropdown
-                        [options]="listDistrict"
-                        [(ngModel)]="selectedDistrictNew"
-                        (onChange)="selectDistrictNew()"
-                        placeholder="Select a District"
-                        optionLabel="name"
-                        [showClear]="true"
-                        [filter]="true"
-                        class="v-city"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <div
-                                class="country-item country-item-value"
-                                *ngIf="selectedDistrictNew"
-                            >
-                                <div>{{selectedDistrictNew.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                    <p-dropdown
-                        [options]="listWard"
-                        [(ngModel)]="selectedWardNew"
-                        (onChange)="selectWardNew()"
-                        placeholder="Select a Ward"
-                        optionLabel="name"
-                        [showClear]="true"
-                        [filter]="true"
-                        class="v-city"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <div
-                                class="country-item country-item-value"
-                                *ngIf="selectedWardNew"
-                            >
-                                <div>{{selectedWardNew.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-            </div>
-
-            <div class="p-formgrid p-grid v-mT1">
-                <div class="p-field p-col">
-                    <label for="price">Price</label>
-                    <p-inputNumber
-                        id="price"
-                        [(ngModel)]="objNew.price"
-                        mode="currency"
-                        currency="VND"
-                        locale="vi-VN"
-                    ></p-inputNumber>
-                    <small
-                        class="p-invalid"
-                        *ngIf="!objNew.price && submitted"
-                    >
-                        Price is required.
-                    </small>
+                <div class="p-field v-mT1 v-address">
+                    <label class="p-mb-3">Address</label>
+                    <div class="p-formgrid p-grid">
+                        <p-dropdown
+                            [options]="listCity"
+                            [(ngModel)]="selectedCityNew"
+                            (onChange)="selectCityNew()"
+                            placeholder="Select a City"
+                            optionLabel="name"
+                            [showClear]="true"
+                            [filter]="true"
+                            class="v-city"
+                        >
+                            <ng-template pTemplate="selectedItem">
+                                <div
+                                    class="country-item country-item-value"
+                                    *ngIf="selectedCityNew"
+                                >
+                                    <div>{{selectedCityNew.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <small
+                            class="p-invalid"
+                            *ngIf="!selectedCityNew && submitted"
+                        >
+                            City is required.
+                        </small>
+                        <p-dropdown
+                            [options]="listDistrict"
+                            [(ngModel)]="selectedDistrictNew"
+                            (onChange)="selectDistrictNew()"
+                            placeholder="Select a District"
+                            optionLabel="name"
+                            [showClear]="true"
+                            [filter]="true"
+                            class="v-city"
+                        >
+                            <ng-template pTemplate="selectedItem">
+                                <div
+                                    class="country-item country-item-value"
+                                    *ngIf="selectedDistrictNew"
+                                >
+                                    <div>{{selectedDistrictNew.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <p-dropdown
+                            [options]="listWard"
+                            [(ngModel)]="selectedWardNew"
+                            (onChange)="selectWardNew()"
+                            placeholder="Select a Ward"
+                            optionLabel="name"
+                            [showClear]="true"
+                            [filter]="true"
+                            class="v-city"
+                        >
+                            <ng-template pTemplate="selectedItem">
+                                <div
+                                    class="country-item country-item-value"
+                                    *ngIf="selectedWardNew"
+                                >
+                                    <div>{{selectedWardNew.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
 
-                <div class="v-mT1">
-                    <div
-                        *ngFor="let progressInfo of progressInfos"
-                        class="mb-2"
-                    >
-                        <span>{{ progressInfo.fileName }}</span>
-                        <div class="progress">
-                            <div
-                                class="progress-bar progress-bar-info progress-bar-striped"
-                                role="progressbar"
-                                attr.aria-valuenow="{{ progressInfo.value }}"
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                                [ngStyle]="{ width: progressInfo.value + '%' }"
-                            >
-                                {{ progressInfo.value }}%
-                            </div>
-                        </div>
+                <div class="p-formgrid p-grid v-mT1">
+                    <div class="p-field p-col">
+                        <label for="price">Price</label>
+                        <p-inputNumber
+                            id="price"
+                            [(ngModel)]="objNew.price"
+                            mode="currency"
+                            currency="VND"
+                            locale="vi-VN"
+                        ></p-inputNumber>
+                        <small
+                            class="p-invalid"
+                            *ngIf="!objNew.price && submitted"
+                        >
+                            Price is required.
+                        </small>
                     </div>
 
-                    <div class="v-flex">
-                        <label class="btn btn-default">
-                            <input
-                                type="file"
-                                multiple
-                                (change)="selectFilesNew($event)"
-                                accept="image/*"
-                            >
-                        </label>
-
-                        <button
-                            class="btn btn-success"
-                            [disabled]="!selectedFilesNew"
-                            (click)="uploadFilesNew()"
-                        >
-                            Upload
-                        </button>
+                    <div class="v-mT1">
                         <div
-                            class="alert alert-light"
-                            role="alert"
+                            *ngFor="let progressInfo of progressInfosNew"
+                            class="mb-2"
                         >
-                            {{ message }}
+                            <span>{{ progressInfo.fileName }}</span>
+                            <div class="progress">
+                                <div
+                                    class="progress-bar progress-bar-info progress-bar-striped"
+                                    role="progressbar"
+                                    attr.aria-valuenow="{{ progressInfo.value }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    [ngStyle]="{ width: progressInfo.value + '%' }"
+                                >
+                                    {{ progressInfo.value }}%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="v-flex">
+                            <label class="btn btn-default">
+                                <input
+                                    type="file"
+                                    multiple
+                                    (change)="selectFilesNew($event)"
+                                    accept="image/*"
+                                    #imageEdit
+                                >
+                            </label>
+
+                            <button
+                                class="btn btn-success"
+                                [disabled]="!selectedFilesNew"
+                                (click)="uploadFilesNew()"
+                            >
+                                Upload
+                            </button>
+                            <div
+                                class="alert alert-light"
+                                role="alert"
+                            >
+                                {{ message }}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">List of Files</div>
+                            <ul
+                                class="list-group list-group-flush"
+                                *ngFor="let file of objNew.photo; let i = index;"
+                            >
+                                <li class="list-group-item">
+                                    <img
+                                        [src]="file.img_url"
+                                        [alt]="file.name"
+                                        width="100"
+                                        class="p-shadow-4"
+                                    >
+                                    <a href="{{ file.img_url }}">{{ file.name }}</a>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warnnig"
+                                        (click)="deleteImageNew(i, file)"
+                                    ></button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">List of Files</div>
-                        <ul
-                            class="list-group list-group-flush"
-                            *ngFor="let file of objNew.photo; let i = index;"
-                        >
-                            <li class="list-group-item">
-                                <a href="{{ file.img_url }}">{{ file.name }}</a>
-                                <button
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-trash"
-                                    class="p-button-rounded p-button-warnnig"
-                                    (click)="deleteImageNew(i, file)"
-                                ></button>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
-            </div>
-        </ng-template>
+            </ng-template>
 
-        <ng-template pTemplate="footer">
-            <button
-                pButton
-                pRipple
-                label="Cancel"
-                icon="pi pi-times"
-                class="p-button-text"
-                (click)="hideDialogNew()"
-            ></button>
-            <button
-                pButton
-                pRipple
-                label="Save"
-                icon="pi pi-check"
-                class="p-button-text"
-                (click)="saveProductNew()"
-            ></button>
-        </ng-template>
-    </p-dialog>
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Cancel"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    (click)="hideDialogNew()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Save"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    (click)="saveProductNew()"
+                ></button>
+            </ng-template>
+        </p-dialog>
 
-    <p-confirmDialog #info [style]="{width: '450px'}"></p-confirmDialog>
+        <p-confirmDialog
+            #info
+            [style]="{width: '450px'}"
+        ></p-confirmDialog>
 
+    </div>
+    <!-- Grid row -->
 </div>
-<!-- Grid row -->

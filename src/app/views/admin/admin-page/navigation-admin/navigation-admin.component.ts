@@ -24,13 +24,13 @@ export class NavigationAdminComponent implements OnInit {
   }
 
   choseDashboard() {
-    this.choseTag = 1;
-    this.chooseComponent.emit(1);
+    this.choseTag = 2;
+    this.chooseComponent.emit(2);
   }
 
   choseProfile() {
-    this.choseTag = 2;
-    this.chooseComponent.emit(2);
+    this.choseTag = 1;
+    this.chooseComponent.emit(1);
   }
 
   choseManager() {

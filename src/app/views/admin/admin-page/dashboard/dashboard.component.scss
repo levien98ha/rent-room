@@ -148,3 +148,17 @@ p-dialog label {
 :host ::ng-deep .v-category .p-dropdown  {
   height: 39.55px !important;
 }
+
+td img {
+  max-height: 100px !important;
+}
+
+td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+li img {
+  max-height: 50px !important;
+}

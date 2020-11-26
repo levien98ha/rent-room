@@ -57,6 +57,7 @@ import { ManageUserComponent } from './views/admin/admin-page/manage-user/manage
 import { OverlayComponent } from './common/overlay/overlay.component';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
+import {PaginatorModule} from 'primeng/paginator';
 import {
   AngularFireStorageModule,
   AngularFireStorageReference,
@@ -115,6 +116,7 @@ import {
     BrowserModule,
     BrowserAnimationsModule,
     DropdownModule,
+    PaginatorModule,
     AccordionModule,
     FormsModule,
     SliderModule,
