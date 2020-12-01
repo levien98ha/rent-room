@@ -1,0 +1,80 @@
+.product-badge.role-admin {
+  background: #ffcdd2;
+  color: #c63737;
+}
+
+.product-badge.role-user {
+  background: #c8e6c9;
+  color: #256029;
+}
+
+.product-badge.role-operator {
+  background: #FBC02D;
+  color: #503b05;
+}
+
+p-dialog {
+  font-size: 16px;
+}
+
+p-dialog label {
+  font-weight: bold;
+}
+
+.v-txt {
+  min-width: 120px;
+  text-overflow: ellipsis;
+}
+
+.v-90px {
+  width: 6% !important;
+}
+
+.v-110px {
+  width: 10% !important;
+}
+
+.v-120px {
+  width: 12% !important;
+}
+
+.v-135px {
+  width: 135px !important;
+}
+
+.v-150px {
+  width: 150px !important;
+}
+
+.v-200px {
+  width: 200px !important;
+}
+
+:host ::ng-deep .v-address .p-dropdown.p-component.p-dropdown-clearable {
+  margin-top: 10px !important;
+}
+
+:host ::ng-deep input.p-inputnumber-input.p-inputtext.p-component.p-filled {
+  text-align: right;
+}
+
+:host ::ng-deep .btn-default {
+  background-color: #FBC02D!important;
+}
+
+:host ::ng-deep .btn-success {
+  background-color: #b08bf8!important;
+}
+
+:host ::ng-deep .btn {
+  font-size: 14px;
+}
+
+:host ::ng-deep p-calendar span {
+  height: 36.22px !important;
+  width: 100%;
+}
+
+:host ::ng-deep p-calendar .p-button-icon.pi.pi-calendar {
+  height: 15px !important;
+}

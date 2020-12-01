@@ -120,6 +120,10 @@ p-dialog label {
     width: 80%;
   }
 }
+.v-txt {
+  min-width: 120px;
+  text-overflow: ellipsis;
+}
 
 .v-90px {
   width: 90px !important;

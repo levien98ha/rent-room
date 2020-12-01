@@ -107,26 +107,26 @@
                     >
                         Id
                     </th>
-                    <th pSortableColumn="name">
+                    <th pSortableColumn="title">
                         Title
-                        <p-sortIcon field="name"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="operator_id">
-                        Area
-                        <p-sortIcon field="operator_id"></p-sortIcon>
+                        <p-sortIcon field="title"></p-sortIcon>
                     </th>
                     <th class="v-200px">Image</th>
                     <th pSortableColumn="price">
                         Price
                         <p-sortIcon field="price"></p-sortIcon>
                     </th>
+                    <th pSortableColumn="area">
+                      Area
+                      <p-sortIcon field="area"></p-sortIcon>
+                   </th>
                     <th pSortableColumn="category">
                         Category
                         <p-sortIcon field="category"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="inventoryStatus">
+                    <th pSortableColumn="status">
                         Status
-                        <p-sortIcon field="inventoryStatus"></p-sortIcon>
+                        <p-sortIcon field="status"></p-sortIcon>
                     </th>
                     <th class="v-150px">Action</th>
                 </tr>
@@ -148,7 +148,7 @@
                             {{product.title}}
                         </span>
                     </td>
-                    <td class="v-110px">{{product.area}}</td>
+
                     <td>
                         <img
                             [src]="product.photo[0]?.img_url"
@@ -162,6 +162,7 @@
                         {{formatPrice(product.price)}}
                         <span *ngIf="product.price">VNĐ</span>
                     </td>
+                    <td class="v-110px">{{formatPrice(product.area)}}<span *ngIf="product.area">m2</span></td>
                     <td>{{product.category}}</td>
                     <td>
                         <span [class]="'product-badge status-' + product.status.toLowerCase()">{{product.status}}</span>

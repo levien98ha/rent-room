@@ -1,8 +1,22 @@
+<p-toast></p-toast>
+<div class="card">
+<p-toolbar styleClass="p-mb-4">
+  <ng-template pTemplate="left">
+      <button
+          pButton
+          pRipple
+          label="New"
+          icon="pi pi-plus"
+          class="p-button-success p-mr-2"
+          (click)="openNew()"
+      ></button>
+  </ng-template>
+</p-toolbar>
 <p-table
     #dt
-    [value]="users"
+    [value]="listUser"
     [rows]="10"
-    [paginator]="true"
+    [paginator]="false"
     [globalFilterFields]="['name','country.name','representative.name','status']"
     [(selection)]="selectedUsers"
     [rowHover]="true"
@@ -26,51 +40,76 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="id">Id</th>
-            <th pSortableColumn="first_name">
-                First Name
-                <p-sortIcon field="first_name"></p-sortIcon>
+            <th
+                pSortableColumn="id"
+                class="v-90px"
+            >
+                Id
             </th>
-            <th pSortableColumn="last_name">
-                Last Name
-                <p-sortIcon field="last_name"></p-sortIcon>
-            </th>
-            <th pSortableColumn="email">
+            <th
+                pSortableColumn="email"
+                class="v-txt"
+            >
                 Email
                 <p-sortIcon field="email"></p-sortIcon>
             </th>
-            <th pSortableColumn="role">
+            <th pSortableColumn="name">
+                Name
+                <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th class="v-90px">Gender</th>
+            <th class="v-120px">Birthday</th>
+            <th class="v-120px">Phonenumber</th>
+            <th pSortableColumn="address">
+                Address
+                <!-- <p-sortIcon></p-sortIcon> -->
+            </th>
+            <th
+                pSortableColumn="role"
+                class="v-110px"
+            >
                 Role
                 <p-sortIcon field="role"></p-sortIcon>
             </th>
-            <th>Action</th>
+            <th class="v-110px">Action</th>
         </tr>
     </ng-template>
     <ng-template
         pTemplate="body"
         ngFor
         let-user
-        [ngForOf]="users"
+        [ngForOf]="listUser"
         let-i="index"
     >
         <tr>
-            <td class="v-90px">{{findIndexById(user.id) + 1}}</td>
-            <td>{{user.first_name}}</td>
-            <td>{{user.last_name}}</td>
-            <td>{{user.email}}</td>
+            <td class="v-90px">{{findIndexById(user._id) + 1}}</td>
             <td>
                 <span
-                    [class]="'product-badge status-' + 'customer'"
-                    *ngIf="user.role===1"
+                    mdbTooltip={{user.email}}
+                    placement="top"
                 >
-                    Customer
+                    {{user.email}}
                 </span>
+            </td>
+            <td>
                 <span
-                    [class]="'product-badge status-' + 'operator'"
-                    *ngIf="user.role===0"
+                    mdbTooltip={{user.name}}
+                    placement="top"
                 >
-                    Operator
+                    {{user.name}}
                 </span>
+            </td>
+            <td class="v-90px">
+                <span *ngIf="user.gender === 1">Male</span>
+                <span *ngIf="user.gender === 0">Female</span>
+            </td>
+            <td>{{user.date_of_birth}}</td>
+            <td>{{user.phonenumber}}</td>
+            <td>
+                {{getAddress(user.city, user.district, user.ward)}}
+            </td>
+            <td>
+                <span [class]="'product-badge role-' + user.role.toLowerCase()">{{capitalizeFirstLetter(user.role)}}</span>
             </td>
             <td>
                 <button
@@ -92,7 +131,269 @@
     </ng-template>
     <ng-template pTemplate="summary">
         <div class="p-d-flex p-ai-center p-jc-between">
-            In total there are {{users ? users.length : 0 }} users.
+            In total there are {{totalRecord}} users.
         </div>
     </ng-template>
 </p-table>
+<div style="position: relative;">
+    <p-paginator
+        rows="10"
+        (onPageChange)="loadData($event)"
+        [totalRecords]="totalRecord"
+    >
+        <!-- [rowsPerPageOptions]="[10, 25]" -->
+    </p-paginator>
+</div>
+
+<!-- User Details -->
+<p-dialog
+    [(visible)]="userDialog"
+    [style]="{width: '550px'}"
+    header="Room Details"
+    [modal]="true"
+    styleClass="p-fluid"
+>
+    <ng-template pTemplate="content">
+        <img
+            [src]="objNew.imgUrl"
+            [alt]="objNew.name"
+            class="product-image"
+            *ngIf="objNew.imgUrl"
+        >
+        <div class="p-field">
+            <label for="email">Email</label>
+            <input
+                type="text"
+                pInputText
+                pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-zA-Z]{2,}$"
+                id="email"
+                [(ngModel)]="objNew.email"
+                required
+                autofocus
+                [disabled]="!isNew"
+            >
+            <small
+                class="p-invalid"
+                *ngIf="submitted && !objNew.email && isNew"
+            >
+                Title is required.
+            </small>
+        </div>
+        <div class="p-field v-mT1">
+            <label for="name">Name</label>
+            <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="objNew.name"
+                [required]="!isNew"
+                autofocus
+            >
+            <small
+                class="p-invalid"
+                *ngIf="submitted && !objNew.name && !isNew"
+            >
+                Title is required.
+            </small>
+        </div>
+
+        <div class="p-field v-mT1 v-flexRow">
+            <div>
+                <label class="p-mb-3">Gender</label>
+                <div class="p-formgrid p-grid">
+                    <div class="form-check form-check-inline">
+                        <input
+                            type="radio"
+                            class="form-check-input"
+                            id="materialInline1"
+                            name="inlineMaterialRadiosExample"
+                            mdbInput
+                            [checked]="objNew.gender === 1 ? true : false"
+                            (change)="selectMale($event)"
+                        >
+                        <label
+                            class="form-check-label v-font-18px"
+                            for="materialInline1"
+                        >
+                            Male
+                        </label>
+                    </div>
+
+                    <!-- Material inline 2 -->
+                    <div class="form-check form-check-inline">
+                        <input
+                            type="radio"
+                            class="form-check-input"
+                            id="materialInline2"
+                            name="inlineMaterialRadiosExample"
+                            mdbInput
+                            [checked]="objNew.gender === 0 ? true : false"
+                            (change)="selectFemale($event)"
+                        >
+                        <label
+                            class="form-check-label v-font-18px"
+                            for="materialInline2"
+                        >
+                            Female
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-field v-mT1 v-flexRow">
+          <div>
+            <label for="price">Date of birth</label>
+            <p-calendar
+              [(ngModel)]="objNew.date_of_birth"
+              [showIcon]="true"
+              inputId="icon"
+            >
+            </p-calendar>
+        </div>
+        </div>
+
+        <div class="p-field v-mT1 v-flexRow">
+          <div>
+            <label for="price">Phonenumber</label>
+            <input
+              id="phone"
+              type="phone"
+              aria-describedby="phone-help"
+              pInputText
+              [(ngModel)]="objNew.phonenumber"
+            >
+        </div>
+        </div>
+
+        <div class="p-field v-mT1 v-address">
+          <label class="p-mb-3">Role</label>
+          <div class="p-formgrid p-grid">
+            <p-dropdown
+                    [options]="listRole"
+                    [(ngModel)]="selectedRole"
+                    (onChange)="selectRole()"
+                    placeholder="Select a role"
+                    optionLabel="name"
+                    [showClear]="true"
+                    [filter]="true"
+                    class="v-city"
+                >
+                    <ng-template pTemplate="selectedItem">
+                        <div
+                            class="country-item country-item-value"
+                            *ngIf="selectedRole"
+                        >
+                            <div>{{selectedRole.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <small
+                    class="p-invalid"
+                    *ngIf="!selectedRole?.name && submitted"
+                >
+                    Role user is required.
+                </small>
+          </div>
+        </div>
+
+        <div class="p-field v-mT1 v-address">
+            <label class="p-mb-3">Address</label>
+            <div class="p-formgrid p-grid">
+                <p-dropdown
+                    [options]="listCity"
+                    [(ngModel)]="selectedCity"
+                    (onChange)="selectCity()"
+                    placeholder="Select a City"
+                    optionLabel="name"
+                    [showClear]="true"
+                    [filter]="true"
+                    class="v-city"
+                >
+                    <ng-template pTemplate="selectedItem">
+                        <div
+                            class="country-item country-item-value"
+                            *ngIf="selectedCity"
+                        >
+                            <div>{{selectedCity.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <small
+                    class="p-invalid"
+                    *ngIf="!selectedCity && submitted && !isNew"
+                >
+                    City is required && !isNew.
+                </small>
+                <p-dropdown
+                    [options]="listDistrict"
+                    [(ngModel)]="selectedDistrict"
+                    (onChange)="selectDistrict()"
+                    placeholder="Select a District"
+                    optionLabel="name"
+                    [showClear]="true"
+                    [filter]="true"
+                    class="v-city"
+                >
+                    <ng-template pTemplate="selectedItem">
+                        <div
+                            class="country-item country-item-value"
+                            *ngIf="selectedDistrict"
+                        >
+                            <div>{{selectedDistrict.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <p-dropdown
+                    [options]="listWard"
+                    [(ngModel)]="selectedWard"
+                    placeholder="Select a Ward"
+                    optionLabel="name"
+                    (onChange)="selectWard()"
+                    [showClear]="true"
+                    [filter]="true"
+                    class="v-city"
+                >
+                    <ng-template pTemplate="selectedItem">
+                        <div
+                            class="country-item country-item-value"
+                            *ngIf="selectedWard"
+                        >
+                            <div>{{selectedWard.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button
+            pButton
+            pRipple
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="hideDialog()"
+        ></button>
+        <button
+            *ngIf="!isNew"
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="saveUser()"
+        ></button>
+        <button
+            *ngIf="isNew"
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="createUser()"
+        ></button>
+    </ng-template>
+</p-dialog>
+</div>

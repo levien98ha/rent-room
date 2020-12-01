@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as dataAddress from '../../../../config/localtion/local.json';
-
+import { PathAPI } from 'src/app/common/path-api';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,11 +10,20 @@ export class ManageUserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers() {
-    return this.http.get<any>('assets/user.json')
-    .toPromise()
-    .then(res => <User[]>res.data)
-    .then(data => { return data; });
+  getListUsers(json) {
+    return this.http.get<any>(PathAPI.PATH_LIST_USER, json);
+  }
+
+  deleteUser(json) {
+    return this.http.post<any>(PathAPI.PATH_DELETE_USER, json);
+  }
+
+  updateUser(json) {
+    return this.http.post<any>(PathAPI.PATH_USER_PROFILE, json);
+  }
+
+  createUser(json) {
+    return this.http.post<any>(PathAPI.PATH_CREATE_USER_ADMIN, json);
   }
 
   getCity() {
@@ -40,13 +49,3 @@ export class ManageUserService {
   }
 }
 
-export interface User {
-  id?: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  city?: string;
-  district?: string;
-  ward?: string;
-  role?: number;
-}

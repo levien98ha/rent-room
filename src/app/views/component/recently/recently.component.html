@@ -10,6 +10,7 @@
             autoplayInterval=2000
             overflowCellsLimit=2
         >
+        <ng-container *ngFor="let item of listRecently">
             <div class="carousel-cell">
                 <!-- Card -->
                 <mdb-card>
@@ -19,8 +20,8 @@
                     >
                         <!-- Card img -->
                         <mdb-card-img
-                            src="../../../../assets/img/room3.jpg"
-                            alt="Card image cap"
+                            [src]="item.photo[0].img_url"
+                            alt="Imgae room"
                         ></mdb-card-img>
                         <a>
                             <div class="mask"></div>
@@ -31,15 +32,15 @@
                         <!-- Title -->
                         <mdb-card-title [routerLink]="['/room/1']">
                             <h4>
-                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
+                                {{item.title}}
                             </h4>
                         </mdb-card-title>
 
                         <!-- Text -->
-                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
-                        <p>{{address}}</p>
+                        <mdb-card-text>{{getPrice(item.price) + ' - ' + getArea(item.area)}}</mdb-card-text>
+                        <p>{{getAddress(item.city, item.district, item.ward)}}</p>
                         <div class="v-footer-card">
-                            <p>{{time}}</p>
+                            <p>{{item.date_time}}</p>
                             <i
                                 class="pi pi-star-o"
                                 style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
@@ -50,206 +51,7 @@
                 </mdb-card>
                 <!-- Card -->
             </div>
-            <div class="carousel-cell">
-                <!-- Card -->
-                <mdb-card>
-                    <div
-                        class="view rgba-white-slight waves-light"
-                        mdbWavesEffect
-                    >
-                        <!-- Card img -->
-                        <mdb-card-img
-                            src="../../../../assets/img/room3.jpg"
-                            alt="Card image cap"
-                        ></mdb-card-img>
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <!-- Card content -->
-                    <mdb-card-body>
-                        <!-- Title -->
-                        <mdb-card-title [routerLink]="['/room/1']">
-                            <h4>
-                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                            </h4>
-                        </mdb-card-title>
-
-                        <!-- Text -->
-                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
-                        <p>{{address}}</p>
-                        <div class="v-footer-card">
-                            <p>{{time}}</p>
-                            <i
-                                class="pi pi-star-o"
-                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                                (click)="addSingle()"
-                            ></i>
-                        </div>
-                    </mdb-card-body>
-                </mdb-card>
-                <!-- Card -->
-            </div>
-            <div class="carousel-cell">
-                <!-- Card -->
-                <mdb-card>
-                    <div
-                        class="view rgba-white-slight waves-light"
-                        mdbWavesEffect
-                    >
-                        <!-- Card img -->
-                        <mdb-card-img
-                            src="../../../../assets/img/room3.jpg"
-                            alt="Card image cap"
-                        ></mdb-card-img>
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <!-- Card content -->
-                    <mdb-card-body>
-                        <!-- Title -->
-                        <mdb-card-title [routerLink]="['/room/1']">
-                            <h4>
-                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                            </h4>
-                        </mdb-card-title>
-
-                        <!-- Text -->
-                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
-                        <p>{{address}}</p>
-                        <div class="v-footer-card">
-                            <p>{{time}}</p>
-                            <i
-                                class="pi pi-star-o"
-                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                                (click)="addSingle()"
-                            ></i>
-                        </div>
-                    </mdb-card-body>
-                </mdb-card>
-                <!-- Card -->
-            </div>
-            <div class="carousel-cell">
-                <!-- Card -->
-                <mdb-card>
-                    <div
-                        class="view rgba-white-slight waves-light"
-                        mdbWavesEffect
-                    >
-                        <!-- Card img -->
-                        <mdb-card-img
-                            src="../../../../assets/img/room3.jpg"
-                            alt="Card image cap"
-                        ></mdb-card-img>
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <!-- Card content -->
-                    <mdb-card-body>
-                        <!-- Title -->
-                        <mdb-card-title [routerLink]="['/room/1']">
-                            <h4>
-                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                            </h4>
-                        </mdb-card-title>
-
-                        <!-- Text -->
-                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
-                        <p>{{address}}</p>
-                        <div class="v-footer-card">
-                            <p>{{time}}</p>
-                            <i
-                                class="pi pi-star-o"
-                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                                (click)="addSingle()"
-                            ></i>
-                        </div>
-                    </mdb-card-body>
-                </mdb-card>
-                <!-- Card -->
-            </div>
-            <div class="carousel-cell">
-                <!-- Card -->
-                <mdb-card>
-                    <div
-                        class="view rgba-white-slight waves-light"
-                        mdbWavesEffect
-                    >
-                        <!-- Card img -->
-                        <mdb-card-img
-                            src="../../../../assets/img/room3.jpg"
-                            alt="Card image cap"
-                        ></mdb-card-img>
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <!-- Card content -->
-                    <mdb-card-body>
-                        <!-- Title -->
-                        <mdb-card-title [routerLink]="['/room/1']">
-                            <h4>
-                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                            </h4>
-                        </mdb-card-title>
-
-                        <!-- Text -->
-                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
-                        <p>{{address}}</p>
-                        <div class="v-footer-card">
-                            <p>{{time}}</p>
-                            <i
-                                class="pi pi-star-o"
-                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                                (click)="addSingle()"
-                            ></i>
-                        </div>
-                    </mdb-card-body>
-                </mdb-card>
-                <!-- Card -->
-            </div>
-            <div class="carousel-cell">
-                <!-- Card -->
-                <mdb-card>
-                    <div
-                        class="view rgba-white-slight waves-light"
-                        mdbWavesEffect
-                    >
-                        <!-- Card img -->
-                        <mdb-card-img
-                            src="../../../../assets/img/room3.jpg"
-                            alt="Card image cap"
-                        ></mdb-card-img>
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <!-- Card content -->
-                    <mdb-card-body>
-                        <!-- Title -->
-                        <mdb-card-title [routerLink]="['/room/1']">
-                            <h4>
-                                Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                            </h4>
-                        </mdb-card-title>
-
-                        <!-- Text -->
-                        <mdb-card-text>{{price + ' - ' + area}}</mdb-card-text>
-                        <p>{{address}}</p>
-                        <div class="v-footer-card">
-                            <p>{{time}}</p>
-                            <i
-                                class="pi pi-star-o"
-                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                                (click)="addSingle()"
-                            ></i>
-                        </div>
-                    </mdb-card-body>
-                </mdb-card>
-                <!-- Card -->
-            </div>
+          </ng-container>
         </carousel>
     </div>
 </div>

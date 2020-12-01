@@ -118,6 +118,10 @@ $primary: rgb(182, 157, 230);
   margin-top: 25px;
 }
 
+.v-mB-25px {
+  margin-bottom: 25px;
+}
+
 :host ::ng-deep p-calendar span {
   height: 36.22px !important;
   width: 100%;
@@ -211,8 +215,8 @@ button {
 }
 
 .v-title {
-  width: 30%;
-  min-width: 30%;
+  width: 35%;
+  min-width: 35%;
   margin-right: 10px;
   text-align: left !important;
 }
@@ -222,8 +226,8 @@ button {
 }
 
 .v-info {
-  width: calc(70% - 10px);
-  min-width: calc(70% - 10px);
+  width: calc(65% - 10px);
+  min-width: calc(65% - 10px);
   text-align: left !important;
 }
 

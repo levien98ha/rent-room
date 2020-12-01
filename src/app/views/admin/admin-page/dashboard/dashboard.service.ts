@@ -47,7 +47,7 @@ export class DashboardService {
   }
 
   deleteRoom(json) {
-    return this.http.post<any>(PathAPI.PATH_DELETE_ROOM, json);
+    return this.http.post<any>(PathAPI.PATH_CREATE_USER_ADMIN, json);
   }
 }
 

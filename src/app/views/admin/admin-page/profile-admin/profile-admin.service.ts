@@ -43,4 +43,5 @@ export class ProfileAdminService {
   changePass(json) {
     return this.http.put<any>(PathAPI.PATH_CHANGE_PASS, json);
   }
+
 }

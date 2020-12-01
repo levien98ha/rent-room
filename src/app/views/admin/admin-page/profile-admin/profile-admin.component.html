@@ -188,7 +188,7 @@
 
                 </div>
             </div>
-            <div class="card v-mT-25px">
+            <div class="card v-mT-25px v-mB-25px">
                 <div class="card-header">
                     <h5 class="title">
                         <b>Change Password</b>
@@ -290,12 +290,20 @@
                         </div>
                         <div class="v-name">
                             <h4 class="title">{{profile.name}}</h4>
-                            <p class="description">
+                            <!-- <p class="description">
                                 <b>Email for Login:</b>
                                 {{profile.email}}
-                            </p>
+                            </p> -->
                             <div class="description text-center v-mT1 v-txtL">
                               <div class="v-flex">
+                                <div class="v-title">
+                                  <b>Email for Login:</b>
+                                </div>
+                                <div class="v-info">
+                                  {{profile.email}}
+                                </div>
+                              </div>
+                              <div class="v-flex v-mT05">
                                 <div class="v-title">
                                   <b>Gender:</b>
                                 </div>

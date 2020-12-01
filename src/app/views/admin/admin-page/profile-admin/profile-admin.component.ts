@@ -77,7 +77,7 @@ export class ProfileAdminComponent implements OnInit {
   async getProfile() {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
     const user = {
-      user_id: this.userId
+      _id: this.userId
     };
     await this.profileAdminService.getProfileUser(user).subscribe(async (res: any) => {
       this.profile = await res.user;

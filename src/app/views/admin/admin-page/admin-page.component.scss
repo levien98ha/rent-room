@@ -15,5 +15,7 @@ main {
 
 :host ::ng-deep body {
   background-color: #eeeeee;
+  min-width: 1200px;
+  overflow: auto;
 }
 

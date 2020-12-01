@@ -9,6 +9,8 @@ export class PathAPI {
   public static PATH_LIST_USER = PathAPI.ApplicationProperties.concat('users/list');
   public static PATH_USER_PROFILE = PathAPI.ApplicationProperties.concat('users/profile');
   public static PATH_CHANGE_PASS = PathAPI.ApplicationProperties.concat('users/password');
+  public static PATH_DELETE_USER = PathAPI.ApplicationProperties.concat('user/delete');
+  public static PATH_CREATE_USER_ADMIN = PathAPI.ApplicationProperties.concat('admin/users');
 
   // ROOM
   public static PATH_ROOM = PathAPI.ApplicationProperties.concat('room');
