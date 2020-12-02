@@ -107,7 +107,15 @@ export class LoginComponent implements OnInit {
           this.overlayService.close();
         }
       }, (err) => {
+        this.overlayService.close();
+        this.confirmationService.confirm({
+          rejectVisible: false,
+          acceptLabel: 'OK',
+          message: this.mess.getMessage('MSE00074'),
+          accept: () => {
 
+          }
+        });
       });
     }
   }

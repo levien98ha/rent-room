@@ -12,6 +12,7 @@
         <i class="pi pi-angle-up"></i>
     </button>
 
+
     <div class="v-list-room">
         <div class="v-title-header">
             <div class="v-properties-title">Rental Properties</div>
@@ -24,339 +25,64 @@
                 [showClear]="true"
             ></p-dropdown>
         </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room2.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
+        <ng-container *ngFor="let item of listRoom">
+            <div class="v-item">
+                <div
+                    class="v-hover-opacity"
+                    [routerLink]="['/room', item._id]"
+                ></div>
+                <div class="v-price">
+                  {{formatPrice(item.price)}}
+                  <span *ngIf="item.price">VNĐ</span>
                 </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
+                <div class="v-img">
+                    <img [src]="item.photo[0]?.img_url">
+                </div>
+                <div class="v-description">
+                    <div class="v-title">
+                        {{item.title}}
                     </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
+                    <div class="v-info">
+                        <div class="v-area">
+                            <mdb-icon
+                                fas
+                                icon="expand"
+                            ></mdb-icon>
+                            {{formatPrice(item.area)}}
+                  <span *ngIf="item.area">m2</span>
+                        </div>
+                        <div class="v-dot">·</div>
+                        <div class="v-address">
+                            <mdb-icon
+                                fas
+                                icon="map-marker-alt"
+                            ></mdb-icon>
+                            {{getAddress(item.ward, item.district, item.city)}}
+                        </div>
                     </div>
-                </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
-            </div>
-        </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room5.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
-                </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
+                    <div class="v-des-text">
+                        {{item.description}}
                     </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
+                    <div class="v-item-footer">
+                        <div class="v-time">Date: {{item.date_time}}</div>
+                        <i
+                            class="pi pi-star-o"
+                            mdbTooltip="Marks Room"
+                            placement="top"
+                            (click)="addSingle()"
+                            style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
+                        ></i>
                     </div>
                 </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
             </div>
-        </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room1.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
-                </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
-                    </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
-                    </div>
-                </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
-            </div>
-        </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room3.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
-                </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
-                    </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
-                    </div>
-                </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
-            </div>
-        </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room4.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
-                </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
-                    </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
-                    </div>
-                </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
-            </div>
-        </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room5.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
-                </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
-                    </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
-                    </div>
-                </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
-            </div>
-        </div>
-        <div class="v-item">
-            <div
-                class="v-hover-opacity"
-                [routerLink]="['/room/1']"
-            ></div>
-            <div class="v-price">1,500,000 VNĐ</div>
-            <div class="v-img">
-                <img src="../../../assets/img/room2.jpg">
-            </div>
-            <div class="v-description">
-                <div class="v-title">
-                    CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
-                </div>
-                <div class="v-info">
-                    <div class="v-area">
-                        <mdb-icon
-                            fas
-                            icon="expand"
-                        ></mdb-icon>
-                        65 m2
-                    </div>
-                    <div class="v-dot">·</div>
-                    <div class="v-address">
-                        <mdb-icon
-                            fas
-                            icon="map-marker-alt"
-                        ></mdb-icon>
-                        Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
-                    </div>
-                </div>
-                <div class="v-des-text">
-                    Căn hộ chung cư ngay trung tâm Thủ Dầu Một cho thuê 8 - 10tr/ tháng 2PN (60 - 80m2), 3 PN (104m2) thiết kế sân phơi và ban công riêng biệt sạch sẽ, thoáng mát giảm giá tới 10% trong tháng 11 này.
-Tiện ích sinh hoạt đầy đủ: 3 tầng shophouse có siêu thị, cửa hàng tiện lợi, trung tâm mua sắm. Bên cạnh phòng sinh hoạt cộng đồng, nhà trẻ 24/24, phòng tập gym, hồ bơi tràn bờ ngay tầng 3, vườn nướng BBQ và công viên cây xanh rộng rãi.
-Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường ĐH Bình Dương, bênh viện 512 và 1.500 giường, dễ dàng di chuyển về TP Mới, Thuận An và các Khu công nghiệp lân cần.
-                </div>
-                <div class="v-item-footer">
-                    <div class="v-time">Date: 2020/11/11</div>
-                    <i
-                        class="pi pi-star-o"
-                        mdbTooltip="Marks Room"
-                        placement="top"
-                        (click)="addSingle()"
-                        style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                    ></i>
-                </div>
-            </div>
-        </div>
+        </ng-container>
+
+
+
         <app-pagination
-            [totalRecord]="100"
+            [totalRecord]="totalRecord"
             [currentPage]="currentPage"
-            [totalPage]="10"
+            [totalPage]="totalPage"
             (currentPageChange)="selectPage($event)"
         ></app-pagination>
     </div>
@@ -390,5 +116,6 @@ Giao thông thuận tiện: Siêu thị BigC, chợ TDM, chùa Bà, trường Đ
         </div>
     </div>
 </div>
+
 
 <app-footer></app-footer>

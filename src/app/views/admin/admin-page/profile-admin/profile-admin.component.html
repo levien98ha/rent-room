@@ -95,9 +95,14 @@
                             <label for="icon">Date of birth:</label>
                             <p-calendar
                                 [(ngModel)]="profile.date_of_birth"
+                                [placeholder]="'dd/MM/yyyy'"
                                 [showIcon]="true"
                                 inputId="icon"
-                            ></p-calendar>
+                                dateFormat="dd/mm/yy"
+                                (onSelect)="onChangeTime($event)"
+                            >
+                            {{profile.date_of_birth}}
+                          </p-calendar>
                         </div>
                         <div class="v-w62-custom">
                             <label for="icon">Address:</label>

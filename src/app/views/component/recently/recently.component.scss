@@ -14,7 +14,7 @@
     color: #333F48;
   }
   carousel {
-    height: 450px !important;
+    height: 460px !important;
     z-index: 1 !important;
     .carousel-cell {
       width: 25%;
@@ -59,4 +59,15 @@ mdb-card-title {
   height: 270px !important;
   width: 100%;
   object-fit: cover !important;
+}
+
+p {
+  max-height: 21px;
+  min-height: 21px;
+  max-width: 100%;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

@@ -4,54 +4,58 @@
     <div class>
         <carousel
             autoplay="true"
-            height="400"
+            height="410"
             cellsToShow="4"
             loop="true"
             autoplayInterval=2000
             overflowCellsLimit=2
         >
-        <ng-container *ngFor="let item of listRecently">
-            <div class="carousel-cell">
-                <!-- Card -->
-                <mdb-card>
-                    <div
-                        class="view rgba-white-slight waves-light"
-                        mdbWavesEffect
-                    >
-                        <!-- Card img -->
-                        <mdb-card-img
-                            [src]="item.photo[0].img_url"
-                            alt="Imgae room"
-                        ></mdb-card-img>
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                    <!-- Card content -->
-                    <mdb-card-body>
-                        <!-- Title -->
-                        <mdb-card-title [routerLink]="['/room/1']">
-                            <h4>
-                                {{item.title}}
-                            </h4>
-                        </mdb-card-title>
-
-                        <!-- Text -->
-                        <mdb-card-text>{{getPrice(item.price) + ' - ' + getArea(item.area)}}</mdb-card-text>
-                        <p>{{getAddress(item.city, item.district, item.ward)}}</p>
-                        <div class="v-footer-card">
-                            <p>{{item.date_time}}</p>
-                            <i
-                                class="pi pi-star-o"
-                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                                (click)="addSingle()"
-                            ></i>
+            <ng-container *ngFor="let item of listRecently">
+                <div class="carousel-cell">
+                    <!-- Card -->
+                    <mdb-card>
+                        <div
+                            class="view rgba-white-slight waves-light"
+                            mdbWavesEffect
+                        >
+                            <!-- Card img -->
+                            <mdb-card-img
+                                [routerLink]="['room', item._id]"
+                                [src]="item.photo[0].img_url"
+                                alt="Imgae room"
+                            ></mdb-card-img>
+                            <a>
+                                <div class="mask"></div>
+                            </a>
                         </div>
-                    </mdb-card-body>
-                </mdb-card>
-                <!-- Card -->
-            </div>
-          </ng-container>
+                        <!-- Card content -->
+                        <mdb-card-body>
+                            <!-- Title -->
+                            <mdb-card-title [routerLink]="['room', item._id]">
+                                <h4>{{item.title}}</h4>
+                            </mdb-card-title>
+
+
+                            <!-- Text -->
+                            <mdb-card-text>
+                                {{getPrice(item.price) + ' - ' + getArea(item.area)}}
+                            </mdb-card-text>
+                            <p>
+                                {{getAddress(item.city, item.district, item.ward)}}
+                            </p>
+                            <div class="v-footer-card">
+                                <p>{{item.date_time}}</p>
+                                <i
+                                    class="pi pi-star-o"
+                                    style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                                    (click)="addSingle()"
+                                ></i>
+                            </div>
+                        </mdb-card-body>
+                    </mdb-card>
+                    <!-- Card -->
+                </div>
+            </ng-container>
         </carousel>
     </div>
 </div>

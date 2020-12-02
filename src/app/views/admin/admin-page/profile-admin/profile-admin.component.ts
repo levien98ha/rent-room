@@ -267,7 +267,7 @@ export class ProfileAdminComponent implements OnInit {
         });
       });
     }
-    this.profile.city = this.selectedCity.name;
+    this.profile.city = this.selectedCity?.name;
   }
 
   selectDistrict() {
@@ -282,12 +282,12 @@ export class ProfileAdminComponent implements OnInit {
           this.listWard.push(ward);
         });
       });
-      this.profile.district = this.selectedDistrict.name;
+      this.profile.district = this.selectedDistrict?.name;
     }
   }
 
   selectWard() {
-    this.profile.ward = this.selectedWard.name;
+    this.profile.ward = this.selectedWard?.name;
   }
 
   // get city
@@ -299,5 +299,13 @@ export class ProfileAdminComponent implements OnInit {
       city.name = item.name;
       this.listCity.push(city);
     });
+  }
+
+  onChangeTime(event:any) {
+    const date = new Date(event);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day  = ('0' + date.getDate()).slice(-2);
+    const year  = ('0' + date.getFullYear()).slice(-4);
+    this.profile.date_of_birth = (day + '/' + month + '/' + year);
   }
 }

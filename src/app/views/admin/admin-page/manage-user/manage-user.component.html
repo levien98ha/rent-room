@@ -106,7 +106,7 @@
             <td>{{user.date_of_birth}}</td>
             <td>{{user.phonenumber}}</td>
             <td>
-                {{getAddress(user.city, user.district, user.ward)}}
+                {{getAddress(user.ward, user.district, user.city)}}
             </td>
             <td>
                 <span [class]="'product-badge role-' + user.role.toLowerCase()">{{capitalizeFirstLetter(user.role)}}</span>
@@ -246,8 +246,11 @@
             <label for="price">Date of birth</label>
             <p-calendar
               [(ngModel)]="objNew.date_of_birth"
+              [placeholder]="'dd/MM/yyyy'"
               [showIcon]="true"
               inputId="icon"
+              dateFormat="dd/mm/yy"
+              (onSelect)="onChangeTime($event)"
             >
             </p-calendar>
         </div>
