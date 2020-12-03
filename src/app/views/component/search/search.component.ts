@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { SearchService } from './search.service';
 import { Utilities } from '../../../common/utilites';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+
+  @Output() newClickEvent = new EventEmitter<boolean>();
 
   listCity = [];
   listDistrict = [];
@@ -114,6 +117,7 @@ export class SearchComponent implements OnInit {
                                                       minArea: this.area[0], maxArea: this.area[1],
                                                       city: this.selectedCity?.name ? this.selectedCity.name : '',
                                                       district: this.selectedDistrict?.name ? this.selectedDistrict.name : '',
-                                                      ward: this.selectedWard?.name ? this.selectedWard.name : '' } });
+                                                      ward: this.selectedWard?.name ? this.selectedWard.name : '' }});
+    this.newClickEvent.emit(true);
   }
 }

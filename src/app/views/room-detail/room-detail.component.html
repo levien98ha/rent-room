@@ -31,7 +31,7 @@
                 >
                     <img
                         [src]="item.img_url"
-                        [ngStyle]="{'width': !fullscreen ? '100%' : '50%', 'height': !fullscreen ? '500px' : '', 'display': !fullscreen ? 'block' : ''}"
+                        [ngStyle]="{'width': !fullscreen ? '100%' : '50%', 'height': !fullscreen ? '500px' : '', 'display': !fullscreen ? 'block' : '', 'object-fit': 'cover'}"
                     >
                 </ng-template>
                 <ng-template
@@ -63,7 +63,9 @@
                             *ngIf="room.photo"
                             class="title-container"
                         >
-                            <span>{{activeIndex + 1}}/{{room.photo.length}}</span>
+                            <span>
+                                {{activeIndex + 1}}/{{room.photo.length}}
+                            </span>
                             <span class="title">{{'image ' + activeIndex+1}}</span>
                             <!-- <span>{{'image ' + activeIndex+1}}</span> -->
                         </span>
@@ -85,9 +87,7 @@
             </p-galleria>
         </div>
         <div class="v-detail">
-            <div class="v-title">
-                {{room?.title}}
-            </div>
+            <div class="v-title">{{room?.title}}</div>
             <div class="v-address">
                 {{getAddress(room?.ward, room?.district, room?.city)}}
             </div>
@@ -98,16 +98,16 @@
                     <!-- <div class="v-price-title">Price room:</div> -->
                     <div class="v-price-number">{{formatPrice(room?.price)}} / month</div>
                 </div>
-                <!-- <div class="v-price">
-                    <div class="v-price-title">Price electric:</div>
-                    <div class="v-price-number">{{room.electric}} / month</div>
-                </div>
-                <div class="v-price">
-                    <div class="v-price-title">Price water:</div>
-                    <div class="v-price-number">{{room.water}} / month</div>
-                </div> -->
             </div>
             <div class="v-social">
+              <span class="material-icons v-rent-now"
+                mdbTooltip="Rent now"
+                placement="top"
+                (click)="newRequest()"
+                *ngIf="checkRequest === true"
+              >
+                add_box
+                </span>
                 <div class="v-share">
                     <div class="c-share">
                         <input
@@ -121,6 +121,7 @@
                         >
                             <span class="c-share__icon"></span>
                         </label>
+
 
                         <ul
                             class="c-share_options"
@@ -177,18 +178,18 @@
                 : {{formatPrice(room?.area)}}{{room?.area? 'm2' : ''}}
             </div>
             <div
-            class="v-area-icon"
-            mdbTooltip="Area"
-            placement="top"
-        >
-        <i class="fas fa-toilet"></i>
-            : {{room?.toilet}}
-        </div>
+                class="v-area-icon"
+                mdbTooltip="Area"
+                placement="top"
+            >
+                <i class="fas fa-toilet"></i>
+                : {{room?.toilet}}
+            </div>
         </div>
         <div class="v-description">
             <div class="v-description-title">Description:</div>
             <div class="v-description-text">
-              <pre>{{room?.description}}
+                <pre>{{room?.description}}
               </pre>
             </div>
         </div>
@@ -203,88 +204,59 @@
             </div>
             <div class="v-profile">
                 <div class="v-name">{{profile?.name}}</div>
-                <mdb-badge class="v-phone"><a [href]="'tel:+84'+profile?.phonenumber">{{profile?.phonenumber}}</a></mdb-badge>
+                <mdb-badge class="v-phone">
+                    <a [href]="'tel:+84'+profile?.phonenumber">{{profile?.phonenumber}}</a>
+                </mdb-badge>
                 <mdb-badge class="v-mail">Send mail</mdb-badge>
             </div>
         </div>
         <div class="v-room-suggest">
             <div class="v-suggest-title">More Room</div>
-            <!-- Card -->
-            <mdb-card>
-                <div
-                    class="view rgba-white-slight waves-light"
-                    mdbWavesEffect
-                >
-                    <!-- Card img -->
-                    <mdb-card-img
-                        src="../../../../assets/img/room3.jpg"
-                        alt="Card image cap"
-                    ></mdb-card-img>
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-                <!-- Card content -->
-                <mdb-card-body>
-                    <!-- Title -->
-                    <mdb-card-title>
-                        <h4>
-                            Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                        </h4>
-                    </mdb-card-title>
-
-                    <!-- Text -->
-                    <mdb-card-text>{{formatPrice(room?.price) + ' - ' + '25m2'}}</mdb-card-text>
-                    <p>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</p>
-                    <div class="v-footer-card">
-                        <p>2020/10/10</p>
-                        <i
-                            class="pi pi-star-o"
-                            style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                        ></i>
+            <ng-container *ngFor="let item of roomClone" >
+                <!-- Card -->
+                <mdb-card [routerLink]="['/room', item._id]">
+                    <div
+                        class="view rgba-white-slight waves-light"
+                        mdbWavesEffect
+                        [routerLink]="['/room', item._id]"
+                    >
+                        <!-- Card img -->
+                        <mdb-card-img
+                            [src]="item.photo[0].img_url"
+                            alt="Card image cap"
+                        ></mdb-card-img>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
                     </div>
-                </mdb-card-body>
-            </mdb-card>
-            <!-- Card -->
+                    <!-- Card content -->
+                    <mdb-card-body>
+                        <!-- Title -->
+                        <mdb-card-title>
+                            <h4 [routerLink]="['/room', item._id]">
+                                {{item?.title}}
+                            </h4>
+                        </mdb-card-title>
 
-            <!-- Card -->
-            <mdb-card>
-                <div
-                    class="view rgba-white-slight waves-light"
-                    mdbWavesEffect
-                >
-                    <!-- Card img -->
-                    <mdb-card-img
-                        src="../../../../assets/img/room3.jpg"
-                        alt="Card image cap"
-                    ></mdb-card-img>
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-                <!-- Card content -->
-                <mdb-card-body>
-                    <!-- Title -->
-                    <mdb-card-title>
-                        <h4>
-                            Cho thuê phòng trọ Nguyễn Lương Bằng, Liên Chiểuaaaaa aaaaaaaaaaaaaaaaaaaaaaaa
-                        </h4>
-                    </mdb-card-title>
 
-                    <!-- Text -->
-                    <mdb-card-text>{{formatPrice(room?.price) + ' - ' + '25m2'}}</mdb-card-text>
-                    <p>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</p>
-                    <div class="v-footer-card">
-                        <p>2020/10/10</p>
-                        <i
-                            class="pi pi-star-o"
-                            style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
-                        ></i>
-                    </div>
-                </mdb-card-body>
-            </mdb-card>
-            <!-- Card -->
+                        <!-- Text -->
+                        <mdb-card-text>
+                            {{formatPrice(item?.price) + ' - ' + '25m2'}}
+                        </mdb-card-text>
+                        <p> {{getAddress(item?.ward, item?.district, item?.city)}}</p>
+                        <div class="v-footer-card">
+                            <p>{{item?.date_time}}</p>
+                            <i
+                                class="pi pi-star-o"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                            ></i>
+                        </div>
+                    </mdb-card-body>
+                </mdb-card>
+                <!-- Card -->
+            </ng-container>
         </div>
     </div>
 </div>
+<p-toast position="bottom-left"></p-toast>
 <app-footer></app-footer>

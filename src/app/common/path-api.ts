@@ -11,6 +11,7 @@ export class PathAPI {
   public static PATH_CHANGE_PASS = PathAPI.ApplicationProperties.concat('users/password');
   public static PATH_DELETE_USER = PathAPI.ApplicationProperties.concat('user/delete');
   public static PATH_CREATE_USER_ADMIN = PathAPI.ApplicationProperties.concat('admin/users');
+  public static PATH_LIST_USER_REQUEST = PathAPI.ApplicationProperties.concat('users/request');
 
   // ROOM
   public static PATH_ROOM = PathAPI.ApplicationProperties.concat('room');

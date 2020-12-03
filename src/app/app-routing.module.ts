@@ -10,23 +10,20 @@ import { AuthGuard } from './common/auth/auth.guard';
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [AuthGuard]
+    component: LoginComponent
   },
   {
     path: 'room',
     component: ListRoomComponent,
-    canActivate: [AuthGuard]
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'room/:id',
-    component: RoomDetailComponent,
-    canActivate: [AuthGuard]
+    component: RoomDetailComponent
   },
   {
     path: '',
-    component: HomePageComponent,
-    canActivate: [AuthGuard]
+    component: HomePageComponent
   },
   {
     path: 'manage',
@@ -36,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,6 +1,143 @@
 <p-toast position="bottom-left"></p-toast>
-<app-header></app-header>
-<app-slide-show></app-slide-show>
+<app-header (clickSearchHeader)="getListRoom()"></app-header>
+<mdb-carousel [animation]="'slide'" class="v-header">
+  <mdb-carousel-item>
+    <img class="d-block w-10" src="../../../assets/img/room1.jpg" alt="First slide">
+  </mdb-carousel-item>
+  <mdb-carousel-item>
+    <img class="d-block w-100" src="../../../assets/img/room4.jpg" alt="Second slide">
+  </mdb-carousel-item>
+  <mdb-carousel-item>
+    <img class="d-block w-100" src="../../../assets/img/room5.jpg" alt="Third slide">
+  </mdb-carousel-item>
+  <div class="search">
+    <div class="v-container">
+      <div class="v-left">
+          <h4>Search properties for rent:</h4>
+          <div class="v-address">
+              <p-dropdown
+                  [options]="listCity"
+                  [(ngModel)]="selectedCity"
+                  (onChange)="selectCity()"
+                  placeholder="Select a City"
+                  optionLabel="name"
+                  [showClear]="true"
+                  [filter]="true"
+                  class="v-city"
+              >
+                  <ng-template pTemplate="selectedItem">
+                      <div
+                          class="country-item country-item-value"
+                          *ngIf="selectedCity"
+                      >
+                          <div>{{selectedCity.name}}</div>
+                      </div>
+                  </ng-template>
+              </p-dropdown>
+              <p-dropdown
+                  [options]="listDistrict"
+                  [(ngModel)]="selectedDistrict"
+                  (onChange)="selectDistrict()"
+                  placeholder="Select a District"
+                  optionLabel="name"
+                  [showClear]="true"
+                  [filter]="true"
+                  class="v-city"
+              >
+                  <ng-template pTemplate="selectedItem">
+                      <div
+                          class="country-item country-item-value"
+                          *ngIf="selectedDistrict"
+                      >
+                          <div>{{selectedDistrict.name}}</div>
+                      </div>
+                  </ng-template>
+              </p-dropdown>
+              <p-dropdown
+                  [options]="listWard"
+                  [(ngModel)]="selectedWard"
+                  placeholder="Select a Ward"
+                  optionLabel="name"
+                  [showClear]="true"
+                  (onChange)="selectWard()"
+                  [filter]="true"
+                  class="v-city"
+              >
+                  <ng-template pTemplate="selectedItem">
+                      <div
+                          class="country-item country-item-value"
+                          *ngIf="selectedWard"
+                      >
+                          <div>{{selectedWard.name}}</div>
+                      </div>
+                  </ng-template>
+              </p-dropdown>
+              <p-dropdown
+                  [options]="listCategory"
+                  [(ngModel)]="selectedCategory"
+                  placeholder="Select category"
+                  (onChange)="selectCategory()"
+                  optionLabel="name"
+                  [showClear]="true"
+                  class="v-city"
+              ></p-dropdown>
+          </div>
+          <div class="v-price">
+              <div class="v-slider">
+                  <div>
+                      <p class="v-price-text">
+                          <b class="v-price-title">Price of room:</b>
+                      </p>
+                      <p class="v-result">{{minPrice + ' - ' + maxPrice}}</p>
+                      <p-slider
+                          [range]="true"
+                          [(ngModel)]="price"
+                          [min]="0"
+                          [max]="100000000"
+                          [step]="50000"
+                          (onChange)="showValuePrice()"
+                      ></p-slider>
+                  </div>
+                  <div>
+                      <p class="v-price-text">
+                          <b class="v-price-title">Area of room:</b>
+                      </p>
+                      <p v-result>{{minArea + ' - ' + maxArea}}</p>
+                      <p-slider
+                          [range]="true"
+                          [(ngModel)]="area"
+                          [min]="0"
+                          [max]="1000"
+                          [step]="20"
+                          (onChange)="showValueArea()"
+                      ></p-slider>
+                  </div>
+              </div>
+              <button
+                  type="submit"
+                  (click)="getListRoom()"
+              >
+                  Search
+              </button>
+          </div>
+      </div>
+      <div class="v-right">
+          <h3>RENT ROOM.</h3>
+          <p class="v-right-description">
+              Finally, there’s one place to look for your room and your rent.
+          </p>
+          <div class="v-learmore">
+              <button
+                  type="submit"
+                  onClick="return false;"
+              >
+                  Learn more
+              </button>
+          </div>
+      </div>
+  </div>
+  </div>
+</mdb-carousel>
 <div class="v-body">
     <button
         *ngIf="pageYoffset > 100"
@@ -12,18 +149,23 @@
         <i class="pi pi-angle-up"></i>
     </button>
 
-
     <div class="v-list-room">
         <div class="v-title-header">
             <div class="v-properties-title">Rental Properties</div>
-            <p-dropdown
-                [options]="sort"
-                [(ngModel)]="selectedSort"
-                (onChange)="selectSort()"
-                placeholder
-                optionLabel="name"
-                [showClear]="true"
-            ></p-dropdown>
+            <div class="v-flex">
+              <span class="material-icons v-mR1" mdbTooltip="Reset search"
+              placement="top" (click)="resetSearch()">
+              find_replace
+                </span>
+              <p-dropdown
+              [options]="sort"
+              [(ngModel)]="selectedSort"
+              (onChange)="selectSort()"
+              placeholder
+              optionLabel="name"
+          ></p-dropdown>
+            </div>
+
         </div>
         <ng-container *ngFor="let item of listRoom">
             <div class="v-item">
@@ -32,16 +174,14 @@
                     [routerLink]="['/room', item._id]"
                 ></div>
                 <div class="v-price">
-                  {{formatPrice(item.price)}}
-                  <span *ngIf="item.price">VNĐ</span>
+                    {{formatPrice(item.price)}}
+                    <span *ngIf="item.price">VNĐ</span>
                 </div>
                 <div class="v-img">
                     <img [src]="item.photo[0]?.img_url">
                 </div>
                 <div class="v-description">
-                    <div class="v-title">
-                        {{item.title}}
-                    </div>
+                    <div class="v-title">{{item.title}}</div>
                     <div class="v-info">
                         <div class="v-area">
                             <mdb-icon
@@ -49,7 +189,7 @@
                                 icon="expand"
                             ></mdb-icon>
                             {{formatPrice(item.area)}}
-                  <span *ngIf="item.area">m2</span>
+                            <span *ngIf="item.area">m2</span>
                         </div>
                         <div class="v-dot">·</div>
                         <div class="v-address">
@@ -60,9 +200,7 @@
                             {{getAddress(item.ward, item.district, item.city)}}
                         </div>
                     </div>
-                    <div class="v-des-text">
-                        {{item.description}}
-                    </div>
+                    <div class="v-des-text">{{item.description}}</div>
                     <div class="v-item-footer">
                         <div class="v-time">Date: {{item.date_time}}</div>
                         <i
@@ -76,10 +214,15 @@
                 </div>
             </div>
         </ng-container>
-
-
+        <div
+            *ngIf="listRoom.length === 0"
+            class="v-no-found"
+        >
+            <h3 class="v-no-found-txt">Room not found</h3>
+        </div>
 
         <app-pagination
+            *ngIf="listRoom.length > 0"
             [totalRecord]="totalRecord"
             [currentPage]="currentPage"
             [totalPage]="totalPage"
@@ -90,32 +233,64 @@
         <div class="v-category">
             <div class="v-suggest-title">Category</div>
             <div class="v-suggest-tag">
-                <mdb-badge default="true">Townhouse</mdb-badge>
-                <mdb-badge primary="true">House</mdb-badge>
-                <mdb-badge success="true">Room</mdb-badge>
-                <mdb-badge info="true">Villa</mdb-badge>
+                <mdb-badge default="true">
+                    <span (click)="searchWithCategory('Townhouse')">Townhouse</span>
+                </mdb-badge>
+                <mdb-badge primary="true">
+                    <span (click)="searchWithCategory('House')">House</span>
+                </mdb-badge>
+                <mdb-badge success="true">
+                    <span (click)="searchWithCategory('Room')">Room</span>
+                </mdb-badge>
+                <mdb-badge info="true">
+                    <span (click)="searchWithCategory('Villa')">Villa</span>
+                </mdb-badge>
             </div>
         </div>
         <div class="v-category">
             <div class="v-suggest-title">Address</div>
             <div class="v-suggest-tag">
-                <mdb-badge danger="true">Đà Nẵng</mdb-badge>
-                <mdb-badge warning="true">Hà Nội</mdb-badge>
-                <mdb-badge class="mdb-color lighten-2">Hồ Chí Minh</mdb-badge>
-                <mdb-badge class="purple">Nha Trang</mdb-badge>
+                <mdb-badge danger="true">
+                    <span (click)="searchWithCity('Đà Nẵng')">Đà Nẵng</span>
+                </mdb-badge>
+                <mdb-badge warning="true">
+                    <span (click)="searchWithCity('Hà Nội')">Hà Nội</span>
+                </mdb-badge>
+                <mdb-badge class="mdb-color lighten-2">
+                    <span (click)="searchWithCity('Hồ Chí Minh')">Hồ Chí Minh</span>
+                </mdb-badge>
+                <mdb-badge class="purple">
+                    <span (click)="searchWithCity('Nha Trang')">Nha Trang</span>
+                </mdb-badge>
             </div>
         </div>
         <div class="v-category">
             <div class="v-suggest-title">Price</div>
             <div class="v-suggest-tag">
-                <mdb-badge class="pink">500,000 VNĐ</mdb-badge>
-                <mdb-badge class="deep-purple accent-1">1,000,000 VNĐ</mdb-badge>
-                <mdb-badge class="light-green">1,500,000 VNĐ</mdb-badge>
-                <mdb-badge class="cyan accent-3">2,000,000 VNĐ</mdb-badge>
+                <mdb-badge class="pink">
+                    <span (click)="searchWithPrice(500000)">500,000 VNĐ</span>
+                </mdb-badge>
+                <mdb-badge
+                    class="deep-purple accent-1"
+                    (click)="searchWithPrice(1000000)"
+                >
+                    <span>1,000,000 VNĐ</span>
+                </mdb-badge>
+                <mdb-badge
+                    class="light-green"
+                    (click)="searchWithPrice(1500000)"
+                >
+                    <span>1,500,000 VNĐ</span>
+                </mdb-badge>
+                <mdb-badge
+                    class="cyan accent-3"
+                    (click)="searchWithPrice(2000000)"
+                >
+                    <span>2,000,000 VNĐ</span>
+                </mdb-badge>
             </div>
         </div>
     </div>
 </div>
-
 
 <app-footer></app-footer>

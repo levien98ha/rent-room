@@ -12,4 +12,8 @@ export class ListRoomService {
   getListRoom(json) {
     return this.http.post<any>(PathAPI.PATH_ROOM.concat('/search'), json);
   }
+
+  getListRoomSort(json) {
+    return this.http.post<any>(PathAPI.PATH_ROOM.concat('/search/sort'), json);
+  }
 }

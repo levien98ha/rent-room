@@ -3,7 +3,7 @@ import { Component, HostListener, OnInit, ViewChild, OnDestroy, ChangeDetectorRe
 import { ViewportScroller } from '@angular/common';
 import { Galleria } from 'primeng/galleria';
 import { Utilities } from '../../common/utilites';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { OverlayService } from 'src/app/common/overlay/overlay.service';
@@ -46,14 +46,18 @@ export class RoomDetailComponent implements OnInit {
   ];
 
   profile;
-
+  userId;
   room;
+  roomClone = [];
+  checkRequest = true;
   @ViewChild('galleria') galleria: Galleria;
 
   mess: MessageSystem = new MessageSystem();
   constructor(
+    private route: ActivatedRoute,
     private roomDetailService: RoomDetailService,
     private scroll: ViewportScroller,
+    private messageService: MessageService,
     private cd: ChangeDetectorRef,
     private utilities: Utilities,
     private router: Router,
@@ -61,12 +65,10 @@ export class RoomDetailComponent implements OnInit {
     private overlayService: OverlayService) { }
 
   async ngOnInit() {
-    await this.getDetailRoom();
-    // tslint:disable-next-line: forin
-    // for (const value in this.roomClone) {
-    //   this.room[value] = this.utilities.formatCurrency(this.roomClone[value]) + ' VNĐ';
-    // }
-    // this.room.price = this.utilities.formatCurrency(this.roomClone.price) + ' VNĐ';
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION)).userId;
+    this.route.paramMap.subscribe(params => {
+      this.getDetailRoom();
+    });
     this.currentUrl = this.router.url;
     this.shareLink += 'www.fb.com';
   }
@@ -171,12 +173,29 @@ export class RoomDetailComponent implements OnInit {
   }
 
   async getDetailRoom() {
+    this.checkRequest = true;
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
     const url = window.location.href;
     const idRoom = url.slice(url.lastIndexOf('/') + 1, url.length);
     const obj = {
       _id: idRoom
     };
+
+    if (this.userId) {
+      const objUser = {
+        _id: this.userId
+      };
+      await this.roomDetailService.getListRequestUser(objUser).subscribe((res: any) => {
+        if (res.data) {
+          res.data.request.map(item => {
+            if (item.room_id === idRoom) {
+              this.checkRequest = false;
+            }
+          });
+        }
+      });
+    }
+
     await this.roomDetailService.getRoomById(obj).subscribe(async (res: any) => {
       if (res.data) {
         this.room = res.data[0];
@@ -187,6 +206,14 @@ export class RoomDetailComponent implements OnInit {
           this.profile = response.user;
         });
         this.bindDocumentListeners();
+        const same = {
+          _id: res.data[0]._id,
+          category: res.data[0].category,
+          userId: res.data[0].user_id
+        };
+        await this.roomDetailService.getRoomSame(same).subscribe((response: any) => {
+          this.roomClone = response.data;
+        });
         this.overlayService.close();
       }
     }, (err) => {
@@ -200,6 +227,35 @@ export class RoomDetailComponent implements OnInit {
         }
       });
     });
+  }
+
+  newRequest() {
+    if (this.userId) {
+      this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+      const obj = {
+        userOwner: this.room.user_id,
+        userRent: this.userId,
+        roomId: this.room._id
+      };
+      this.roomDetailService.createRequest(obj).subscribe(async (res: any) => {
+        if (res.data) {
+          await this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Request successfull.', life: 3000});
+          this.overlayService.close();
+        }
+      }, (err) => {
+        this.overlayService.close();
+        this.confirmationService.confirm({
+          rejectVisible: false,
+          acceptLabel: 'OK',
+          message: this.mess.getMessage('Room', 'MSE00028'),
+          accept: () => {
+
+          }
+        });
+      });
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   // format

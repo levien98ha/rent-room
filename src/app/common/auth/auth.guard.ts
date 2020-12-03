@@ -20,7 +20,13 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       try {
-        const role = JSON.parse(localStorage.getItem(Constants.SESSION)).role;
+        const user = JSON.parse(localStorage.getItem(Constants.SESSION));
+        if (!user) {
+          this.router.navigate([Constants.PATH_LOGIN]);
+          this.overLay.close();
+          return true;
+        }
+        const role = user.role;
         switch (role) {
           case Constants.ADMIN:
             if (this.checkAccessScreen(route.routeConfig.path, state.url, Constants.PATHS_ACCESS_OPERATOR)) {
