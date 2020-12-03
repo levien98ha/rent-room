@@ -78,7 +78,7 @@
                         [range]="true"
                         [(ngModel)]="price"
                         [min]="0"
-                        [max]="10000000"
+                        [max]="100000000"
                         [step]="50000"
                         (onChange)="showValuePrice()"
                     ></p-slider>
@@ -92,15 +92,15 @@
                         [range]="true"
                         [(ngModel)]="area"
                         [min]="0"
-                        [max]="500"
-                        [step]="10"
+                        [max]="1000"
+                        [step]="20"
                         (onChange)="showValueArea()"
                     ></p-slider>
                 </div>
             </div>
             <button
                 type="submit"
-                onClick="return false;"
+                (click)="searchRoom()"
             >
                 Search
             </button>

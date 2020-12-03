@@ -5,27 +5,33 @@ import { HomePageComponent } from './views/home-page/home-page.component';
 import { LoginComponent } from './views/login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './common/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'room',
-    component: ListRoomComponent
+    component: ListRoomComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'room/:id',
-    component: RoomDetailComponent
+    component: RoomDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
-    component: HomePageComponent
+    component: HomePageComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'manage',
-    component: AdminPageComponent
+    component: AdminPageComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

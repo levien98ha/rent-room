@@ -10,6 +10,6 @@ export class ListRoomService {
   constructor(private http: HttpClient) { }
 
   getListRoom(json) {
-    return this.http.get<any>(PathAPI.PATH_LIST_ROOM, json);
+    return this.http.post<any>(PathAPI.PATH_ROOM.concat('/search'), json);
   }
 }

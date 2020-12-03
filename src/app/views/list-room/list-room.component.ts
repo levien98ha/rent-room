@@ -9,6 +9,7 @@ import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { ViewChild } from '@angular/core';
 import { Constants } from 'src/app/common/constant/Constants';
 import { ConfirmationService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-room',
@@ -34,13 +35,37 @@ export class ListRoomComponent implements OnInit {
   userId: any;
   listRoom = [];
   mess: MessageSystem = new MessageSystem();
+  search = {
+    category: '',
+    minArea: 0,
+    maxArea: 1000,
+    minPrice: 0,
+    maxPrice: 100000000,
+    city: '',
+    district: '',
+    ward: '',
+    page: 1
+  };
   constructor(
     private scroll: ViewportScroller,
     private messageService: MessageService,
     public utilities: Utilities,
     private confirmationService: ConfirmationService,
     private overlayService: OverlayService,
-    private listRoomService: ListRoomService) { }
+    private listRoomService: ListRoomService,
+    private router: Router,
+    private route: ActivatedRoute) {
+      this.route.queryParams?.subscribe(params => {
+        this.search.category = params.category ? params.category : '';
+        this.search.minPrice = params.minPrice ? params.minPrice : 0;
+        this.search.maxPrice = params.maxPrice ? params.maxPrice : 100000000;
+        this.search.minArea = params.minArea ? params.minArea : 0;
+        this.search.maxArea = params.maxArea ? params.maxArea : 1000;
+        this.search.city = params.city ? params.city : '';
+        this.search.district = params.district ? params.district : '';
+        this.search.ward = params.ward ? params.ward : '';
+    });
+    }
 
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('session')).userId;
@@ -63,14 +88,14 @@ export class ListRoomComponent implements OnInit {
     this.scroll.scrollToPosition([0, 0]);
   }
 
-  selectPage(event) {
+  async selectPage(event) {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
-    this.currentPage = event;
-    const obj = {
-      page: this.currentPage
-    };
-
-    this.listRoomService.getListRoom(obj).subscribe((res: any) => {
+    this.currentPage = await event.currentPage;
+    // const obj = {
+    //   page: this.currentPage
+    // };
+    this.search.page = await event.currentPage;
+    await this.listRoomService.getListRoom(this.search).subscribe((res: any) => {
       if (res) {
         this.overlayService.close();
         this.listRoom = res.data;
@@ -96,12 +121,13 @@ export class ListRoomComponent implements OnInit {
 
   getListRoom() {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
-    this.listRoomService.getListRoom({page: 1}).subscribe((res: any) => {
+    console.log(this.search);
+    this.listRoomService.getListRoom(this.search).subscribe((res: any) => {
       if (res) {
-        this.overlayService.close();
         this.listRoom = res.data;
         this.totalPage = res.pageSize;
         this.totalRecord = res.total;
+        this.overlayService.close();
       }
     }, (err) => {
       this.overlayService.close();

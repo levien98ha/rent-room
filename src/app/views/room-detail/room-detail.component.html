@@ -197,13 +197,13 @@
         <div class="v-owner-info">
             <div class="v-img-profile">
                 <img
-                    [src]="profile.imgUrl ? profile.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'"
+                    [src]="profile?.imgUrl ? profile?.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'"
                     alt
                 >
             </div>
             <div class="v-profile">
                 <div class="v-name">{{profile?.name}}</div>
-                <mdb-badge class="v-phone"><a [href]="'tel:+84'+profile.phonenumber">{{profile?.phonenumber}}</a></mdb-badge>
+                <mdb-badge class="v-phone"><a [href]="'tel:+84'+profile?.phonenumber">{{profile?.phonenumber}}</a></mdb-badge>
                 <mdb-badge class="v-mail">Send mail</mdb-badge>
             </div>
         </div>

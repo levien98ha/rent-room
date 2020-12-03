@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from './search.service';
 import { Utilities } from '../../../common/utilites';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -34,12 +35,16 @@ export class SearchComponent implements OnInit {
   selectedCategory: any;
   minPrice: string;
   maxPrice: string;
-  price: number[] = [0, 10000000];
-  area: number[] = [0, 500];
+  price: number[] = [0, 100000000];
+  area: number[] = [0, 1000];
   minArea: string;
   maxArea: string;
 
-  constructor(private search: SearchService, private utilities: Utilities) {
+  constructor(
+    private search: SearchService,
+    private utilities: Utilities,
+    private route: ActivatedRoute,
+    private router: Router) {
    }
 
   ngOnInit(): void {
@@ -101,5 +106,14 @@ export class SearchComponent implements OnInit {
   showValueArea() {
     this.minArea = this.utilities.formatCurrency(this.area[0]) + ' m2';
     this.maxArea = this.utilities.formatCurrency(this.area[1]) + ' m2';
+  }
+
+  searchRoom() {
+    this.router.navigate(['/room'], { queryParams: { category: this.selectedCategory?.name ? this.selectedCategory.name : '',
+                                                      minPrice: this.price[0], maxPrice: this.price[1],
+                                                      minArea: this.area[0], maxArea: this.area[1],
+                                                      city: this.selectedCity?.name ? this.selectedCity.name : '',
+                                                      district: this.selectedDistrict?.name ? this.selectedDistrict.name : '',
+                                                      ward: this.selectedWard?.name ? this.selectedWard.name : '' } });
   }
 }
