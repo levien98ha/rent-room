@@ -177,6 +177,7 @@
                                 aria-describedby="phone-help"
                                 pInputText
                                 [(ngModel)]="profile.phonenumber"
+                                pattern="[0-9]{10}"
                             >
                             <!-- <small id="username2-help" class="p-invalid">Username is not available.</small> -->
                         </div>
@@ -208,6 +209,7 @@
                                 pPassword
                                 [(ngModel)]="currentPass"
                                 (focus)="this.submitted = false;"
+                                autocomplete="false"
                             >
                             <small
                               class="p-invalid"

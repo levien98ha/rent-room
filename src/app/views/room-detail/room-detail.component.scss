@@ -204,12 +204,16 @@ p {
   .v-description-text {
     pre {
       line-height: 30px;
-      font-size: 15px;
+      font-size: 18px;
       white-space: break-spaces;
     }
   }
 }
-
+.v-phone {
+  a {
+    color: white;
+  }
+}
 .v-share {
   height: 100%;
     display: flex;
@@ -395,6 +399,9 @@ $tundora: #b08bf8;
     }
   }
   mdb-badge.v-phone.badge {
+    a {
+      color: white !important;
+    }
     background-color: #b08bf8;
     padding: 10px 12px;
     width: 100%;

@@ -14,6 +14,7 @@ export class PathAPI {
 
   // ROOM
   public static PATH_ROOM = PathAPI.ApplicationProperties.concat('room');
+  public static PATH_ROOM_ID = PathAPI.ApplicationProperties.concat('room/id');
   public static PATH_LIST_ROOM = PathAPI.ApplicationProperties.concat('room/list');
   public static PATH_RECENTLY_ROOM = PathAPI.ApplicationProperties.concat('room/recently');
   public static PATH_SEARCH_ROOM = PathAPI.ApplicationProperties.concat('room/search');

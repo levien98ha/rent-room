@@ -14,7 +14,7 @@
         <div class="v-image">
             <p-galleria
                 #galleria
-                [(value)]="images"
+                [value]="room?.photo"
                 [(activeIndex)]="activeIndex"
                 [numVisible]="5"
                 [containerClass]="galleriaClass()"
@@ -30,7 +30,7 @@
                     let-item
                 >
                     <img
-                        [src]="item.previewImageSrc"
+                        [src]="item.img_url"
                         [ngStyle]="{'width': !fullscreen ? '100%' : '50%', 'height': !fullscreen ? '500px' : '', 'display': !fullscreen ? 'block' : ''}"
                     >
                 </ng-template>
@@ -39,7 +39,7 @@
                     let-item
                 >
                     <div class="p-grid p-nogutter p-justify-center">
-                        <img [src]="item.thumbnailImageSrc">
+                        <img [src]="item.img_url">
                     </div>
                 </ng-template>
                 <ng-template
@@ -60,12 +60,12 @@
                             ></i>
                         </button>
                         <span
-                            *ngIf="images"
+                            *ngIf="room.photo"
                             class="title-container"
                         >
-                            <span>{{activeIndex + 1}}/{{images.length}}</span>
-                            <span class="title">{{images[activeIndex].title}}</span>
-                            <span>{{images[activeIndex].alt}}</span>
+                            <span>{{activeIndex + 1}}/{{room.photo.length}}</span>
+                            <span class="title">{{'image ' + activeIndex+1}}</span>
+                            <!-- <span>{{'image ' + activeIndex+1}}</span> -->
                         </span>
                         <button
                             type="button"
@@ -86,17 +86,17 @@
         </div>
         <div class="v-detail">
             <div class="v-title">
-                CĂN HỘ CHO THUÊ GẦN ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG, VỆ SINH RIÊNG, NHÀ GIỮ XE, GIẢM GIÁ TRONG THÁNG 11 NÀY
+                {{room?.title}}
             </div>
             <div class="v-address">
-                K47/16 Nguyễn Lương Bằng, Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng
+                {{getAddress(room?.ward, room?.district, room?.city)}}
             </div>
         </div>
         <div class="v-price-social">
             <div class="v-price-total">
                 <div class="v-price">
                     <!-- <div class="v-price-title">Price room:</div> -->
-                    <div class="v-price-number">{{room.price}} / month</div>
+                    <div class="v-price-number">{{formatPrice(room?.price)}} / month</div>
                 </div>
                 <!-- <div class="v-price">
                     <div class="v-price-title">Price electric:</div>
@@ -163,7 +163,7 @@
                     far
                     icon="clock"
                 ></mdb-icon>
-                : Thoải mái
+                : {{room?.time_description}}
             </div>
             <div
                 class="v-area-icon"
@@ -174,7 +174,7 @@
                     fas
                     icon="expand"
                 ></mdb-icon>
-                : 25m2
+                : {{formatPrice(room?.area)}}{{room?.area? 'm2' : ''}}
             </div>
             <div
             class="v-area-icon"
@@ -182,30 +182,14 @@
             placement="top"
         >
         <i class="fas fa-toilet"></i>
-            : Private toilet
+            : {{room?.toilet}}
         </div>
         </div>
         <div class="v-description">
             <div class="v-description-title">Description:</div>
             <div class="v-description-text">
-                <pre>
-- Chủ đầu tư: Tập đoàn Hòa Phát.
-- Vị trí: Mandarin Garden 2 sở hữu vị trí đắc địa bậc nhất phía Nam Hà Nội, nằm ngay trung tâm quận Hoàng Mai, ngã tư Tân Mai Kim Đồng Trương Định, cách Hồ Gươm chỉ 4km rất thuận tiện trong việc di chuyển và giao dịch.
-- Diện tích cho thuê: Linh hoạt, đáp ứng nhu cầu các doanh nghiệp mới thành lập và tăng trưởng quy mô.
-- Giá thuê: Thỏa thuận (bao gồm điều hòa và các tiện ích cao cấp đi kèm).
-- Quy mô: Mandarin Garden 2 gồm 4 tòa nhà cao 25 - 30 tầng và 6 tầng khu văn phòng với diện tích lên tới 5.200 m2. Không gian thoáng tạo cảm giác dễ chịu cho khách thuê khi làm việc tại tòa nhà.
-- Cơ sở hạ tầng hiện đại, chất lượng dịch vụ hoàn hảo đáp ứng yêu cầu của nhiều loại hình doanh nghiệp.
-
-Tiện ích.
-- Được trang bị 2 thang máy tốc độ cao Thyssen Krupp (phục vụ riêng cho khối văn phòng).
-- Hệ thống điều hòa trung tâm Chiller.
-- Hệ thống phòng cháy chữa cháy đạt tiêu chuẩn.
-- Máy phát điện dự phòng công suất lớn.
-- Hệ thống an ninh đạt tiêu chuẩn giám sát 24/24.
-- Mặt bằng hoàn thiện cơ bản với trang thiết bị hiện đại (gồm: Trần nhôm cao cấp, đèn led panel, điều hòa trung tâm, thông gió, tường sơn bả đẹp, sàn bê tông đã láng phẳng).
-- Tầng hầm để xe: Lên tới 13.000 m2.
-- Cam kết cho thuê lâu dài.
-          </pre>
+              <pre>{{room?.description}}
+              </pre>
             </div>
         </div>
     </div>
@@ -213,13 +197,13 @@ Tiện ích.
         <div class="v-owner-info">
             <div class="v-img-profile">
                 <img
-                    src={{profile.img_profile}}
+                    [src]="profile.imgUrl ? profile.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'"
                     alt
                 >
             </div>
             <div class="v-profile">
-                <div class="v-name">{{profile.name}}</div>
-                <mdb-badge class="v-phone">{{profile.phone}}</mdb-badge>
+                <div class="v-name">{{profile?.name}}</div>
+                <mdb-badge class="v-phone"><a [href]="'tel:+84'+profile.phonenumber">{{profile?.phonenumber}}</a></mdb-badge>
                 <mdb-badge class="v-mail">Send mail</mdb-badge>
             </div>
         </div>
@@ -250,7 +234,7 @@ Tiện ích.
                     </mdb-card-title>
 
                     <!-- Text -->
-                    <mdb-card-text>{{room.price + ' - ' + '25m2'}}</mdb-card-text>
+                    <mdb-card-text>{{formatPrice(room?.price) + ' - ' + '25m2'}}</mdb-card-text>
                     <p>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</p>
                     <div class="v-footer-card">
                         <p>2020/10/10</p>
@@ -288,7 +272,7 @@ Tiện ích.
                     </mdb-card-title>
 
                     <!-- Text -->
-                    <mdb-card-text>{{room.price + ' - ' + '25m2'}}</mdb-card-text>
+                    <mdb-card-text>{{formatPrice(room?.price) + ' - ' + '25m2'}}</mdb-card-text>
                     <p>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</p>
                     <div class="v-footer-card">
                         <p>2020/10/10</p>

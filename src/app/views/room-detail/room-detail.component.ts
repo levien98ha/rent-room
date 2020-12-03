@@ -1,50 +1,27 @@
+import { RoomDetailService } from './room-detail.service';
 import { Component, HostListener, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { Galleria } from 'primeng/galleria';
 import { Utilities } from '../../common/utilites';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { OverlayService } from 'src/app/common/overlay/overlay.service';
+import { MessageSystem } from 'src/app/config/message/messageSystem';
+import { Constants } from 'src/app/common/constant/Constants';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-room-detail',
   templateUrl: './room-detail.component.html',
-  styleUrls: ['./room-detail.component.scss']
+  styleUrls: ['./room-detail.component.scss'],
+  providers: [MessageService]
 })
 export class RoomDetailComponent implements OnInit {
 
   pageYoffset = 100;
   shareLink = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F';
   currentUrl = '';
-  images: any[] = [{
-    previewImageSrc: 'assets/img/room1.jpg',
-    thumbnailImageSrc: 'assets/img/room1.jpg',
-    alt: 'Description for Image 1',
-    title: 'Title 1'
-  },
-  {
-    previewImageSrc: 'assets/img/room2.jpg',
-    thumbnailImageSrc: 'assets/img/room2.jpg',
-    alt: 'Description for Image 2',
-    title: 'Title 2'
-  },
-  {
-    previewImageSrc: 'assets/img/room3.jpg',
-    thumbnailImageSrc: 'assets/img/room3.jpg',
-    alt: 'Description for Image 3',
-    title: 'Title 3'
-  },
-  {
-    previewImageSrc: 'assets/img/room4.jpg',
-    thumbnailImageSrc: 'assets/img/room4.jpg',
-    alt: 'Description for Image 4',
-    title: 'Title 4'
-  },
-  {
-    previewImageSrc: 'assets/img/room5.jpg',
-    thumbnailImageSrc: 'assets/img/room5.jpg',
-    alt: 'Description for Image 5',
-    title: 'Title 5'
-  }];
-
   showThumbnails: boolean;
 
   fullscreen: boolean = false;
@@ -68,34 +45,27 @@ export class RoomDetailComponent implements OnInit {
     }
   ];
 
-  profile = {
-    img_profile: '../../../assets/photo/img_profile.jpg',
-    name: 'Nguyen Le Vien',
-    phone: '0345.920.977'
-  };
+  profile;
 
-  roomClone = {
-    price: 2000000,
-    electric: 3000,
-    water: 5000
-  };
-
-  room = {
-    price: '',
-    electric: '',
-    water: '',
-    title: ''
-  }
+  room;
   @ViewChild('galleria') galleria: Galleria;
 
-  constructor(private scroll: ViewportScroller, private cd: ChangeDetectorRef, private utilities: Utilities, private router: Router) { }
+  mess: MessageSystem = new MessageSystem();
+  constructor(
+    private roomDetailService: RoomDetailService,
+    private scroll: ViewportScroller,
+    private cd: ChangeDetectorRef,
+    private utilities: Utilities,
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private overlayService: OverlayService) { }
 
-  ngOnInit(): void {
-    this.bindDocumentListeners();
+  async ngOnInit() {
+    await this.getDetailRoom();
     // tslint:disable-next-line: forin
-    for (const value in this.roomClone) {
-      this.room[value] = this.utilities.formatCurrency(this.roomClone[value]) + ' VNĐ';
-    }
+    // for (const value in this.roomClone) {
+    //   this.room[value] = this.utilities.formatCurrency(this.roomClone[value]) + ' VNĐ';
+    // }
     // this.room.price = this.utilities.formatCurrency(this.roomClone.price) + ' VNĐ';
     this.currentUrl = this.router.url;
     this.shareLink += 'www.fb.com';
@@ -198,5 +168,56 @@ export class RoomDetailComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+  }
+
+  async getDetailRoom() {
+    this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    const url = window.location.href;
+    const idRoom = url.slice(url.lastIndexOf('/') + 1, url.length);
+    const obj = {
+      _id: idRoom
+    };
+    await this.roomDetailService.getRoomById(obj).subscribe(async (res: any) => {
+      if (res.data) {
+        this.room = res.data[0];
+        const user = {
+          _id: res.data[0].user_id
+        };
+        await this.roomDetailService.getProfileUser(user).subscribe((response: any) => {
+          this.profile = response.user;
+        });
+        this.bindDocumentListeners();
+        this.overlayService.close();
+      }
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        message: this.mess.getMessage('Room', 'MSE00028'),
+        accept: () => {
+
+        }
+      });
+    });
+  }
+
+  // format
+  formatPrice(value) {
+    return this.utilities.formatCurrency(value);
+  }
+
+  getAddress(city, district, ward) {
+    let result = '';
+    if (city) {
+      result += city;
+      if (district) {
+        result += ', ' + district;
+        if (ward) {
+          result += ', ' + ward;
+        }
+      }
+    }
+    return result;
   }
 }

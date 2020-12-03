@@ -9,7 +9,7 @@ export class ListRoomService {
 
   constructor(private http: HttpClient) { }
 
-  getListRoom() {
-    return this.http.get<any>(PathAPI.PATH_LIST_ROOM);
+  getListRoom(json) {
+    return this.http.get<any>(PathAPI.PATH_LIST_ROOM, json);
   }
 }

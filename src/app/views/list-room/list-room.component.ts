@@ -64,7 +64,30 @@ export class ListRoomComponent implements OnInit {
   }
 
   selectPage(event) {
+    this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    this.currentPage = event;
+    const obj = {
+      page: this.currentPage
+    };
 
+    this.listRoomService.getListRoom(obj).subscribe((res: any) => {
+      if (res) {
+        this.overlayService.close();
+        this.listRoom = res.data;
+        this.totalPage = res.pageSize;
+        this.totalRecord = res.total;
+      }
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        message: this.mess.getMessage('MSE00051'),
+        accept: () => {
+
+        }
+      });
+    });
   }
 
   selectSort() {
@@ -73,7 +96,7 @@ export class ListRoomComponent implements OnInit {
 
   getListRoom() {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
-    this.listRoomService.getListRoom().subscribe((res: any) => {
+    this.listRoomService.getListRoom({page: 1}).subscribe((res: any) => {
       if (res) {
         this.overlayService.close();
         this.listRoom = res.data;
