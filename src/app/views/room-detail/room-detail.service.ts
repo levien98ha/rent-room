@@ -26,6 +26,6 @@ export class RoomDetailService {
   }
 
   getListRequestUser(json) {
-    return this.http.post<any>(PathAPI.PATH_LIST_USER_REQUEST, json);
+    return this.http.post<any>(PathAPI.PATH_LIST_REQUEST_USER, json);
   }
 }

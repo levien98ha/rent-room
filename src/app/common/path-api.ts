@@ -27,6 +27,7 @@ export class PathAPI {
   public static PATH_REQUEST = PathAPI.ApplicationProperties.concat('request');
   public static PATH_LIST_REQUEST_SEND = PathAPI.ApplicationProperties.concat('request/send');
   public static PATH_LIST_REQUEST_RECEIVE = PathAPI.ApplicationProperties.concat('request/receive');
+  public static PATH_LIST_REQUEST_USER = PathAPI.ApplicationProperties.concat('request/user');
 
   // MARKS ROOM
   public static PATH_MARK = PathAPI.ApplicationProperties.concat('mark');

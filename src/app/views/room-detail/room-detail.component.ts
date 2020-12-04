@@ -183,15 +183,16 @@ export class RoomDetailComponent implements OnInit {
 
     if (this.userId) {
       const objUser = {
-        _id: this.userId
+        _id: idRoom,
+        user_rent: this.userId
       };
       await this.roomDetailService.getListRequestUser(objUser).subscribe((res: any) => {
-        if (res.data) {
-          res.data.request.map(item => {
-            if (item.room_id === idRoom) {
-              this.checkRequest = false;
-            }
-          });
+        if (res.data.length !== 0) {
+          // res.data.request.map(item => {
+          //   if (item.room_id === idRoom) {
+          this.checkRequest = false;
+          //   }
+          // });
         }
       });
     }
