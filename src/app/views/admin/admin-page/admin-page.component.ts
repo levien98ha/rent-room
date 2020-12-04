@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Constants } from 'src/app/common/constant/Constants';
+
 @Component({
   selector: 'app-admin-page',
   templateUrl: './admin-page.component.html',
@@ -24,7 +26,7 @@ export class AdminPageComponent implements OnInit {
   private currentUrl = '';
 
   chooseTag = 1;
-
+  role;
   constructor(
     private router: Router,
     private location: Location) {
@@ -36,6 +38,8 @@ export class AdminPageComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem(Constants.SESSION));
+    this.role = user.role;
   }
 
   goBack(): void {

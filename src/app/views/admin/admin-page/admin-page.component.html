@@ -5,7 +5,8 @@
   <div class="mt-5">
     <app-profile-admin *ngIf="chooseTag==1"></app-profile-admin>
     <app-dashboard *ngIf="chooseTag==2"></app-dashboard>
-    <app-manage-user *ngIf="chooseTag==3"></app-manage-user>
+    <app-manage-user *ngIf="chooseTag==3 && role === 'admin'"></app-manage-user>
+    <app-manage-room *ngIf="chooseTag===4"></app-manage-room>
   </div>
 </main>
 

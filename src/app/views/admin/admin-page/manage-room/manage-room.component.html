@@ -1,1 +1,128 @@
-<p>manage-room works!</p>
+<p-toast></p-toast>
+<div class="card">
+<p-table
+    #dt
+    [value]="listRequest"
+    [rows]="10"
+    [paginator]="false"
+    [globalFilterFields]="['title','status']"
+    [(selection)]="selectedRequest"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+>
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Manage Request</h5>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
+                >
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                pSortableColumn="id"
+                class="v-90px"
+            >
+                Id
+            </th>
+            <th
+                pSortableColumn="title"
+                class="v-txt"
+            >
+                Title
+                <p-sortIcon field="title"></p-sortIcon>
+            </th>
+            <th pSortableColumn="name">
+                User request
+            </th>
+            <th>Email</th>
+            <th class="v-120px">Phonenumber</th>
+            <th
+                pSortableColumn="role"
+                class="v-110px"
+            >
+                Status
+                <p-sortIcon field="role"></p-sortIcon>
+            </th>
+            <th class="v-110px">Action</th>
+        </tr>
+    </ng-template>
+    <ng-template
+        pTemplate="body"
+        ngFor
+        let-request
+        [ngForOf]="listRequest"
+        let-i="index"
+    >
+        <tr>
+            <td class="v-90px">{{findIndexById(request._id) + 1}}</td>
+            <td>
+                <span
+                    mdbTooltip={{request.title}}
+                    placement="top"
+                >
+                    {{request.title}}
+                </span>
+            </td>
+            <td>
+                <span
+                    mdbTooltip={{request.request_rent}}
+                    placement="top"
+                >
+                    {{request.request_rent}}
+                </span>
+            </td>
+            <td>{{request.email}}</td>
+            <td>{{request.phonenumber}}</td>
+            <td>
+                <span [class]="'product-badge status-' + request.status.replace(' ', '').toLowerCase()">{{request.status}}</span>
+            </td>
+            <td>
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-check"
+                    class="p-button-rounded p-success p-mr-2"
+                    (click)="accept(request)"
+                    mdbTooltip="Accept"
+                    placement="top"
+                    [disabled]="request.status !== 'IN PROGRESS'"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-danger"
+                    (click)="denided(request)"
+                    mdbTooltip="Denied"
+                    placement="top"
+                ></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            In total there are {{totalRecord}} requests.
+        </div>
+    </ng-template>
+</p-table>
+<div style="position: relative;">
+    <p-paginator
+        rows="10"
+        (onPageChange)="loadData($event)"
+        [totalRecords]="totalRecord"
+    >
+        <!-- [rowsPerPageOptions]="[10, 25]" -->
+    </p-paginator>
+</div>
+
+</div>

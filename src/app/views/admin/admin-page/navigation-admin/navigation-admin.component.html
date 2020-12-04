@@ -37,6 +37,7 @@
             <a
                 class="list-group-item list-group-item-action waves-effect {{choseTag == 3? 'active' : ''}}"
                 (click)="choseManager()"
+                *ngIf="role === 'admin'"
             >
                 <mdb-icon
                     fas

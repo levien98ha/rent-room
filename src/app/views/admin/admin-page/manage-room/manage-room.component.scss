@@ -1,0 +1,53 @@
+
+.v-txt {
+  min-width: 120px;
+  text-overflow: ellipsis;
+}
+
+.v-90px {
+  width: 6% !important;
+}
+
+.v-110px {
+  width: 10% !important;
+}
+
+.v-120px {
+  width: 12% !important;
+}
+
+.v-135px {
+  width: 135px !important;
+}
+
+.v-150px {
+  width: 150px !important;
+}
+
+.v-200px {
+  width: 200px !important;
+}
+
+.product-badge.status-inprogress {
+  background: #93c8f3;
+  color: #015cb1;
+}
+
+.product-badge.status-accept {
+  background: #c8e6c9;
+  color: #256029;
+}
+
+.product-badge.status-denied {
+  background: #ffcdd2;
+  color: #c63737;
+}
+
+.product-badge.status-cancel {
+  background: #FBC02D;
+  color: #503b05;
+}
+
+.p-mr-2 {
+  margin-right: 5px;
+}

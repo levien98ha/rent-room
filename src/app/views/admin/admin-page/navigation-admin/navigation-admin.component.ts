@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-
+import { Constants } from 'src/app/common/constant/Constants';
 @Component({
   selector: 'app-navigation-admin',
   templateUrl: './navigation-admin.component.html',
@@ -16,7 +16,10 @@ export class NavigationAdminComponent implements OnInit {
     this.clicked = this.clicked === undefined ? false : true;
   }
 
+  role;
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem(Constants.SESSION));
+    this.role = user.role;
   }
 
   setClicked(val: boolean): void {
