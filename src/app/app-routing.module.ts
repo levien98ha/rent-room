@@ -1,3 +1,4 @@
+import { InvoiceDetailComponent } from './views/admin/admin-page/invoice/invoice-detail/invoice-detail.component';
 import { AdminPageComponent } from './views/admin/admin-page/admin-page.component';
 import { RoomDetailComponent } from './views/room-detail/room-detail.component';
 import { ListRoomComponent } from './views/list-room/list-room.component';
@@ -29,7 +30,11 @@ const routes: Routes = [
     path: 'manage',
     component: AdminPageComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'invoice/:id',
+    component: InvoiceDetailComponent
+  },
 ];
 
 @NgModule({

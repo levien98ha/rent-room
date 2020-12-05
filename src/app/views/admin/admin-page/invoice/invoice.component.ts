@@ -74,7 +74,9 @@ export class InvoiceComponent implements OnInit {
   }
 
   createInvocie(item) {
-
+    // this.invoiceService.createInvoice({_id: "5fcb67071418a11154ef0d1f"}).subscribe((res: any) => {
+    //   console.log(res)
+    // })
   }
 
   findIndexById(id: string): number {
@@ -86,5 +88,25 @@ export class InvoiceComponent implements OnInit {
         }
     }
     return index;
+  }
+
+  invoiceDetail(data) {
+    let queryParams = data._id;
+    queryParams = queryParams.trim();
+    const url = this.router.serializeUrl(this.router.createUrlTree(['/invoice/', queryParams]));
+    const myWindow = window.open(url, '', `width=${window.screen.availWidth},height=${window.screen.availHeight}`);
+    myWindow.focus();
+    const timer = setInterval(checkChild, 500);
+    const self = this;
+    function checkChild() {
+      if (myWindow.closed) {
+        const isSaveMatterCar = localStorage.getItem(Constants.SAVE_INVOICE);
+        if (isSaveMatterCar !== '') {
+          localStorage.removeItem(Constants.SAVE_INVOICE);
+          clearInterval(timer);
+          self.getListRoom();
+        }
+      }
+    }
   }
 }

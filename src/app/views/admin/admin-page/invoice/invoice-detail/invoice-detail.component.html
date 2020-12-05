@@ -1,0 +1,168 @@
+<p-toast></p-toast>
+<p-confirmDialog
+    key='err'
+    header="Error"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
+<p-confirmDialog
+    key='info'
+    header="Confirm"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
+<div class="v-container">
+    <div class="v-header">
+        <div class="v-title">
+            <span>Phòng trọ gần bách khoa</span>
+        </div>
+        <div class="v-header-close">
+            <button (click)="closeWindow()">Close</button>
+        </div>
+    </div>
+    <div class="v-contain">
+        <div class="v-left">
+            <div class="v-left-title">
+                <span>List Invoice</span>
+            </div>
+            <div class="v-left-body">
+                <ng-container *ngFor="let item of listInvoice; let i = index;">
+                    <div
+                        class="v-item"
+                        [tabindex]="i"
+                        (click)='selecteItem(item)'
+                    >
+                        <div class="v-list-left">
+                            <div class="v-item-title">{{item.title}}</div>
+                            <div class="v-date">
+                                {{item.date_start + ' - ' + item.date_end}}
+                            </div>
+                        </div>
+                        <div class="v-list-right">{{item.user_rent.name}}</div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div
+            class="v-right"
+            id="MyDIv"
+        >
+            <div class="v-right-title">
+                <span>Detail Invoice</span>
+            </div>
+            <div class="v-right-body">
+                <div class="v-right-header">
+                    <div class="v-img-logo">
+                        <img src="../../../../../../assets/logo/logo.png">
+                        <div class="v-txt-logo">FindSafe</div>
+                    </div>
+                    <div class="v-description-header">
+                        <div>Findsafe.com</div>
+                        <div>47 Nguyen Luong Bang, Lien Chieu</div>
+                        <div>Da Nang, Viet Nam</div>
+                    </div>
+                </div>
+                <div class="v-right-content">
+                    <div class="v-invoice-header">
+                        <h3>Invoice</h3>
+                        <div class="v-des-header">
+                            <div class="v-col v-col-1-cus">
+                                <div>Invoice Name:</div>
+                                <div class="v-mT-10px">Invoice Date:</div>
+                                <div class="v-mT-10px">Balance Due:</div>
+                            </div>
+                            <div class="v-col v-col-2-cus">
+                                <div contenteditable="true">{{itemInvoice?.title}}</div>
+                                <div
+                                    class="v-mT-10px"
+                                    contenteditable="true"
+                                >
+                                    {{itemInvoice?.date_start? itemInvoice?.date_start : ''}} - {{itemInvoice?.date_end? itemInvoice?.date_end : ''}}
+                                </div>
+                                <div class="v-mT-10px">{{formatPrice(itemInvoice?.total)}}</div>
+                            </div>
+                            <div class="v-col v-col-3-cus">
+                                <div>{{itemInvoice?.user_rent.name}}</div>
+                                <div class="v-mT-10px">{{itemInvoice?.user_rent.email}}</div>
+                                <div class="v-mT-10px">{{itemInvoice?.user_rent.phonenumber}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="v-invoice-table">
+                        <div class="v-row">
+                            <div class="v-txt-left">Name</div>
+                            <div class="v-txt-right">Number before</div>
+                            <div class="v-txt-right">Number after</div>
+                            <div class="v-txt-right">Quantity</div>
+                            <div class="v-txt-right">Line total (VNĐ)</div>
+                        </div>
+                        <div class="v-row">
+                            <div class="v-txt-left">Water</div>
+                            <div
+                                class="v-txt-right"
+                                contenteditable="true"
+                            >
+                                {{formatPrice(itemInvoice?.water_before)}}
+                            </div>
+                            <div
+                                class="v-txt-right"
+                                contenteditable="true"
+                            >
+                                {{formatPrice(itemInvoice?.water_last)}}
+                            </div>
+                            <div class="v-txt-right">{{formatPrice(water)}}</div>
+                            <div class="v-txt-right">{{formatPrice(68690)}}</div>
+                        </div>
+                        <div class="v-row">
+                            <div class="v-txt-left">Electric</div>
+                            <div
+                                class="v-txt-right"
+                                contenteditable="true"
+                            >
+                                {{formatPrice(itemInvoice?.electric_before)}}
+                            </div>
+                            <div
+                                class="v-txt-right"
+                                contenteditable="true"
+                            >
+                                {{formatPrice(itemInvoice?.electric_last)}}
+                            </div>
+                            <div class="v-txt-right">{{electric}}</div>
+                            <div class="v-txt-right">{{formatPrice(49837)}}</div>
+                        </div>
+                        <div class="v-row">
+                            <div class="v-txt-left">Price room</div>
+                            <div class="v-txt-right"></div>
+                            <div class="v-txt-right"></div>
+                            <div class="v-txt-right">1</div>
+                            <div class="v-txt-right">
+                                {{formatPrice(itemInvoice?.room_id.price)}}
+                            </div>
+                        </div>
+                        <div class="v-row">
+                            <div class="v-txt-left"></div>
+                            <div class="v-txt-right"></div>
+                            <div class="v-txt-right"></div>
+                            <div class="v-txt-right">Subtotal</div>
+                            <div class="v-txt-right">{{formatPrice(itemInvoice?.total)}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="v-right-footer">
+                    <span>
+                        Payment is due within 7 days. Thank you.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="v-footer">
+        <span>
+            You can edit information in purple text fields.
+        </span>
+        <div>
+            <button (click)="saveInvoice()">Save</button>
+            <button (click)="exportAsPDF('MyDIv');">Download invoice</button>
+        </div>
+    </div>
+</div>

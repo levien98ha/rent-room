@@ -7,6 +7,7 @@ export class Constants {
   public static POPUP_DATE_CUSTOME = 4;
 
   public static SESSION = 'session';
+  public static SAVE_INVOICE = 'saveInvoice';
 
   // type overlay wait
   public static OVERLAY_WAIT_NON_SPIN = false;

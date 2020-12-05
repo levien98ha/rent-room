@@ -57,6 +57,7 @@ import { ManageUserComponent } from './views/admin/admin-page/manage-user/manage
 import { OverlayComponent } from './common/overlay/overlay.component';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
+import {OrderListModule} from 'primeng/orderlist';
 import {PaginatorModule} from 'primeng/paginator';
 import {
   AngularFireStorageModule,
@@ -65,6 +66,7 @@ import {
   BUCKET
 } from '@angular/fire/storage';
 import { AboutMeComponent } from './views/component/about-me/about-me.component';
+import { InvoiceDetailComponent } from './views/admin/admin-page/invoice/invoice-detail/invoice-detail.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +98,7 @@ import { AboutMeComponent } from './views/component/about-me/about-me.component'
     ManageUserComponent,
     OverlayComponent,
     AboutMeComponent,
+    InvoiceDetailComponent,
   ],
   imports: [
     TableModule,
@@ -107,6 +110,7 @@ import { AboutMeComponent } from './views/component/about-me/about-me.component'
     ProgressBarModule,
     ToolbarModule,
     RadioButtonModule,
+    OrderListModule,
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,

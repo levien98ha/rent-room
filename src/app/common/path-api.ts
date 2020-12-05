@@ -37,6 +37,8 @@ export class PathAPI {
   // INVOICE
   public static PATH_INVOICE = PathAPI.ApplicationProperties.concat('invoice');
   public static PATH_LIST_INVOCIE = PathAPI.ApplicationProperties.concat('invoice/list');
+  public static PATH_INVOICE_ID = PathAPI.ApplicationProperties.concat('invoice/id');
+  public static PATH_DOWNLOAD_INVOCIE = PathAPI.ApplicationProperties.concat('invoice/download');
 
   // INVOICE
   public static PATH_CATEGORY = PathAPI.ApplicationProperties.concat('category');

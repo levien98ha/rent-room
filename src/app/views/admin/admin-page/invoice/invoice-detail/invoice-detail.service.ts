@@ -5,15 +5,15 @@ import { PathAPI } from 'src/app/common/path-api';
 @Injectable({
   providedIn: 'root'
 })
-export class InvoiceService {
+export class InvoiceDetailService {
 
   constructor(private http: HttpClient) { }
 
-  getListRoom(json) {
-    return this.http.post<any>(PathAPI.PATH_LIST_ROOM_UNAVAILABLE, json);
+  getListInvoiceById(json) {
+    return this.http.post<any>(PathAPI.PATH_LIST_INVOCIE, json);
   }
 
-  createInvoice(json) {
-    return this.http.post<any>(PathAPI.PATH_DOWNLOAD_INVOCIE, json);
+  getDataInvoice(json) {
+    return this.http.post<any>(PathAPI.PATH_INVOICE_ID, json);
   }
 }

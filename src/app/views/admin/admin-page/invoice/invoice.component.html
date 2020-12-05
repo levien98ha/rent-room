@@ -80,8 +80,10 @@
                     <span
                         mdbTooltip={{item.title}}
                         placement="top"
+                        (click)="invoiceDetail(item)"
+                        class="v-link"
                     >
-                        {{item.title}}
+                        <a>{{item.title}}</a>
                     </span>
                 </td>
                 <td>
