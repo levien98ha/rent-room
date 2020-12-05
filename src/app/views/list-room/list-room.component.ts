@@ -111,8 +111,19 @@ export class ListRoomComponent implements OnInit {
     this.getListRoom();
   }
 
-  addSingle() {
-    this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
+  markRoom(data) {
+    if (this.role === '' || this.utilities.isEmptyString(this.role)) {
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'Accept',
+        message: this.mess.getMessage('You need login to mark room.'),
+        accept: () => {
+          this.router.navigate(['/login']);
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
+    }
   }
 
   clear() {

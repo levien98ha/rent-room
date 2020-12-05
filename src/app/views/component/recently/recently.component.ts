@@ -47,8 +47,9 @@ export class RecentlyComponent implements OnInit {
           this.router.navigate(['/login']);
         }
       });
+    } else {
+      this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
     }
-    this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
   }
 
   clear() {
