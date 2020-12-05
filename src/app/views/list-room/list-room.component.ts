@@ -78,6 +78,7 @@ export class ListRoomComponent implements OnInit {
     page: 1,
     sort: 'asc'
   };
+  role;
   constructor(
     private scroll: ViewportScroller,
     private messageService: MessageService,
@@ -108,6 +109,7 @@ export class ListRoomComponent implements OnInit {
     this.minArea = this.utilities.formatCurrency(this.area[0]) + ' m2';
     this.maxArea = this.utilities.formatCurrency(this.area[1]) + ' m2';
     this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
+    this.role = JSON.parse(localStorage.getItem(Constants.SESSION))?.role;
     this.getListRoom();
   }
 
