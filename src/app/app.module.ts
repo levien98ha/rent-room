@@ -64,6 +64,7 @@ import {
   AngularFireUploadTask,
   BUCKET
 } from '@angular/fire/storage';
+import { AboutMeComponent } from './views/component/about-me/about-me.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import {
     NavigationAdminComponent,
     ManageUserComponent,
     OverlayComponent,
+    AboutMeComponent,
   ],
   imports: [
     TableModule,

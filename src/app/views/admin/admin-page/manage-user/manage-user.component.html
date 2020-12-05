@@ -115,7 +115,7 @@
                     {{getAddress(user.ward, user.district, user.city)}}
                 </td>
                 <td>
-                    <span [class]="'product-badge role-' + user.role.toLowerCase()">{{capitalizeFirstLetter(user.role)}}</span>
+                    <span [class]="'product-badge role-' + user?.role?.toLowerCase()">{{capitalizeFirstLetter(user?.role)}}</span>
                 </td>
                 <td>
                     <button

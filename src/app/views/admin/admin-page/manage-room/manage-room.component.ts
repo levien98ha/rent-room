@@ -43,11 +43,7 @@ export class ManageRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.checkRole) {
-      this.getListRequestOwner();
-    } else {
-
-    }
+    this.getListRequestOwner();
   }
 
   loadData(event) {
