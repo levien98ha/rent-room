@@ -145,17 +145,18 @@ export class ManageUserComponent implements OnInit {
     this.progressInfos = [];
     this.selectedFiles = null;
     this.isNew = false;
-    this.objNew = {...user};
+    this.objNew = user;
     this.selectedRole = this.listRole.find(item => item.name === user.role);
+    console.log(user)
     await this.listCity.map(async (item) => {
       if (item.name.trim() === user.city.trim()) {
         this.selectedCity = item;
+        this.selectCity();
+        this.selectedDistrict = await this.listDistrict.find(async (item) => item.name === user.district);
+        this.selectDistrict();
+        this.selectedWard = await this.listWard.find(async (item) => item.name === user.ward);
       }
     });
-    this.selectCity();
-    this.selectedDistrict = await this.listDistrict.find(async (item) => item.name === user.district);
-    this.selectDistrict();
-    this.selectedWard = await this.listWard.find(async (item) => item.name === user.ward);
     this.fileInfos = user.imgUrl;
     this.userDialog = true;
   }
@@ -207,7 +208,7 @@ export class ManageUserComponent implements OnInit {
         gender: this.objNew.gender? 1 : 0,
         imgUrl: '',
         phonenumber: this.objNew.phonenumber
-      }
+      };
       this.manageUserService.createUser(this.objNew).subscribe((res: any) => {
         if (res.user) {
           this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Created', life: 3000});
@@ -230,7 +231,7 @@ export class ManageUserComponent implements OnInit {
 
   saveUser() {
     this.submitted = true;
-    if (this.objNew.name && this.objNew.gender && this.objNew.role && this.objNew.city) {
+    if (this.objNew.name && this.objNew.gender !== undefined && this.objNew.role && this.objNew.city) {
       this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
       this.profileAdminService.updateProfile(this.objNew).subscribe((res: any) => {
         if (res.user) {
@@ -300,8 +301,8 @@ export class ManageUserComponent implements OnInit {
     this.listWard = [];
     this.selectedDistrict = null;
     this.selectedWard = null;
-    if (this.selectedCity !== null) {
-      this.manageUserService.getDistrict(this.selectedCity.id).map(itemLv1 => {
+    if (this.selectedCity !== null && this.selectedCity !== '') {
+      this.manageUserService.getDistrict(this.selectedCity?.id).map(itemLv1 => {
         itemLv1.level2s.map(item => {
           const district = {id: '', name: ''};
           district.id = item.level2_id;
@@ -411,5 +412,9 @@ export class ManageUserComponent implements OnInit {
     const day  = ('0' + date.getDate()).slice(-2);
     const year  = ('0' + date.getFullYear()).slice(-4);
     this.objNew.date_of_birth = (day + '/' + month + '/' + year);
+  }
+
+  onChangeTime2(event: any) {
+    console.log(event.currentTarget.innerHTML)
   }
 }

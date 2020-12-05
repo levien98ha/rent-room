@@ -53,11 +53,69 @@ export class ManageRoomComponent implements OnInit {
   }
 
   accept(data) {
+    this.overlayService.close();
+    this.confirmationService.confirm({
+      acceptLabel: 'Yes',
+      key: 'info',
+      message: 'Accept this request?',
+      accept: () => {
+        this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+        const obj = {
+          userId: this.userId,
+          requestId: data._id,
+          status: 'ACCEPT'
+        }
+        this.manageRoomService.accept(obj).subscribe((res: any) => {
+          if (res.data.length !== 0) {
+           this.getListRequestOwner();
+          }
+        }, (err) => {
+          this.overlayService.close();
+          this.confirmationService.confirm({
+            rejectVisible: false,
+            acceptLabel: 'OK',
+            key: 'err',
+            message: this.mess.getMessage('MSE00051'),
+            accept: () => {
 
+            }
+          });
+        });
+      }
+    });
   }
 
   denided(data) {
+    this.overlayService.close();
+    this.confirmationService.confirm({
+      acceptLabel: 'Yes',
+      key: 'info',
+      message: 'Accept this request?',
+      accept: () => {
+        this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+        const obj = {
+          userId: this.userId,
+          requestId: data._id,
+          status: 'DENIED'
+        }
+        this.manageRoomService.accept(obj).subscribe((res: any) => {
+          if (res.data.length !== 0) {
+           this.getListRequestOwner();
+          }
+        }, (err) => {
+          this.overlayService.close();
+          this.confirmationService.confirm({
+            rejectVisible: false,
+            acceptLabel: 'OK',
+            key: 'err',
+            message: this.mess.getMessage('MSE00051'),
+            accept: () => {
 
+            }
+          });
+        });
+      }
+    });
   }
 
   getListRequestOwner() {

@@ -5,6 +5,7 @@ import { Utilities } from 'src/app/common/utilites';
 import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { Constants } from 'src/app/common/constant/Constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recently',
@@ -14,26 +15,35 @@ import { Constants } from 'src/app/common/constant/Constants';
 })
 export class RecentlyComponent implements OnInit {
 
-  price = '1,500,000 VNĐ';
-  address = 'Liên Chiểu, Đà Nẵng';
-  area = '25 m2';
-  time = '2020/11/01';
-
   listRecently = [];
   constructor(
     private messageService: MessageService,
     private recentlyService: RecentlyService,
     private confirmationService: ConfirmationService,
     public utilities: Utilities,
-    private overlayService: OverlayService
-    ) { }
+    private overlayService: OverlayService,
+    private router: Router
+  ) { }
 
+  role;
   mess: MessageSystem = new MessageSystem();
   ngOnInit(): void {
     this.getRoom();
+    const user = JSON.parse(localStorage.getItem(Constants.SESSION));
+    this.role = user.role;
   }
 
   addSingle() {
+    if (this.role === '' || this.utilities.isEmptyString(this.role)) {
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'Accept',
+        message: this.mess.getMessage('You need login to mark room.'),
+        accept: () => {
+          this.router.navigate(['/login']);
+        }
+      });
+    }
     this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
   }
 

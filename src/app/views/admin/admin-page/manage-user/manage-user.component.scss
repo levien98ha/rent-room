@@ -78,3 +78,11 @@ p-dialog label {
 :host ::ng-deep p-calendar .p-button-icon.pi.pi-calendar {
   height: 15px !important;
 }
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+}

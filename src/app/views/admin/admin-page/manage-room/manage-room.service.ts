@@ -17,4 +17,8 @@ export class ManageRoomService {
   getListRequestByUserRent(json) {
     return this.http.post<any>(PathAPI.PATH_LIST_REQUEST_SEND, json);
   }
+
+  accept(json) {
+    return this.http.put<any>(PathAPI.PATH_REQUEST, json);
+  }
 }

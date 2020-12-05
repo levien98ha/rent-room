@@ -1,4 +1,16 @@
 <p-toast></p-toast>
+<p-confirmDialog
+    key='err'
+    header="Error"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
+<p-confirmDialog
+    key='info'
+    header="Confirm"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
 <div class="card">
 <p-table
     #dt
@@ -41,8 +53,11 @@
                 Title
                 <p-sortIcon field="title"></p-sortIcon>
             </th>
-            <th pSortableColumn="name">
+            <th pSortableColumn="name" *ngIf="role !== 'user'" >
                 User request
+            </th>
+            <th pSortableColumn="name" *ngIf="role === 'user'" >
+              Owner
             </th>
             <th>Email</th>
             <th class="v-120px">Phonenumber</th>
@@ -53,7 +68,7 @@
                 Status
                 <p-sortIcon field="role"></p-sortIcon>
             </th>
-            <th class="v-110px">Action</th>
+            <th class="v-110px" *ngIf="role !== 'user'">Action</th>
         </tr>
     </ng-template>
     <ng-template
@@ -67,31 +82,41 @@
             <td class="v-90px">{{findIndexById(request._id) + 1}}</td>
             <td>
                 <span
-                    mdbTooltip={{request.title}}
+                    mdbTooltip={{request.room_id.title}}
                     placement="top"
                 >
-                    {{request.title}}
+                    {{request.room_id.title}}
                 </span>
             </td>
-            <td>
+            <td *ngIf="role !== 'user'" >
                 <span
-                    mdbTooltip={{request.request_rent}}
+                    mdbTooltip={{request.user_rent.name}}
                     placement="top"
                 >
-                    {{request.request_rent}}
+                    {{request.user_rent.name}}
                 </span>
             </td>
-            <td>{{request.email}}</td>
-            <td>{{request.phonenumber}}</td>
+          <td *ngIf="role === 'user'" >
+            <span
+                mdbTooltip={{request.user_owner.name}}
+                placement="top"
+            >
+                {{request.user_owner.name}}
+            </span>
+        </td>
+            <td *ngIf="role !== 'user'" >{{request.user_rent.email}}</td>
+            <td *ngIf="role === 'user'" >{{request.user_owner.email}}</td>
+            <td *ngIf="role !== 'user'" >{{request.user_rent.phonenumber}}</td>
+            <td *ngIf="role === 'user'" >{{request.user_owner.phonenumber}}</td>
             <td>
                 <span [class]="'product-badge status-' + request.status.replace(' ', '').toLowerCase()">{{request.status}}</span>
             </td>
-            <td>
+            <td *ngIf="role !== 'user'">
                 <button
                     pButton
                     pRipple
                     icon="pi pi-check"
-                    class="p-button-rounded p-success p-mr-2"
+                    class="p-button-rounded p-button-success p-mr-2"
                     (click)="accept(request)"
                     mdbTooltip="Accept"
                     placement="top"
@@ -105,6 +130,7 @@
                     (click)="denided(request)"
                     mdbTooltip="Denied"
                     placement="top"
+                    [disabled]="request.status !== 'IN PROGRESS'"
                 ></button>
             </td>
         </tr>

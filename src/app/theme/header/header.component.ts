@@ -11,16 +11,25 @@ export class HeaderComponent implements OnInit {
   selectTag = 1;
   constructor(private router: Router) { }
 
+  role;
+  checkUser = false;
   ngOnInit(): void {
+    this.role = JSON.parse(localStorage.getItem('session')).role;
+    if (this.role === 'user') {
+      this.checkUser = true;
+    }
     switch (this.router.url) {
       case '/room':
         this.selectTag = 2;
         break;
-      case '/news':
+      case '/request':
         this.selectTag = 3;
         break;
-      case '/about':
+      case '/collect':
         this.selectTag = 4;
+        break;
+      case '/about-us':
+        this.selectTag = 5;
         break;
       default: this.selectTag = undefined;
     }
@@ -34,12 +43,16 @@ export class HeaderComponent implements OnInit {
     this.selectTag = 2;
   }
 
-  changeNews() {
+  changeRequest() {
     this.selectTag = 3;
   }
 
-  changeAbout() {
+  changeCollect() {
     this.selectTag = 4;
+  }
+
+  changeAbout() {
+    this.selectTag = 5;
   }
 
   logOut() {

@@ -1,4 +1,10 @@
 <p-toast></p-toast>
+<p-confirmDialog
+    key='err'
+    header="Error"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
 <div class="card">
 <p-toolbar styleClass="p-mb-4">
   <ng-template pTemplate="left">
@@ -17,7 +23,7 @@
     [value]="listUser"
     [rows]="10"
     [paginator]="false"
-    [globalFilterFields]="['name','country.name','representative.name','status']"
+    [globalFilterFields]="['name','email','address']"
     [(selection)]="selectedUsers"
     [rowHover]="true"
     dataKey="id"
@@ -249,7 +255,11 @@
               [placeholder]="'dd/MM/yyyy'"
               [showIcon]="true"
               inputId="icon"
+              readonlyInput="true"
+              yearNavigator="true"
+              monthNavigator="true"
               dateFormat="dd/mm/yy"
+              yearRange="1920:2020"
               (onSelect)="onChangeTime($event)"
             >
             </p-calendar>

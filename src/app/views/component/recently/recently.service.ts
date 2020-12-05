@@ -11,4 +11,8 @@ export class RecentlyService {
   getRecentlyRoom() {
     return this.http.post<any>(PathAPI.PATH_RECENTLY_ROOM, '');
   }
+
+  createMark() {
+
+  }
 }
