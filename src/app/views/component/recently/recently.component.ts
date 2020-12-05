@@ -6,6 +6,7 @@ import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { Constants } from 'src/app/common/constant/Constants';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/views/login/login.service';
 
 @Component({
   selector: 'app-recently',
@@ -22,15 +23,18 @@ export class RecentlyComponent implements OnInit {
     private confirmationService: ConfirmationService,
     public utilities: Utilities,
     private overlayService: OverlayService,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService
   ) { }
 
   role;
+  userId;
   mess: MessageSystem = new MessageSystem();
   ngOnInit(): void {
     this.getRoom();
     const user = JSON.parse(localStorage.getItem(Constants.SESSION));
-    this.role = user.role;
+    this.userId = user?.userId;
+    this.role = user?.role;
   }
 
   addSingle() {

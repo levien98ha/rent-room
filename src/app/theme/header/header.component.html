@@ -55,7 +55,7 @@
             <li
                 class="nav-item {{selectTag === 4 ? 'active' : ''}} waves-light"
                 mdbWavesEffect
-                *ngIf="checkUser"
+                *ngIf="this.userId !== '' && this.userId !== null"
             >
                 <a
                     class="nav-link"
@@ -80,7 +80,7 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto nav-flex-icons">
-          <li class="nav-item avatar dropdown" dropdown>
+          <!-- <li class="nav-item avatar dropdown" dropdown>
             <div class="v-svg">
               <svg
                   mdbTooltip="Room Collections"
@@ -113,12 +113,12 @@
                   </g>
               </svg>
           </div>
-        </li>
+        </li> -->
           <li class="nav-item avatar dropdown" dropdown *ngIf="isLogin">
             <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-              <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" alt="" class="img-fluid rounded-circle z-depth-0"></a>
+              <img [src]="profile?.imgUrl ? profile?.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'" [alt]="profile?.name" class="img-fluid rounded-circle z-depth-0"></a>
             <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-              <a class="dropdown-item waves-light" mdbWavesEffect href="#">My account</a>
+              <a class="dropdown-item waves-light" mdbWavesEffect [routerLink]="['/manage']" *ngIf="!checkUser" >Manage</a>
               <a class="dropdown-item waves-light" mdbWavesEffect href="#" (click)="logOut()">Log out</a>
             </div>
           </li>

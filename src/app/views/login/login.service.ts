@@ -6,6 +6,10 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 })
 export class LoginService {
 
+  user = {
+    userId: '',
+    role: ''
+  };
   constructor(private http: HttpClient) { }
 
   loginUser(json) {

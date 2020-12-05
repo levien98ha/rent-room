@@ -22,6 +22,7 @@ export class PathAPI {
   public static PATH_SEARCH_SAME_ROOM = PathAPI.ApplicationProperties.concat('room/search/same');
   public static PATH_LIST_ROOM_CUSTOMER = PathAPI.ApplicationProperties.concat('user/room');
   public static PATH_DELETE_ROOM = PathAPI.ApplicationProperties.concat('room/delete');
+  public static PATH_LIST_ROOM_UNAVAILABLE = PathAPI.ApplicationProperties.concat('room/unvailable');
 
   // REQUEST
   public static PATH_REQUEST = PathAPI.ApplicationProperties.concat('request');

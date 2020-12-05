@@ -1,13 +1,14 @@
 <app-navigation-admin (chooseComponent)="choose($event)"></app-navigation-admin>
-
-<main [ngClass]="{'py-0 px-0 my-0 mx-0': specialPage}"  class="mx-lg-5" >
-
-  <div class="mt-5">
-    <app-profile-admin *ngIf="chooseTag==1"></app-profile-admin>
-    <app-dashboard *ngIf="chooseTag==2"></app-dashboard>
-    <app-manage-user *ngIf="chooseTag==3 && role === 'admin'"></app-manage-user>
-    <app-manage-room *ngIf="chooseTag===4"></app-manage-room>
-  </div>
+<main
+    [ngClass]="{'py-0 px-0 my-0 mx-0': specialPage}"
+    class="mx-lg-5"
+>
+    <div class="mt-5">
+        <app-profile-admin *ngIf="chooseTag==1"></app-profile-admin>
+        <app-dashboard *ngIf="chooseTag==2"></app-dashboard>
+        <app-manage-user *ngIf="chooseTag==3 && role === 'admin'"></app-manage-user>
+        <app-manage-room *ngIf="chooseTag===4"></app-manage-room>
+        <app-invoice *ngIf="chooseTag===5"></app-invoice>
+    </div>
 </main>
-
 <app-footer-admin></app-footer-admin>

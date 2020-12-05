@@ -100,13 +100,14 @@
                 </div>
             </div>
             <div class="v-social">
-              <span class="material-icons v-rent-now"
-                mdbTooltip="Rent now"
-                placement="top"
-                (click)="newRequest()"
-                *ngIf="checkRequest === true"
-              >
-                add_box
+                <span
+                    class="material-icons v-rent-now"
+                    mdbTooltip="Rent now"
+                    placement="top"
+                    (click)="newRequest()"
+                    *ngIf="checkRequest === true"
+                >
+                    add_box
                 </span>
                 <div class="v-share">
                     <div class="c-share">
@@ -121,7 +122,6 @@
                         >
                             <span class="c-share__icon"></span>
                         </label>
-
 
                         <ul
                             class="c-share_options"
@@ -212,7 +212,7 @@
         </div>
         <div class="v-room-suggest">
             <div class="v-suggest-title">More Room</div>
-            <ng-container *ngFor="let item of roomClone" >
+            <ng-container *ngFor="let item of roomClone">
                 <!-- Card -->
                 <mdb-card [routerLink]="['/room', item._id]">
                     <div
@@ -233,17 +233,16 @@
                     <mdb-card-body>
                         <!-- Title -->
                         <mdb-card-title>
-                            <h4 [routerLink]="['/room', item._id]">
-                                {{item?.title}}
-                            </h4>
+                            <h4 [routerLink]="['/room', item._id]">{{item?.title}}</h4>
                         </mdb-card-title>
-
 
                         <!-- Text -->
                         <mdb-card-text>
                             {{formatPrice(item?.price) + ' - ' + '25m2'}}
                         </mdb-card-text>
-                        <p> {{getAddress(item?.ward, item?.district, item?.city)}}</p>
+                        <p>
+                            {{getAddress(item?.ward, item?.district, item?.city)}}
+                        </p>
                         <div class="v-footer-card">
                             <p>{{item?.date_time}}</p>
                             <i

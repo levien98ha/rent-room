@@ -117,9 +117,9 @@
                         <p-sortIcon field="price"></p-sortIcon>
                     </th>
                     <th pSortableColumn="area">
-                      Area
-                      <p-sortIcon field="area"></p-sortIcon>
-                   </th>
+                        Area
+                        <p-sortIcon field="area"></p-sortIcon>
+                    </th>
                     <th pSortableColumn="category">
                         Category
                         <p-sortIcon field="category"></p-sortIcon>
@@ -162,7 +162,10 @@
                         {{formatPrice(product.price)}}
                         <span *ngIf="product.price">VNĐ</span>
                     </td>
-                    <td class="v-110px">{{formatPrice(product.area)}}<span *ngIf="product.area">m2</span></td>
+                    <td class="v-110px">
+                        {{formatPrice(product.area)}}
+                        <span *ngIf="product.area">m2</span>
+                    </td>
                     <td>{{product.category}}</td>
                     <td>
                         <span [class]="'product-badge status-' + product.status.toLowerCase()">{{product.status}}</span>

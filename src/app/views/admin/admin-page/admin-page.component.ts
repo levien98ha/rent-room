@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Constants } from 'src/app/common/constant/Constants';
+import { LoginService } from 'src/app/views/login/login.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -27,9 +28,11 @@ export class AdminPageComponent implements OnInit {
 
   chooseTag = 1;
   role;
+  userId;
   constructor(
     private router: Router,
-    private location: Location) {
+    private location: Location,
+    private loginService: LoginService) {
       this.router.events.subscribe((route:any) => {
         this.currentUrl = route.url;
 
@@ -39,7 +42,8 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem(Constants.SESSION));
-    this.role = user.role;
+    this.role = user?.role;
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
   }
 
   goBack(): void {

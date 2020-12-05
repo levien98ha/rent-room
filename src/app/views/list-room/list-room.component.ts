@@ -2,16 +2,14 @@ import { ListRoomService } from './list-room.service';
 import { ViewportScroller } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { Observable } from 'rxjs';
 import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { Utilities } from 'src/app/common/utilites';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
-import { ViewChild } from '@angular/core';
 import { Constants } from 'src/app/common/constant/Constants';
 import { ConfirmationService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../component/search/search.service';
-import { isNull } from '@angular/compiler/src/output/output_ast';
+import { LoginService } from 'src/app/views/login/login.service';
 
 @Component({
   selector: 'app-list-room',
@@ -89,7 +87,8 @@ export class ListRoomComponent implements OnInit {
     private listRoomService: ListRoomService,
     private router: Router,
     private route: ActivatedRoute,
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private loginService: LoginService) {
       this.route.queryParams?.subscribe(params => {
         this.search.category = params.category ? params.category : '';
         this.search.minPrice = params.minPrice ? params.minPrice : 0;
@@ -108,7 +107,7 @@ export class ListRoomComponent implements OnInit {
     this.maxPrice = this.utilities.formatCurrency(this.price[1]) + ' VNĐ';
     this.minArea = this.utilities.formatCurrency(this.area[0]) + ' m2';
     this.maxArea = this.utilities.formatCurrency(this.area[1]) + ' m2';
-    this.userId = JSON.parse(localStorage.getItem('session')).userId;
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
     this.getListRoom();
   }
 

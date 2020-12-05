@@ -10,6 +10,7 @@ import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { Constants } from 'src/app/common/constant/Constants';
 import { ConfirmationService } from 'primeng/api';
+import { LoginService } from 'src/app/views/login/login.service';
 
 @Component({
   selector: 'app-room-detail',
@@ -62,10 +63,11 @@ export class RoomDetailComponent implements OnInit {
     private utilities: Utilities,
     private router: Router,
     private confirmationService: ConfirmationService,
-    private overlayService: OverlayService) { }
+    private overlayService: OverlayService,
+    private loginService: LoginService) { }
 
   async ngOnInit() {
-    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION)).userId;
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
     this.route.paramMap.subscribe(params => {
       this.getDetailRoom();
     });

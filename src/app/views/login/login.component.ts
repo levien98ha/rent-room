@@ -102,6 +102,8 @@ export class LoginComponent implements OnInit {
           if (localStorage.getItem('session')) {
             localStorage.removeItem('session');
           }
+          this.loginService.user.userId = res.userId;
+          this.loginService.user.role = res.role;
           localStorage.setItem('session', JSON.stringify(res));
           this.router.navigate(['/']);
           this.overlayService.close();

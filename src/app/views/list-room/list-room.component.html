@@ -1,142 +1,157 @@
 <p-toast position="bottom-left"></p-toast>
 <app-header (clickSearchHeader)="getListRoom()"></app-header>
-<mdb-carousel [animation]="'slide'" class="v-header">
-  <mdb-carousel-item>
-    <img class="d-block w-10" src="../../../assets/img/room1.jpg" alt="First slide">
-  </mdb-carousel-item>
-  <mdb-carousel-item>
-    <img class="d-block w-100" src="../../../assets/img/room4.jpg" alt="Second slide">
-  </mdb-carousel-item>
-  <mdb-carousel-item>
-    <img class="d-block w-100" src="../../../assets/img/room5.jpg" alt="Third slide">
-  </mdb-carousel-item>
-  <div class="search">
-    <div class="v-container">
-      <div class="v-left">
-          <h4>Search properties for rent:</h4>
-          <div class="v-address">
-              <p-dropdown
-                  [options]="listCity"
-                  [(ngModel)]="selectedCity"
-                  (onChange)="selectCity()"
-                  placeholder="Select a City"
-                  optionLabel="name"
-                  [showClear]="true"
-                  [filter]="true"
-                  class="v-city"
-              >
-                  <ng-template pTemplate="selectedItem">
-                      <div
-                          class="country-item country-item-value"
-                          *ngIf="selectedCity"
-                      >
-                          <div>{{selectedCity.name}}</div>
-                      </div>
-                  </ng-template>
-              </p-dropdown>
-              <p-dropdown
-                  [options]="listDistrict"
-                  [(ngModel)]="selectedDistrict"
-                  (onChange)="selectDistrict()"
-                  placeholder="Select a District"
-                  optionLabel="name"
-                  [showClear]="true"
-                  [filter]="true"
-                  class="v-city"
-              >
-                  <ng-template pTemplate="selectedItem">
-                      <div
-                          class="country-item country-item-value"
-                          *ngIf="selectedDistrict"
-                      >
-                          <div>{{selectedDistrict.name}}</div>
-                      </div>
-                  </ng-template>
-              </p-dropdown>
-              <p-dropdown
-                  [options]="listWard"
-                  [(ngModel)]="selectedWard"
-                  placeholder="Select a Ward"
-                  optionLabel="name"
-                  [showClear]="true"
-                  (onChange)="selectWard()"
-                  [filter]="true"
-                  class="v-city"
-              >
-                  <ng-template pTemplate="selectedItem">
-                      <div
-                          class="country-item country-item-value"
-                          *ngIf="selectedWard"
-                      >
-                          <div>{{selectedWard.name}}</div>
-                      </div>
-                  </ng-template>
-              </p-dropdown>
-              <p-dropdown
-                  [options]="listCategory"
-                  [(ngModel)]="selectedCategory"
-                  placeholder="Select category"
-                  (onChange)="selectCategory()"
-                  optionLabel="name"
-                  [showClear]="true"
-                  class="v-city"
-              ></p-dropdown>
-          </div>
-          <div class="v-price">
-              <div class="v-slider">
-                  <div>
-                      <p class="v-price-text">
-                          <b class="v-price-title">Price of room:</b>
-                      </p>
-                      <p class="v-result">{{minPrice + ' - ' + maxPrice}}</p>
-                      <p-slider
-                          [range]="true"
-                          [(ngModel)]="price"
-                          [min]="0"
-                          [max]="100000000"
-                          [step]="50000"
-                          (onChange)="showValuePrice()"
-                      ></p-slider>
-                  </div>
-                  <div>
-                      <p class="v-price-text">
-                          <b class="v-price-title">Area of room:</b>
-                      </p>
-                      <p v-result>{{minArea + ' - ' + maxArea}}</p>
-                      <p-slider
-                          [range]="true"
-                          [(ngModel)]="area"
-                          [min]="0"
-                          [max]="1000"
-                          [step]="20"
-                          (onChange)="showValueArea()"
-                      ></p-slider>
-                  </div>
-              </div>
-              <button
-                  type="submit"
-                  (click)="getListRoom()"
-              >
-                  Search
-              </button>
-          </div>
-      </div>
-      <div class="v-right">
-          <h3>RENT ROOM.</h3>
-          <p class="v-right-description">
-              Finally, there’s one place to look for your room and your rent.
-          </p>
-          <div class="v-learmore">
-              <button
-                  type="submit"
-                  onClick="return false;"
-              >
-                  Learn more
-              </button>
-          </div>
-      </div>
-  </div>
-  </div>
+<mdb-carousel
+    [animation]="'slide'"
+    class="v-header"
+>
+    <mdb-carousel-item>
+        <img
+            class="d-block w-10"
+            src="../../../assets/img/room1.jpg"
+            alt="First slide"
+        >
+    </mdb-carousel-item>
+    <mdb-carousel-item>
+        <img
+            class="d-block w-100"
+            src="../../../assets/img/room4.jpg"
+            alt="Second slide"
+        >
+    </mdb-carousel-item>
+    <mdb-carousel-item>
+        <img
+            class="d-block w-100"
+            src="../../../assets/img/room5.jpg"
+            alt="Third slide"
+        >
+    </mdb-carousel-item>
+    <div class="search">
+        <div class="v-container">
+            <div class="v-left">
+                <h4>Search properties for rent:</h4>
+                <div class="v-address">
+                    <p-dropdown
+                        [options]="listCity"
+                        [(ngModel)]="selectedCity"
+                        (onChange)="selectCity()"
+                        placeholder="Select a City"
+                        optionLabel="name"
+                        [showClear]="true"
+                        [filter]="true"
+                        class="v-city"
+                    >
+                        <ng-template pTemplate="selectedItem">
+                            <div
+                                class="country-item country-item-value"
+                                *ngIf="selectedCity"
+                            >
+                                <div>{{selectedCity.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                    <p-dropdown
+                        [options]="listDistrict"
+                        [(ngModel)]="selectedDistrict"
+                        (onChange)="selectDistrict()"
+                        placeholder="Select a District"
+                        optionLabel="name"
+                        [showClear]="true"
+                        [filter]="true"
+                        class="v-city"
+                    >
+                        <ng-template pTemplate="selectedItem">
+                            <div
+                                class="country-item country-item-value"
+                                *ngIf="selectedDistrict"
+                            >
+                                <div>{{selectedDistrict.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                    <p-dropdown
+                        [options]="listWard"
+                        [(ngModel)]="selectedWard"
+                        placeholder="Select a Ward"
+                        optionLabel="name"
+                        [showClear]="true"
+                        (onChange)="selectWard()"
+                        [filter]="true"
+                        class="v-city"
+                    >
+                        <ng-template pTemplate="selectedItem">
+                            <div
+                                class="country-item country-item-value"
+                                *ngIf="selectedWard"
+                            >
+                                <div>{{selectedWard.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                    <p-dropdown
+                        [options]="listCategory"
+                        [(ngModel)]="selectedCategory"
+                        placeholder="Select category"
+                        (onChange)="selectCategory()"
+                        optionLabel="name"
+                        [showClear]="true"
+                        class="v-city"
+                    ></p-dropdown>
+                </div>
+                <div class="v-price">
+                    <div class="v-slider">
+                        <div>
+                            <p class="v-price-text">
+                                <b class="v-price-title">Price of room:</b>
+                            </p>
+                            <p class="v-result">{{minPrice + ' - ' + maxPrice}}</p>
+                            <p-slider
+                                [range]="true"
+                                [(ngModel)]="price"
+                                [min]="0"
+                                [max]="100000000"
+                                [step]="50000"
+                                (onChange)="showValuePrice()"
+                            ></p-slider>
+                        </div>
+                        <div>
+                            <p class="v-price-text">
+                                <b class="v-price-title">Area of room:</b>
+                            </p>
+                            <p v-result>{{minArea + ' - ' + maxArea}}</p>
+                            <p-slider
+                                [range]="true"
+                                [(ngModel)]="area"
+                                [min]="0"
+                                [max]="1000"
+                                [step]="20"
+                                (onChange)="showValueArea()"
+                            ></p-slider>
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        (click)="getListRoom()"
+                    >
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div class="v-right">
+                <h3>RENT ROOM.</h3>
+                <p class="v-right-description">
+                    Finally, there’s one place to look for your room and your rent.
+                </p>
+                <div class="v-learmore">
+                    <button
+                        type="submit"
+                        onClick="return false;"
+                    >
+                        Learn more
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </mdb-carousel>
 <div class="v-body">
     <button
@@ -153,17 +168,21 @@
         <div class="v-title-header">
             <div class="v-properties-title">Rental Properties</div>
             <div class="v-flex">
-              <span class="material-icons v-mR1" mdbTooltip="Reset search"
-              placement="top" (click)="resetSearch()">
-              find_replace
+                <span
+                    class="material-icons v-mR1"
+                    mdbTooltip="Reset search"
+                    placement="top"
+                    (click)="resetSearch()"
+                >
+                    find_replace
                 </span>
-              <p-dropdown
-              [options]="sort"
-              [(ngModel)]="selectedSort"
-              (onChange)="selectSort()"
-              placeholder
-              optionLabel="name"
-          ></p-dropdown>
+                <p-dropdown
+                    [options]="sort"
+                    [(ngModel)]="selectedSort"
+                    (onChange)="selectSort()"
+                    placeholder
+                    optionLabel="name"
+                ></p-dropdown>
             </div>
 
         </div>
@@ -292,5 +311,4 @@
         </div>
     </div>
 </div>
-
 <app-footer></app-footer>

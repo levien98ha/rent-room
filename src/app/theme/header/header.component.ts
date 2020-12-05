@@ -1,5 +1,8 @@
+import { HeaderService } from './header.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/views/login/login.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,16 +10,30 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  isLogin = true;
+  isLogin = false;
   selectTag = 1;
-  constructor(private router: Router) { }
+  profile;
+
+  constructor(private router: Router, private headerService: HeaderService, private loginService: LoginService) { }
 
   role;
+  userId;
   checkUser = false;
   ngOnInit(): void {
-    this.role = JSON.parse(localStorage.getItem('session')).role;
+    this.role = JSON.parse(localStorage.getItem('session'))?.role;
+    this.userId = JSON.parse(localStorage.getItem('session'))?.userId;
     if (this.role === 'user') {
       this.checkUser = true;
+    }
+
+    if (this.userId) {
+      this.isLogin = true;
+      const user = {
+        _id: this.userId
+      };
+      this.headerService.getProfileUser(user).subscribe(async (res: any) => {
+        this.profile = await res.user;
+      });
     }
     switch (this.router.url) {
       case '/room':
@@ -57,5 +74,8 @@ export class HeaderComponent implements OnInit {
 
   logOut() {
     this.isLogin = false;
+    localStorage.removeItem('session');
+    this.loginService.user.userId = '';
+    this.loginService.user.role = '';
   }
 }

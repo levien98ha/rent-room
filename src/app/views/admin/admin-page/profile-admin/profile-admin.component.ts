@@ -1,5 +1,5 @@
 import { ProfileAdminService } from './profile-admin.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { Utilities } from 'src/app/common/utilites';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
-import { ViewChild } from '@angular/core';
 import { Constants } from 'src/app/common/constant/Constants';
+import { LoginService } from 'src/app/views/login/login.service';
 
 @Component({
   selector: 'app-profile-admin',
@@ -64,13 +64,14 @@ export class ProfileAdminComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private storage: AngularFireStorage,
     public utilities: Utilities,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private loginService: LoginService
   ) { }
 
   mess: MessageSystem = new MessageSystem();
   ngOnInit(): void {
     this.getListCity();
-    this.userId = JSON.parse(localStorage.getItem('session')).userId;
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
     this.getProfile();
   }
 

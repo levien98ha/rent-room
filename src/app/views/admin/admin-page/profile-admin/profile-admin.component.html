@@ -67,6 +67,7 @@
                                     </label>
                                 </div>
 
+
                                 <!-- Material inline 2 -->
                                 <div class="form-check form-check-inline">
                                     <input
@@ -101,8 +102,8 @@
                                 dateFormat="dd/mm/yy"
                                 (onSelect)="onChangeTime($event)"
                             >
-                            {{profile.date_of_birth}}
-                          </p-calendar>
+                                {{profile.date_of_birth}}
+                            </p-calendar>
                         </div>
                         <div class="v-w62-custom">
                             <label for="icon">Address:</label>
@@ -212,10 +213,10 @@
                                 autocomplete="false"
                             >
                             <small
-                              class="p-invalid"
-                              *ngIf="!currentPass && submitted"
+                                class="p-invalid"
+                                *ngIf="!currentPass && submitted"
                             >
-                            Current password is required.
+                                Current password is required.
                             </small>
                         </div>
                         <div class="p-field v-w25">
@@ -227,10 +228,10 @@
                                 (focus)="this.submitted = false;"
                             >
                             <small
-                              class="p-invalid"
-                              *ngIf="!changePass && submitted"
+                                class="p-invalid"
+                                *ngIf="!changePass && submitted"
                             >
-                            New passwrod is required.
+                                New passwrod is required.
                             </small>
                         </div>
                         <div class="p-field v-w25">
@@ -242,16 +243,16 @@
                                 (focus)="this.submitted = false;"
                             >
                             <small
-                              class="p-invalid"
-                              *ngIf="verifyPass && changePass && changePass !== verifyPass"
+                                class="p-invalid"
+                                *ngIf="verifyPass && changePass && changePass !== verifyPass"
                             >
-                            The new password does not match the confirmation password.
+                                The new password does not match the confirmation password.
                             </small>
                             <small
-                              class="p-invalid"
-                              *ngIf="!verifyPass && submitted"
+                                class="p-invalid"
+                                *ngIf="!verifyPass && submitted"
                             >
-                            Verify passwrod is required.
+                                Verify passwrod is required.
                             </small>
                         </div>
                         <div class="p-field v-w20 v-flxEnd">
@@ -276,7 +277,10 @@
                                     class="hoverable"
                                     for="fileInput"
                                 >
-                                    <img [src]="profile.imgUrl ? profile.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'" class="v-img-admin">
+                                    <img
+                                        [src]="profile.imgUrl ? profile.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'"
+                                        class="v-img-admin"
+                                    >
                                     <div class="hover-text">Choose file</div>
                                     <div class="background"></div>
                                 </label>
@@ -302,44 +306,40 @@
                                 {{profile.email}}
                             </p> -->
                             <div class="description text-center v-mT1 v-txtL">
-                              <div class="v-flex">
-                                <div class="v-title">
-                                  <b>Email for Login:</b>
+                                <div class="v-flex">
+                                    <div class="v-title">
+                                        <b>Email for Login:</b>
+                                    </div>
+                                    <div class="v-info">{{profile.email}}</div>
                                 </div>
-                                <div class="v-info">
-                                  {{profile.email}}
+                                <div class="v-flex v-mT05">
+                                    <div class="v-title">
+                                        <b>Gender:</b>
+                                    </div>
+                                    <div class="v-info">
+                                        {{profile.gender === 1 ? 'Male' : 'Female'}}
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="v-flex v-mT05">
-                                <div class="v-title">
-                                  <b>Gender:</b>
+                                <div class="v-flex v-mT05">
+                                    <div class="v-title">
+                                        <b>Birthday:</b>
+                                    </div>
+                                    <div class="v-info">{{profile.date_of_birth}}</div>
                                 </div>
-                                <div class="v-info">
-                                  {{profile.gender === 1 ? 'Male' : 'Female'}}
+                                <div class="v-flex v-mT05">
+                                    <div class="v-title">
+                                        <b>Address:</b>
+                                    </div>
+                                    <div class="v-info">
+                                        {{formatAddress(profile.city, profile.district, profile.ward)}}
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="v-flex v-mT05">
-                                <div class="v-title">
-                                  <b>Birthday:</b>
+                                <div class="v-flex v-mT05">
+                                    <div class="v-title">
+                                        <b>Phone:</b>
+                                    </div>
+                                    <div class="v-info">{{profile.phonenumber}}</div>
                                 </div>
-                                <div class="v-info">
-                                  {{profile.date_of_birth}}
-                                </div>
-                              </div>
-                              <div class="v-flex v-mT05">
-                                <div class="v-title">
-                                  <b>Address:</b>
-                                </div>
-                                <div class="v-info">
-                                  {{formatAddress(profile.city, profile.district, profile.ward)}}
-                                </div>
-                              </div>
-                              <div class="v-flex v-mT05">
-                                <div class="v-title">
-                                  <b>Phone:</b>
-                                </div>
-                                <div class="v-info">{{profile.phonenumber}}</div>
-                              </div>
                             </div>
                         </div>
                     </div>

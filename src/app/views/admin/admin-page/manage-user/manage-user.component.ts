@@ -11,6 +11,8 @@ import { Utilities } from 'src/app/common/utilites';
 import { Observable } from 'rxjs';
 import { Constants } from 'src/app/common/constant/Constants';
 import { ProfileAdminService } from '../profile-admin/profile-admin.service';
+import { LoginService } from 'src/app/views/login/login.service';
+
 @Component({
   selector: 'app-manage-user',
   templateUrl: './manage-user.component.html',
@@ -100,11 +102,12 @@ export class ManageUserComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private storage: AngularFireStorage,
     public utilities: Utilities,
-    private overlayService: OverlayService) { }
+    private overlayService: OverlayService,
+    private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.getListCity();
-    this.userId = JSON.parse(localStorage.getItem('session')).userId;
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
     this.getListUsers(this.currentPage);
   }
 

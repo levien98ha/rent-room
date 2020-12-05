@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as dataAddress from '../../../../config/localtion/local.json';
 import { PathAPI } from 'src/app/common/path-api';
 
 @Injectable({

@@ -10,7 +10,7 @@ import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { Utilities } from 'src/app/common/utilites';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { ViewChild } from '@angular/core';
-
+import { LoginService } from 'src/app/views/login/login.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -106,12 +106,13 @@ export class DashboardComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private storage: AngularFireStorage,
     public utilities: Utilities,
-    private overlayService: OverlayService) { }
+    private overlayService: OverlayService,
+    private loginService: LoginService) { }
 
   ngOnInit(): void {
     // this.dashboardService.getProducts().then(data => this.products = data);
     this.getListCity();
-    this.userId = JSON.parse(localStorage.getItem('session')).userId;
+    this.userId = JSON.parse(localStorage.getItem('session'))?.userId;
     this.getListRoom(this.currentPage);
   }
 

@@ -7,6 +7,7 @@ import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { MessageService } from 'primeng/api';
+import { LoginService } from 'src/app/views/login/login.service';
 @Component({
   selector: 'app-manage-room',
   templateUrl: './manage-room.component.html',
@@ -31,10 +32,11 @@ export class ManageRoomComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     public utilities: Utilities,
-    private overlayService: OverlayService) {
+    private overlayService: OverlayService,
+    private loginService: LoginService) {
     const user = JSON.parse(localStorage.getItem(Constants.SESSION));
-    this.userId = JSON.parse(localStorage.getItem('session')).userId;
-    this.role = user.role;
+    this.userId = JSON.parse(localStorage.getItem(Constants.SESSION))?.userId;
+    this.role = user?.role;
     if (this.role !== 'user') {
         this.checkRole = true;
     }
@@ -49,7 +51,8 @@ export class ManageRoomComponent implements OnInit {
   }
 
   loadData(event) {
-
+    this.currentPage = event.page + 1;
+    this.getListRequestOwner();
   }
 
   accept(data) {
@@ -123,7 +126,7 @@ export class ManageRoomComponent implements OnInit {
     const obj = {
       userId: this.userId,
       page: this.currentPage
-    }
+    };
     this.manageRoomService.getListRequestByOwner(obj).subscribe((res: any) => {
       if (res) {
         this.listRequest = res.data;

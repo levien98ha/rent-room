@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
             }
             break;
           case Constants.OPERATOR:
-            if (this.checkAccessScreen(route.routeConfig.path, state.url, Constants.PATHS_ACCESS_USER)) {
+            if (this.checkAccessScreen(route.routeConfig.path, state.url, Constants.PATHS_ACCESS_OPERATOR)) {
               this.router.navigate([Constants.PATH_OPERATOR_MYPAGE]);
             }
             break;
