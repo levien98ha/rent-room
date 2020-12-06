@@ -23,4 +23,8 @@ export class LoginService {
   registerUser(json) {
     return this.http.post<any>(PathAPI.PATH_USERS, json);
   }
+
+  registerOperator(json) {
+    return this.http.post<any>(PathAPI.PATH_USERS.concat('/operator'), json);
+  }
 }

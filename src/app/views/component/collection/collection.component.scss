@@ -1,3 +1,98 @@
 .v-container {
-  min-height: 1000px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 800px;
+  padding: 0 2rem 0 2rem;
+  margin-top: 100px;
+  padding-bottom: 40px;
+}
+
+.v-title {
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333F48;
+}
+
+.v-content {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.carousel-cell {
+  width: 32%;
+  margin-bottom: 20px;
+}
+
+:host ::ng-deep .card-title h4{
+  height: 26px !important;
+  font-weight: bold !important;
+  color: #b08bf8 !important;
+  font-size: 15px !important;
+  line-height: 25px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+:host ::ng-deep .card-text {
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+:host ::ng-deep .carousel-cell {
+  border-radius: 5px;
+}
+
+:host ::ng-deep mdb-card-img img.img-fluid {
+  height: 270px !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+p {
+  color: #747373;
+}
+
+.v-footer-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+p {
+  max-height: 21px;
+  min-height: 21px;
+  max-width: 100%;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+mdb-card-title {
+  cursor: pointer;
+}
+
+.v-no-found {
+  min-height: 400px;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  background-color: #b08bf8;
+  opacity: 0.2;
+  .v-no-found-txt {
+    margin-top: 100px;
+    font-size: 50px;
+    font-weight: bold;
+  }
 }

@@ -1,11 +1,10 @@
 import { RoomDetailService } from './room-detail.service';
-import { Component, HostListener, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { Galleria } from 'primeng/galleria';
 import { Utilities } from '../../common/utilites';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Observable } from 'rxjs';
 import { OverlayService } from 'src/app/common/overlay/overlay.service';
 import { MessageSystem } from 'src/app/config/message/messageSystem';
 import { Constants } from 'src/app/common/constant/Constants';

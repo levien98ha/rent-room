@@ -17,10 +17,10 @@
                         <div
                             class="view rgba-white-slight waves-light"
                             mdbWavesEffect
+                            [routerLink]="['room', item._id]"
                         >
                             <!-- Card img -->
                             <mdb-card-img
-                                [routerLink]="['room', item._id]"
                                 [src]="item.photo[0].img_url"
                                 alt="Imgae room"
                             ></mdb-card-img>

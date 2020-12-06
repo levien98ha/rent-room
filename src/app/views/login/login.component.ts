@@ -42,6 +42,9 @@ export class LoginComponent implements OnInit {
     password: '',
     confirmPassword: ''
   };
+
+  checkbox = false;
+
   mess: MessageSystem = new MessageSystem();
   constructor(
     private messageService: MessageService,
@@ -183,6 +186,7 @@ export class LoginComponent implements OnInit {
   }
 
   registerUser() {
+    console.log(this.checkbox)
     if (!this.dataRegister.email) { this.errMessageRegister.email = this.mess.getMessage('MSE00001', 'Email'); }
     if (!this.dataRegister.password) { this.errMessageRegister.password = this.mess.getMessage('MSE00001', 'Email'); }
     if (!this.dataRegister.confirmPassword) { this.errMessageRegister.confirmPassword = this.mess.getMessage('MSE00001', 'Email'); }
@@ -192,31 +196,58 @@ export class LoginComponent implements OnInit {
       const obj = {
         email: this.dataRegister.email,
         password: this.dataRegister.password
-      }
-      this.loginService.registerUser(obj).subscribe((res: any) => {
-        if (res) {
-          if (!res.error) {
-            this.addSingle2();
-            this.login = true;
-            this.register = false;
-            this.reset = false;
-            this.router.navigate(['/login']);
-            this.overlayService.close();
-          } else {
-            this.overlayService.close();
-            if (res.error === 'MSE00029') {
-              this.confirmationService.confirm({
-                rejectVisible: false,
-                acceptLabel: 'OK',
-                message: this.mess.getMessage('MSE00029'),
-                accept: () => {
+      };
+      if (this.checkbox) {
+        this.loginService.registerOperator(obj).subscribe((res: any) => {
+          if (res) {
+            if (!res.error) {
+              this.addSingle2();
+              this.login = true;
+              this.register = false;
+              this.reset = false;
+              this.router.navigate(['/login']);
+              this.overlayService.close();
+            } else {
+              this.overlayService.close();
+              if (res.error === 'MSE00029') {
+                this.confirmationService.confirm({
+                  rejectVisible: false,
+                  acceptLabel: 'OK',
+                  message: this.mess.getMessage('MSE00029'),
+                  accept: () => {
 
-                }
-            });
+                  }
+              });
+              }
             }
           }
-        }
-      });
+        });
+      } else {
+        this.loginService.registerUser(obj).subscribe((res: any) => {
+          if (res) {
+            if (!res.error) {
+              this.addSingle2();
+              this.login = true;
+              this.register = false;
+              this.reset = false;
+              this.router.navigate(['/login']);
+              this.overlayService.close();
+            } else {
+              this.overlayService.close();
+              if (res.error === 'MSE00029') {
+                this.confirmationService.confirm({
+                  rejectVisible: false,
+                  acceptLabel: 'OK',
+                  message: this.mess.getMessage('MSE00029'),
+                  accept: () => {
+
+                  }
+              });
+              }
+            }
+          }
+        });
+      }
     }
   }
 

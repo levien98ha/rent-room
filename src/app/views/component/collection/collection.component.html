@@ -1,6 +1,81 @@
 <p-toast position="bottom-left"></p-toast>
 <app-header></app-header>
 <div class="v-container">
-  
+    <div class="v-title">List of your favorites</div>
+    <div class="v-content">
+        <ng-container *ngFor="let item of listMark">
+            <div class="carousel-cell">
+                <!-- Card -->
+                <mdb-card>
+                    <div
+                        class="view rgba-white-slight waves-light"
+                        mdbWavesEffect
+                        [routerLink]="['/room', item?.room_id?._id]"
+                    >
+                        <!-- Card img -->
+                        <mdb-card-img
+                            [src]="item?.room_id?.photo[0].img_url"
+                            alt="Imgae room"
+                        ></mdb-card-img>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!-- Card content -->
+                    <mdb-card-body>
+                        <!-- Title -->
+                        <mdb-card-title [routerLink]="['/room', item?.room_id?._id]">
+                            <h4>{{item?.room_id?.title}}</h4>
+                        </mdb-card-title>
+
+                        <!-- Text -->
+                        <mdb-card-text>
+                            {{getPrice(item?.room_id?.price) + ' - ' + getArea(item?.room_id?.area)}}
+                        </mdb-card-text>
+                        <p>
+                            {{getAddress(item?.room_id?.city, item?.room_id?.district, item?.room_id?.ward)}}
+                        </p>
+                        <div class="v-footer-card">
+                            <p>{{item?.room_id?.date_time}}</p>
+                            <span
+                                class="material-icons"
+                                *ngIf="!checkItem(item.room_id._id)"
+                                mdbTooltip="Marks Room"
+                                placement="top"
+                                (click)="markRoom(item.room_id)"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer;"
+                            >
+                                star_border
+                            </span>
+                            <span
+                                class="material-icons"
+                                *ngIf="checkItem(item.room_id._id)"
+                                mdbTooltip="Marks Room"
+                                placement="top"
+                                (click)="delMarkRoom(item.room_id)"
+                                style="font-size: 2rem;justify-content: flex-end;display: flex;cursor: pointer; color: #ffb200;"
+                            >
+                                star
+                            </span>
+                        </div>
+                    </mdb-card-body>
+                </mdb-card>
+                <!-- Card -->
+            </div>
+        </ng-container>
+        <div
+        *ngIf="listMark.length === 0"
+        class="v-no-found"
+    >
+        <h3 class="v-no-found-txt">You do not like any room.</h3>
+    </div>
+    </div>
+    <app-pagination
+        *ngIf="listMark.length > 0"
+        [totalRecord]="totalRecord"
+        [currentPage]="currentPage"
+        [totalPage]="totalPage"
+        (currentPageChange)="selectPage($event)"
+    ></app-pagination>
 </div>
 <app-footer></app-footer>

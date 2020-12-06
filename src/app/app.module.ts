@@ -59,6 +59,8 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import {OrderListModule} from 'primeng/orderlist';
 import {PaginatorModule} from 'primeng/paginator';
+import {CheckboxModule} from 'primeng/checkbox';
+import {DataViewModule} from 'primeng/dataview';
 import {
   AngularFireStorageModule,
   AngularFireStorageReference,
@@ -103,6 +105,7 @@ import { RequestSendComponent } from './views/component/request-send/request-sen
     RequestSendComponent,
   ],
   imports: [
+    DataViewModule,
     TableModule,
     CalendarModule,
     MultiSelectModule,
@@ -113,6 +116,7 @@ import { RequestSendComponent } from './views/component/request-send/request-sen
     ToolbarModule,
     RadioButtonModule,
     OrderListModule,
+    CheckboxModule,
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,

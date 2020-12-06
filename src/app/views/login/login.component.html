@@ -334,7 +334,9 @@
                         ></path>
                     </svg>
                 </div>
-
+            </div>
+            <div class="floating-label">
+              <p-checkbox [(ngModel)]="checkbox" name="checkRole" [binary]="true" label="Check here if you want to post room rentals."></p-checkbox>
             </div>
             <div class="floating-label">
                 Already have an account?
@@ -344,7 +346,7 @@
                 type="submit"
                 (click)="registerUser()"
             >
-                Create account.
+                Create account
             </button>
         </form>
     </div>
