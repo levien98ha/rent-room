@@ -66,7 +66,8 @@ export class ManageRoomComponent implements OnInit {
         }
         this.manageRoomService.accept(obj).subscribe((res: any) => {
           if (res.data.length !== 0) {
-           this.getListRequestOwner();
+            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Successfully accept.', life: 3000});
+            this.getListRequestOwner();
           }
         }, (err) => {
           this.overlayService.close();
@@ -99,7 +100,8 @@ export class ManageRoomComponent implements OnInit {
         }
         this.manageRoomService.accept(obj).subscribe((res: any) => {
           if (res.data.length !== 0) {
-           this.getListRequestOwner();
+            this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Successfully denied.', life: 3000});
+            this.getListRequestOwner();
           }
         }, (err) => {
           this.overlayService.close();

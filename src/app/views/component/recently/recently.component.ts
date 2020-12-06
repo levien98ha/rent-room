@@ -29,12 +29,76 @@ export class RecentlyComponent implements OnInit {
 
   role;
   userId;
+  listMark = [];
   mess: MessageSystem = new MessageSystem();
   ngOnInit(): void {
     this.getRoom();
     const user = JSON.parse(localStorage.getItem(Constants.SESSION));
     this.userId = user?.userId;
     this.role = user?.role;
+    this.getListMark();
+  }
+
+  getListMark() {
+    const obj = {
+      userId: this.userId
+    };
+    this.recentlyService.getMarkRoom(obj).subscribe((res: any) => {
+      this.listMark = res.data;
+    });
+  }
+
+  markRoom(data) {
+    if (this.userId === '' || this.utilities.isEmptyString(this.userId)) {
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'Accept',
+        message: this.mess.getMessage('You need login to mark room.'),
+        accept: () => {
+          this.router.navigate(['/login']);
+        }
+      });
+    } else {
+      const obj = {
+        userId: this.userId,
+        roomId: data._id
+      };
+      this.recentlyService.markRoom(obj).subscribe((res: any) => {
+        this.getListMark();
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
+      }, (err) => {
+        this.overlayService.close();
+        this.confirmationService.confirm({
+          rejectVisible: false,
+          acceptLabel: 'OK',
+          message: this.mess.getMessage('MSE00051'),
+          accept: () => {
+
+          }
+        });
+      });
+    }
+  }
+
+  delMarkRoom(data) {
+    const obj = {
+      userId: this.userId,
+      roomId: data._id
+    };
+    this.recentlyService.deleteMark(obj).subscribe((res: any) => {
+      this.getListMark();
+      this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Deleted.' });
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        message: this.mess.getMessage('MSE00051'),
+        accept: () => {
+
+        }
+      });
+    });
   }
 
   addSingle() {
@@ -101,5 +165,9 @@ export class RecentlyComponent implements OnInit {
     if (data) {
       return this.utilities.formatCurrency(data) + 'm2';
     }
+  }
+
+  checkItem(data) {
+    return this.listMark.filter(x => x.room_id === data).length;
   }
 }

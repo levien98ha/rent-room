@@ -278,6 +278,12 @@ export class Utilities {
     return value && /(\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01]))/g.test(value) && check(value);
   }
 
+  formatDateDDMMYYY(value: any) {
+    // tslint:disable-next-line: max-line-length
+    const regex = /(((0[1-9]|[12][0-9]|3[01])([/])(0[13578]|10|12)([/])(\d{4}))|(([0][1-9]|[12][0-9]|30)([/])(0[469]|11)([/])(\d{4}))|((0[1-9]|1[0-9]|2[0-8])([/])(02)([/])(\d{4}))|((29)(\/)(02)([/])([02468][048]00))|((29)([/])(02)([/])([13579][26]00))|((29)([/])(02)([/])([0-9][0-9][0][48]))|((29)([/])(02)([/])([0-9][0-9][2468][048]))|((29)([/])(02)([/])([0-9][0-9][13579][26])))/g;
+    return regex.test(value);
+  }
+
   formatDateYYYYMM(value: any) {
     const check = val => {
       const arrDate = value.split(/\//);
@@ -285,6 +291,12 @@ export class Utilities {
     };
 
     return value && /(\d{4}\/(0[1-9]|1[0-2]))/g.test(value) && check(value);
+  }
+
+  isNumber(value: any) {
+    const str = value.toString();
+    const regex = /\d+/g;
+    return regex.test(str);
   }
 
   formatTimeHHMMSS(value: any) {

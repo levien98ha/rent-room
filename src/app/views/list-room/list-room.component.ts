@@ -29,21 +29,21 @@ export class ListRoomComponent implements OnInit {
   listDistrict = [];
   listWard = [];
   listCategory = [{
-      id: 1,
-      name: 'Room'
-    },
-    {
-      id: 2,
-      name: 'House'
-    },
-    {
-      id: 3,
-      name: 'Townhouse'
-    },
-    {
-      id: 4,
-      name: 'Villa'
-    }
+    id: 1,
+    name: 'Room'
+  },
+  {
+    id: 2,
+    name: 'House'
+  },
+  {
+    id: 3,
+    name: 'Townhouse'
+  },
+  {
+    id: 4,
+    name: 'Villa'
+  }
   ];
   selectedCity: any;
   selectedDistrict: any;
@@ -56,6 +56,7 @@ export class ListRoomComponent implements OnInit {
   minArea: string;
   maxArea: string;
 
+  listMark = [];
   sort = [{ id: 1, name: 'Most Relevant' },
   // { id: 2, name: 'Date (Newest - Oldest)' },
   // { id: 3, name: 'Date (Oldest - Newest)' },
@@ -90,17 +91,17 @@ export class ListRoomComponent implements OnInit {
     private route: ActivatedRoute,
     private searchService: SearchService,
     private loginService: LoginService) {
-      this.route.queryParams?.subscribe(params => {
-        this.search.category = params.category ? params.category : '';
-        this.search.minPrice = params.minPrice ? params.minPrice : 0;
-        this.search.maxPrice = params.maxPrice ? params.maxPrice : 100000000;
-        this.search.minArea = params.minArea ? params.minArea : 0;
-        this.search.maxArea = params.maxArea ? params.maxArea : 1000;
-        this.search.city = params.city ? params.city : '';
-        this.search.district = params.district ? params.district : '';
-        this.search.ward = params.ward ? params.ward : '';
+    this.route.queryParams?.subscribe(params => {
+      this.search.category = params.category ? params.category : '';
+      this.search.minPrice = params.minPrice ? params.minPrice : 0;
+      this.search.maxPrice = params.maxPrice ? params.maxPrice : 100000000;
+      this.search.minArea = params.minArea ? params.minArea : 0;
+      this.search.maxArea = params.maxArea ? params.maxArea : 1000;
+      this.search.city = params.city ? params.city : '';
+      this.search.district = params.district ? params.district : '';
+      this.search.ward = params.ward ? params.ward : '';
     });
-    }
+  }
 
   ngOnInit(): void {
     this.getListCity();
@@ -124,8 +125,55 @@ export class ListRoomComponent implements OnInit {
         }
       });
     } else {
-      this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
+      const obj = {
+        userId: this.userId,
+        roomId: data._id
+      };
+      this.listRoomService.markRoom(obj).subscribe((res: any) => {
+        this.getListMark();
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
+      }, (err) => {
+        this.overlayService.close();
+        this.confirmationService.confirm({
+          rejectVisible: false,
+          acceptLabel: 'OK',
+          message: this.mess.getMessage('MSE00051'),
+          accept: () => {
+
+          }
+        });
+      });
     }
+  }
+
+  delMarkRoom(data) {
+    const obj = {
+      userId: this.userId,
+      roomId: data._id
+    };
+    this.listRoomService.deleteMark(obj).subscribe((res: any) => {
+      this.getListMark();
+      this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Deleted.' });
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        message: this.mess.getMessage('MSE00051'),
+        accept: () => {
+
+        }
+      });
+    });
+  }
+
+  getListMark() {
+    const obj = {
+      userId: this.userId
+    };
+    this.listRoomService.getMarkRoom(obj).subscribe((res: any) => {
+      this.listMark = res.data;
+    });
   }
 
   clear() {
@@ -351,6 +399,7 @@ export class ListRoomComponent implements OnInit {
         this.listRoom = res.data;
         this.totalPage = res.pageSize;
         this.totalRecord = res.total;
+        this.getListMark();
         this.overlayService.close();
       }
     }, (err) => {
@@ -389,7 +438,7 @@ export class ListRoomComponent implements OnInit {
   getListCity() {
     this.listCity = [];
     this.searchService.getCity().map(item => {
-      const city = {id: '', name: ''};
+      const city = { id: '', name: '' };
       city.id = item.level1_id;
       city.name = item.name;
       this.listCity.push(city);
@@ -405,14 +454,14 @@ export class ListRoomComponent implements OnInit {
     if (this.selectedCity !== null) {
       this.searchService.getDistrict(this.selectedCity.id).map(itemLv1 => {
         itemLv1.level2s.map(item => {
-          const district = {id: '', name: ''};
+          const district = { id: '', name: '' };
           district.id = item.level2_id;
           district.name = item.name;
           this.listDistrict.push(district);
         });
       });
       this.search.city = this.selectedCity?.name;
-      this.search.district = '' ;
+      this.search.district = '';
       this.search.ward = '';
     } else {
       this.search.city = '';
@@ -425,7 +474,7 @@ export class ListRoomComponent implements OnInit {
     if (this.selectedDistrict !== null && this.selectedCity !== null) {
       this.searchService.getWard(this.selectedCity.id, this.selectedDistrict.id).map(item => {
         item.map(itemWard => {
-          const ward = {id: '', name: ''};
+          const ward = { id: '', name: '' };
           ward.id = itemWard.level3_id;
           ward.name = itemWard.name;
           this.listWard.push(ward);
@@ -469,5 +518,9 @@ export class ListRoomComponent implements OnInit {
     this.maxArea = this.utilities.formatCurrency(this.area[1]) + ' m2';
     this.search.minArea = this.area[0];
     this.search.maxArea = this.area[1];
+  }
+
+  checkItem(data) {
+    return this.listMark.filter(x => x.room_id === data).length;
   }
 }

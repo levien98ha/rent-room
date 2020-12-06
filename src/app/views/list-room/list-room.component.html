@@ -222,13 +222,30 @@
                     <div class="v-des-text">{{item.description}}</div>
                     <div class="v-item-footer">
                         <div class="v-time">Date: {{item.date_time}}</div>
-                        <i
+                        <!-- <i
                             class="pi pi-star-o"
+
+                        ></i> -->
+                        <span
+                            class="material-icons"
+                            *ngIf="!checkItem(item._id)"
                             mdbTooltip="Marks Room"
                             placement="top"
                             (click)="markRoom(item)"
                             style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5;"
-                        ></i>
+                        >
+                            star_border
+                        </span>
+                        <span
+                            class="material-icons"
+                            *ngIf="checkItem(item._id)"
+                            mdbTooltip="Marks Room"
+                            placement="top"
+                            (click)="delMarkRoom(item)"
+                            style="font-size: 2.35rem;justify-content: flex-end;display: flex;cursor: pointer; z-index: 5; color: #ffb200;"
+                        >
+                            star
+                        </span>
                     </div>
                 </div>
             </div>

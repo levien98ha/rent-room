@@ -416,8 +416,4 @@ export class ManageUserComponent implements OnInit {
     const year  = ('0' + date.getFullYear()).slice(-4);
     this.objNew.date_of_birth = (day + '/' + month + '/' + year);
   }
-
-  onChangeTime2(event: any) {
-    console.log(event.currentTarget.innerHTML)
-  }
 }

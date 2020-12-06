@@ -51,6 +51,7 @@ export class RoomDetailComponent implements OnInit {
   room;
   roomClone = [];
   checkRequest = true;
+  listMark = [];
   @ViewChild('galleria') galleria: Galleria;
 
   mess: MessageSystem = new MessageSystem();
@@ -175,10 +176,10 @@ export class RoomDetailComponent implements OnInit {
   }
 
   async getDetailRoom() {
-    this.checkRequest = true;
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
     const url = window.location.href;
     const idRoom = url.slice(url.lastIndexOf('/') + 1, url.length);
+    this.getListMark();
     const obj = {
       _id: idRoom
     };
@@ -186,19 +187,14 @@ export class RoomDetailComponent implements OnInit {
     if (this.userId) {
       const objUser = {
         _id: idRoom,
-        user_rent: this.userId
+        userId: this.userId
       };
       await this.roomDetailService.getListRequestUser(objUser).subscribe((res: any) => {
-        if (res.data.length !== 0) {
-          // res.data.request.map(item => {
-          //   if (item.room_id === idRoom) {
+        if (res._id !== null && res._id !== undefined) {
           this.checkRequest = false;
-          //   }
-          // });
         }
       });
     }
-
     await this.roomDetailService.getRoomById(obj).subscribe(async (res: any) => {
       if (res.data) {
         this.room = res.data[0];
@@ -242,7 +238,19 @@ export class RoomDetailComponent implements OnInit {
       };
       this.roomDetailService.createRequest(obj).subscribe(async (res: any) => {
         if (res.data) {
+          this.checkRequest = true;
+          const url = window.location.href;
+          const idRoom = url.slice(url.lastIndexOf('/') + 1, url.length);
           await this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Request successfull.', life: 3000});
+          const objUser = {
+            _id: idRoom,
+            userId: this.userId
+          };
+          await this.roomDetailService.getListRequestUser(objUser).subscribe((response: any) => {
+            if (response._id !== null && response._id !== undefined) {
+              this.checkRequest = false;
+            }
+          });
           this.overlayService.close();
         }
       }, (err) => {
@@ -259,6 +267,68 @@ export class RoomDetailComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  getListMark() {
+    const obj = {
+      userId: this.userId
+    };
+    this.roomDetailService.getMarkRoom(obj).subscribe((res: any) => {
+      this.listMark = res.data;
+    });
+  }
+
+  markRoom(data) {
+    if (this.userId === '' || this.utilities.isEmptyString(this.userId)) {
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'Accept',
+        message: this.mess.getMessage('You need login to mark room.'),
+        accept: () => {
+          this.router.navigate(['/login']);
+        }
+      });
+    } else {
+      const obj = {
+        userId: this.userId,
+        roomId: data._id
+      };
+      this.roomDetailService.markRoom(obj).subscribe((res: any) => {
+        this.getListMark();
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Mark room is successful.' });
+      }, (err) => {
+        this.overlayService.close();
+        this.confirmationService.confirm({
+          rejectVisible: false,
+          acceptLabel: 'OK',
+          message: this.mess.getMessage('MSE00051'),
+          accept: () => {
+
+          }
+        });
+      });
+    }
+  }
+
+  delMarkRoom(data) {
+    const obj = {
+      userId: this.userId,
+      roomId: data._id
+    };
+    this.roomDetailService.deleteMark(obj).subscribe((res: any) => {
+      this.getListMark();
+      this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Deleted.' });
+    }, (err) => {
+      this.overlayService.close();
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'OK',
+        message: this.mess.getMessage('MSE00051'),
+        accept: () => {
+
+        }
+      });
+    });
   }
 
   // format
@@ -278,5 +348,9 @@ export class RoomDetailComponent implements OnInit {
       }
     }
     return result;
+  }
+
+  checkItem(data) {
+    return this.listMark.filter(x => x.room_id === data).length;
   }
 }

@@ -1,3 +1,6 @@
+import { UserComponent } from './views/user/user.component';
+import { RequestSendComponent } from './views/component/request-send/request-send.component';
+import { CollectionComponent } from './views/component/collection/collection.component';
 import { InvoiceDetailComponent } from './views/admin/admin-page/invoice/invoice-detail/invoice-detail.component';
 import { AdminPageComponent } from './views/admin/admin-page/admin-page.component';
 import { RoomDetailComponent } from './views/room-detail/room-detail.component';
@@ -34,6 +37,18 @@ const routes: Routes = [
   {
     path: 'invoice/:id',
     component: InvoiceDetailComponent
+  },
+  {
+    path: 'request-send',
+    component: RequestSendComponent
+  },
+  {
+    path: 'collection',
+    component: CollectionComponent
+  },
+  {
+    path: 'profile',
+    component: UserComponent
   },
 ];
 

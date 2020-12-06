@@ -39,7 +39,7 @@ export class Message_EN {
   public static MSE00016 = 'Please specify {0} more than or equal to {1}.';
   public static MSE00017 = 'Please specify {0} less than {1}.';
   public static MSE00018 = 'Please specify {0} less than or equal to {1}.';
-  public static MSE00019 = 'The format {0} (yyyy/MM/dd) is incorrect.';
+  public static MSE00019 = 'The format {0} (dd/MM/yyy) is incorrect.';
   public static MSE00020 = 'Please enter halfsize digits.';
   public static MSE00021 = 'Enter {item_name} from {x} to {y} halfsize digits.';
   public static MSE00022 = 'The format of {0} is incorrect.';

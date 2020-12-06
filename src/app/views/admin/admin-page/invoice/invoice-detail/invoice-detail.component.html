@@ -73,11 +73,26 @@
                             </div>
                             <div class="v-col v-col-2-cus">
                                 <div contenteditable="true">{{itemInvoice?.title}}</div>
-                                <div
-                                    class="v-mT-10px"
-                                    contenteditable="true"
-                                >
-                                    {{itemInvoice?.date_start? itemInvoice?.date_start : ''}} - {{itemInvoice?.date_end? itemInvoice?.date_end : ''}}
+                                <div class="v-mT-10px v-date">
+                                    <div
+                                        contenteditable="true"
+                                        class="v-mR-10px {{messageErr.date_start? 'v-err' : ''}}"
+                                        (focusout)="checkFormatDateStart($event)"
+                                        mdbTooltip={{messageErr.date_start}}
+                                        placement="top"
+                                    >
+                                        {{itemInvoice?.date_start? itemInvoice?.date_start : ''}}
+                                    </div>
+                                    -
+                                    <div
+                                        class="v-mL-10px {{messageErr.date_end? 'v-err' : ''}}"
+                                        contenteditable="true"
+                                        (focusout)="checkFormatDateEnd($event)"
+                                        mdbTooltip={{messageErr.date_end}}
+                                        placement="top"
+                                    >
+                                        {{itemInvoice?.date_end? itemInvoice?.date_end : ''}}
+                                    </div>
                                 </div>
                                 <div class="v-mT-10px">{{formatPrice(itemInvoice?.total)}}</div>
                             </div>
@@ -99,36 +114,60 @@
                         <div class="v-row">
                             <div class="v-txt-left">Water</div>
                             <div
-                                class="v-txt-right"
+                                class="v-txt-right {{messageErr.water_before? 'v-err' : ''}}"
                                 contenteditable="true"
+                                oncopy="return false"
+                                oncut="return false"
+                                onpaste="return false"
+                                mdbTooltip={{messageErr.water_before}}
+                                placement="top"
+                                (focusout)="validateWaterBefore($event)"
                             >
                                 {{formatPrice(itemInvoice?.water_before)}}
                             </div>
                             <div
-                                class="v-txt-right"
+                                class="v-txt-right {{messageErr.water_after? 'v-err' : ''}}"
                                 contenteditable="true"
+                                oncopy="return false"
+                                oncut="return false"
+                                onpaste="return false"
+                                mdbTooltip={{messageErr.water_after}}
+                                placement="top"
+                                (focusout)="validateWaterLast($event)"
                             >
                                 {{formatPrice(itemInvoice?.water_last)}}
                             </div>
                             <div class="v-txt-right">{{formatPrice(water)}}</div>
-                            <div class="v-txt-right">{{formatPrice(68690)}}</div>
+                            <div class="v-txt-right">{{formatPrice(totalWater)}}</div>
                         </div>
                         <div class="v-row">
                             <div class="v-txt-left">Electric</div>
                             <div
-                                class="v-txt-right"
+                                class="v-txt-right {{messageErr.electric_before? 'v-err' : ''}}"
                                 contenteditable="true"
+                                oncopy="return false"
+                                oncut="return false"
+                                onpaste="return false"
+                                mdbTooltip={{messageErr.electric_before}}
+                                placement="top"
+                                (focusout)="validateElectricBefore($event)"
                             >
                                 {{formatPrice(itemInvoice?.electric_before)}}
                             </div>
                             <div
-                                class="v-txt-right"
+                                class="v-txt-right {{messageErr.electric_after? 'v-err' : ''}}"
                                 contenteditable="true"
+                                oncopy="return false"
+                                oncut="return false"
+                                onpaste="return false"
+                                mdbTooltip={{messageErr.electric_after}}
+                                placement="top"
+                                (focusout)="validateElectricLast($event)"
                             >
                                 {{formatPrice(itemInvoice?.electric_last)}}
                             </div>
                             <div class="v-txt-right">{{electric}}</div>
-                            <div class="v-txt-right">{{formatPrice(49837)}}</div>
+                            <div class="v-txt-right">{{formatPrice(totalElectric)}}</div>
                         </div>
                         <div class="v-row">
                             <div class="v-txt-left">Price room</div>

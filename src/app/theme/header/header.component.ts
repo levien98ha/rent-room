@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.role = JSON.parse(localStorage.getItem('session'))?.role;
     this.userId = JSON.parse(localStorage.getItem('session'))?.userId;
-    if (this.role === 'user') {
+    if (this.role === 'user' || this.role === 'operator') {
       this.checkUser = true;
     }
 
@@ -39,13 +39,13 @@ export class HeaderComponent implements OnInit {
       case '/room':
         this.selectTag = 2;
         break;
-      case '/request':
+      case '/request-send':
         this.selectTag = 3;
         break;
-      case '/collect':
+      case '/collection':
         this.selectTag = 4;
         break;
-      case '/about-us':
+      case '/profile':
         this.selectTag = 5;
         break;
       default: this.selectTag = undefined;

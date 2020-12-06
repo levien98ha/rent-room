@@ -42,11 +42,12 @@
             <li
                 class="nav-item {{selectTag === 3 ? 'active' : ''}} waves-light"
                 mdbWavesEffect
-                *ngIf="checkUser"
             >
                 <a
                     class="nav-link"
+                    routerLink="/request-send"
                     (click)="changeRequest()"
+                    *ngIf="this.userId !== '' && this.userId !== null && this.userId !== undefined"
                 >
                     Request
                     <span class="sr-only">(current)</span>
@@ -55,10 +56,11 @@
             <li
                 class="nav-item {{selectTag === 4 ? 'active' : ''}} waves-light"
                 mdbWavesEffect
-                *ngIf="this.userId !== '' && this.userId !== null"
+                *ngIf="this.userId !== '' && this.userId !== null && this.userId !== undefined"
             >
                 <a
                     class="nav-link"
+                    routerLink="/collection"
                     (click)="changeCollect()"
                 >
                     Collection
@@ -68,13 +70,14 @@
             <li
                 class="nav-item {{selectTag === 5 ? 'active' : ''}} waves-light"
                 mdbWavesEffect
+                *ngIf="this.userId !== '' && this.userId !== null && this.userId !== undefined"
             >
                 <a
                     class="nav-link"
-                    routerLink="/about-us"
+                    routerLink="/profile"
                     (click)="changeAbout()"
                 >
-                    About us
+                    Profile
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
@@ -118,7 +121,7 @@
             <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
               <img [src]="profile?.imgUrl ? profile?.imgUrl : 'https://www.w3schools.com/howto/img_avatar.png'" [alt]="profile?.name" class="img-fluid rounded-circle z-depth-0"></a>
             <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-              <a class="dropdown-item waves-light" mdbWavesEffect [routerLink]="['/manage']" *ngIf="!checkUser" >Manage</a>
+              <a class="dropdown-item waves-light" mdbWavesEffect [routerLink]="['/manage']" *ngIf="role && role !== 'user'" >Manage</a>
               <a class="dropdown-item waves-light" mdbWavesEffect href="#" (click)="logOut()">Log out</a>
             </div>
           </li>

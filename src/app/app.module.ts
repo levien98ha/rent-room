@@ -65,8 +65,9 @@ import {
   AngularFireUploadTask,
   BUCKET
 } from '@angular/fire/storage';
-import { AboutMeComponent } from './views/component/about-me/about-me.component';
 import { InvoiceDetailComponent } from './views/admin/admin-page/invoice/invoice-detail/invoice-detail.component';
+import { CollectionComponent } from './views/component/collection/collection.component';
+import { RequestSendComponent } from './views/component/request-send/request-send.component';
 
 @NgModule({
   declarations: [
@@ -97,8 +98,9 @@ import { InvoiceDetailComponent } from './views/admin/admin-page/invoice/invoice
     NavigationAdminComponent,
     ManageUserComponent,
     OverlayComponent,
-    AboutMeComponent,
     InvoiceDetailComponent,
+    CollectionComponent,
+    RequestSendComponent,
   ],
   imports: [
     TableModule,

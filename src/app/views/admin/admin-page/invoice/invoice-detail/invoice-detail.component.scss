@@ -319,3 +319,21 @@ div[contenteditable="true"]:focus {
     margin-right: auto;
   }
 }
+
+.v-date {
+  display: flex;
+  flex-direction: row;
+}
+
+.v-mR-10px {
+  margin-right: 10px;
+}
+
+.v-mL-10px {
+  margin-left: 10px;
+}
+
+.v-err {
+  background-color: red !important;
+  color: white !important;
+}

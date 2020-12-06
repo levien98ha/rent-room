@@ -16,4 +16,8 @@ export class InvoiceDetailService {
   getDataInvoice(json) {
     return this.http.post<any>(PathAPI.PATH_INVOICE_ID, json);
   }
+
+  saveInvocie(json) {
+    return this.http.put<any>(PathAPI.PATH_INVOICE, json);
+  }
 }

@@ -1,0 +1,141 @@
+<p-toast position="bottom-left"></p-toast>
+<p-confirmDialog
+    key='err'
+    header="Error"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
+<p-confirmDialog
+    key='info'
+    header="Confirm"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>
+<app-header></app-header>
+<div class="v-container">
+    <div class="card">
+        <p-table
+            #dt
+            [value]="listRequest"
+            [rows]="10"
+            [paginator]="false"
+            [globalFilterFields]="['title','status']"
+            [(selection)]="selectedRequest"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+        >
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">Manage Request</h5>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th
+                        pSortableColumn="id"
+                        class="v-w5"
+                    >
+                        Id
+                    </th>
+                    <th
+                        pSortableColumn="title"
+                        class="v-txt"
+                    >
+                        Title
+                        <p-sortIcon field="title"></p-sortIcon>
+                    </th>
+                    <th class="v-120px">Image Room</th>
+                    <th
+                        pSortableColumn="name"
+                        class="v-w15"
+                    >
+                        Owner
+                    </th>
+                    <th class="v-w15">Email</th>
+                    <th class="v-w15">Phonenumber</th>
+                    <th
+                        pSortableColumn="role"
+                        class="v-120px"
+                    >
+                        Status
+                        <p-sortIcon field="role"></p-sortIcon>
+                    </th>
+                    <th class="v-90px">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template
+                pTemplate="body"
+                ngFor
+                let-request
+                [ngForOf]="listRequest"
+                let-i="index"
+            >
+                <tr>
+                    <td class="v-90px">{{findIndexById(request._id) + 1}}</td>
+                    <td>
+                        <span
+                            mdbTooltip={{request.room_id.title}}
+                            placement="top"
+                            class="v-link"
+                            [routerLink]="['/room', request.room_id._id]"
+                        >
+                            {{request.room_id.title}}
+                        </span>
+                    </td>
+                    <td class="v-txt">
+                        <img
+                            [src]="request.room_id.photo[0]?.img_url"
+                            [alt]="request.room_id.photo[0]?.name"
+                            width="100"
+                            height="100"
+                            class="p-shadow-4"
+                        >
+                    </td>
+                    <td>
+                        <span
+                            mdbTooltip={{request.user_owner.name}}
+                            placement="top"
+                        >
+                            {{request.user_owner.name}}
+                        </span>
+                    </td>
+                    <td>{{request.user_owner.email}}</td>
+                    <td>{{request.user_owner.phonenumber}}</td>
+                    <td>
+                        <span [class]="'product-badge status-' + request.status.replace(' ', '').toLowerCase()">{{request.status}}</span>
+                    </td>
+                    <td>
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-times"
+                            class="p-button-rounded p-button-danger"
+                            (click)="cancel(request)"
+                            mdbTooltip="Cancel"
+                            placement="top"
+                            [disabled]="request.status !== 'IN PROGRESS'"
+                        ></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    In total there are {{totalRecord}} requests.
+                </div>
+            </ng-template>
+        </p-table>
+        <div style="position: relative;">
+            <p-paginator
+                rows="10"
+                (onPageChange)="loadData($event)"
+                [totalRecords]="totalRecord"
+            >
+                <!-- [rowsPerPageOptions]="[10, 25]" -->
+            </p-paginator>
+        </div>
+
+    </div>
+</div>
+<app-footer></app-footer>
