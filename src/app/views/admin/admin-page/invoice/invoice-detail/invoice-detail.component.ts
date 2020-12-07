@@ -34,7 +34,8 @@ export class InvoiceDetailComponent implements OnInit {
     water_after: '',
     date_start: '',
     date_end: ''
-  }
+  };
+  selectCheck = false;
   mess: MessageSystem = new MessageSystem();
   constructor(
     private invoiceDetailService: InvoiceDetailService,
@@ -78,6 +79,7 @@ export class InvoiceDetailComponent implements OnInit {
 
   selecteItem(data) {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    this.selectCheck = true;
     const obj = {
       _id: data._id
     };
@@ -169,98 +171,110 @@ export class InvoiceDetailComponent implements OnInit {
   checkFormatDateStart(event) {
     const strDate = event.currentTarget.innerHTML;
     this.messageErr.date_start = '';
-    if (this.utilities.formatDateDDMMYYY(strDate)) {
-      this.itemInvoice.date_start = strDate;
-    } else {
-      this.messageErr.date_start = this.mess.getMessage('MSE00019', 'Date Start');
+    if (this.selectCheck) {
+      if (this.utilities.formatDateDDMMYYY(strDate)) {
+        this.itemInvoice.date_start = strDate;
+      } else {
+        this.messageErr.date_start = this.mess.getMessage('MSE00019', 'Date Start');
+      }
     }
   }
 
   checkFormatDateEnd(event) {
     const strDate = event.currentTarget.innerHTML;
     this.messageErr.date_end = '';
-    if (this.utilities.formatDateDDMMYYY(strDate)) {
-      this.itemInvoice.date_end = strDate;
-    } else {
-      this.messageErr.date_end = this.mess.getMessage('MSE00019', 'Date End');
+    if (this.selectCheck) {
+      if (this.utilities.formatDateDDMMYYY(strDate)) {
+        this.itemInvoice.date_end = strDate;
+      } else {
+        this.messageErr.date_end = this.mess.getMessage('MSE00019', 'Date End');
+      }
     }
   }
 
   validateWaterBefore(event) {
     const strDate = event.currentTarget.innerHTML;
     this.messageErr.water_before = '';
-    if (!this.utilities.isEmptyString(strDate.toString())) {
-      if (this.utilities.isNumber(strDate)) {
-        this.itemInvoice.water_before = Number(strDate);
-        if (this.itemInvoice.water_before > this.itemInvoice.water_last && this.utilities.isNumber(this.itemInvoice.water_last)) {
-          this.messageErr.water_before = this.mess.getMessage('MSE00018', 'Number Water Before', 'Number Water After');
+    if (this.selectCheck) {
+      if (!this.utilities.isEmptyString(strDate.toString())) {
+        if (this.utilities.isNumber(strDate)) {
+          this.itemInvoice.water_before = Number(strDate);
+          if (this.itemInvoice.water_before > this.itemInvoice.water_last && this.utilities.isNumber(this.itemInvoice.water_last)) {
+            this.messageErr.water_before = this.mess.getMessage('MSE00018', 'Number Water Before', 'Number Water After');
+          } else {
+            this.calcTotal();
+          }
         } else {
-          this.calcTotal();
+          this.messageErr.water_before = this.mess.getMessage('MSE00020', 'Number Water Before');
         }
       } else {
-        this.messageErr.water_before = this.mess.getMessage('MSE00020', 'Number Water Before');
+        this.messageErr.water_before = this.mess.getMessage('MSE00001', 'Number Water Before');
       }
-    } else {
-      this.messageErr.water_before = this.mess.getMessage('MSE00001', 'Number Water Before');
     }
   }
 
   validateWaterLast(event) {
     const strDate = event.currentTarget.innerHTML;
     this.messageErr.water_after = '';
-    if (!this.utilities.isEmptyString(strDate.toString())) {
-      if (this.utilities.isNumber(strDate)) {
-        this.itemInvoice.water_last = Number(strDate);
-        if (this.itemInvoice.water_before > this.itemInvoice.water_last && this.utilities.isNumber(this.itemInvoice.water_before)) {
-          this.messageErr.water_after = this.mess.getMessage('MSE00016', 'Number Water After', 'Number Water Before');
+    if (this.selectCheck) {
+      if (!this.utilities.isEmptyString(strDate.toString())) {
+        if (this.utilities.isNumber(strDate)) {
+          this.itemInvoice.water_last = Number(strDate);
+          if (this.itemInvoice.water_before > this.itemInvoice.water_last && this.utilities.isNumber(this.itemInvoice.water_before)) {
+            this.messageErr.water_after = this.mess.getMessage('MSE00016', 'Number Water After', 'Number Water Before');
+          } else {
+            this.calcTotal();
+          }
         } else {
-          this.calcTotal();
+          this.messageErr.water_after = this.mess.getMessage('MSE00020', 'Number Water After');
         }
       } else {
-        this.messageErr.water_after = this.mess.getMessage('MSE00020', 'Number Water After');
+        this.messageErr.water_before = this.mess.getMessage('MSE00001', 'Number Water After');
       }
-    } else {
-      this.messageErr.water_before = this.mess.getMessage('MSE00001', 'Number Water After');
     }
   }
 
   validateElectricBefore(event) {
     const strDate = event.currentTarget.innerHTML;
     this.messageErr.electric_before = '';
-    if (!this.utilities.isEmptyString(strDate.toString())) {
-      if (this.utilities.isNumber(strDate)) {
-        this.itemInvoice.electric_before = Number(strDate);
-        if (this.itemInvoice.electric_before > this.itemInvoice.electric_last
-            && this.utilities.isNumber(this.itemInvoice.electric_last)) {
-          this.messageErr.electric_before = this.mess.getMessage('MSE00016', 'Number Electric Before', 'Number Electric After');
+    if (this.selectCheck) {
+      if (!this.utilities.isEmptyString(strDate.toString())) {
+        if (this.utilities.isNumber(strDate)) {
+          this.itemInvoice.electric_before = Number(strDate);
+          if (this.itemInvoice.electric_before > this.itemInvoice.electric_last
+              && this.utilities.isNumber(this.itemInvoice.electric_last)) {
+            this.messageErr.electric_before = this.mess.getMessage('MSE00016', 'Number Electric Before', 'Number Electric After');
+          } else {
+            this.calcTotal();
+          }
         } else {
-          this.calcTotal();
+          this.messageErr.electric_before = this.mess.getMessage('MSE00020', 'Number Electric Before');
         }
       } else {
-        this.messageErr.electric_before = this.mess.getMessage('MSE00020', 'Number Electric Before');
+        this.messageErr.electric_before = this.mess.getMessage('MSE00001', 'Number Electric Before');
       }
-    } else {
-      this.messageErr.electric_before = this.mess.getMessage('MSE00001', 'Number Electric Before');
     }
   }
 
   validateElectricLast(event) {
     const strDate = event.currentTarget.innerHTML;
     this.messageErr.electric_after = '';
-    if (!this.utilities.isEmptyString(strDate.toString())) {
-      if (this.utilities.isNumber(strDate)) {
-        this.itemInvoice.electric_last = Number(strDate);
-        if (this.itemInvoice.electric_before > this.itemInvoice.electric_last
-          && this.utilities.isNumber(this.itemInvoice.electric_before)) {
-          this.messageErr.electric_after = this.mess.getMessage('MSE00016', 'Number Electric After', 'Number Electric Before');
+    if (this.selectCheck) {
+      if (!this.utilities.isEmptyString(strDate.toString())) {
+        if (this.utilities.isNumber(strDate)) {
+          this.itemInvoice.electric_last = Number(strDate);
+          if (this.itemInvoice.electric_before > this.itemInvoice.electric_last
+            && this.utilities.isNumber(this.itemInvoice.electric_before)) {
+            this.messageErr.electric_after = this.mess.getMessage('MSE00016', 'Number Electric After', 'Number Electric Before');
+          } else {
+            this.calcTotal();
+          }
         } else {
-          this.calcTotal();
+          this.messageErr.electric_after = this.mess.getMessage('MSE00020', 'Number Electric Before');
         }
       } else {
-        this.messageErr.electric_after = this.mess.getMessage('MSE00020', 'Number Electric Before');
+        this.messageErr.electric_after = this.mess.getMessage('MSE00001', 'Number Electric Before');
       }
-    } else {
-      this.messageErr.electric_after = this.mess.getMessage('MSE00001', 'Number Electric Before');
     }
   }
 

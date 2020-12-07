@@ -1,3 +1,4 @@
+import { CreateInvoiceComponent } from './views/admin/admin-page/invoice/create-invoice/create-invoice.component';
 import { UserComponent } from './views/user/user.component';
 import { RequestSendComponent } from './views/component/request-send/request-send.component';
 import { CollectionComponent } from './views/component/collection/collection.component';
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'invoice/:id',
     component: InvoiceDetailComponent
+  },
+  {
+    path: 'invoice/create/:id',
+    component: CreateInvoiceComponent
   },
   {
     path: 'request-send',

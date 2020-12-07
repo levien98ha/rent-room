@@ -70,6 +70,7 @@ import {
 import { InvoiceDetailComponent } from './views/admin/admin-page/invoice/invoice-detail/invoice-detail.component';
 import { CollectionComponent } from './views/component/collection/collection.component';
 import { RequestSendComponent } from './views/component/request-send/request-send.component';
+import { CreateInvoiceComponent } from './views/admin/admin-page/invoice/create-invoice/create-invoice.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { RequestSendComponent } from './views/component/request-send/request-sen
     InvoiceDetailComponent,
     CollectionComponent,
     RequestSendComponent,
+    CreateInvoiceComponent,
   ],
   imports: [
     DataViewModule,
