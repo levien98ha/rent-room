@@ -121,7 +121,7 @@ export class InvoiceComponent implements OnInit {
     function checkChild() {
       if (myWindow.closed) {
         const isSaveMatterCar = localStorage.getItem(Constants.SAVE_INVOICE);
-        if (isSaveMatterCar !== '') {
+        if (isSaveMatterCar) {
           localStorage.removeItem(Constants.SAVE_INVOICE);
           clearInterval(timer);
           self.getListRoom();

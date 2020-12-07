@@ -153,6 +153,39 @@ export class InvoiceDetailComponent implements OnInit {
     });
   }
 
+  deleteInvoice(data) {
+    this.confirmationService.confirm({
+      acceptLabel: 'Yes',
+      key: 'info',
+      message: this.mess.getMessage('MSW00002'),
+      accept: () => {
+        this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+        this.invoiceDetailService.deleteInvoice({_id: data}).subscribe((res: any) => {
+          this.itemInvoice = null;
+          this.getListInvoice(this.idRoom);
+          this.total = undefined;
+          this.totalElectric = undefined;
+          this.totalWater = undefined;
+          this.electric = undefined;
+          this.water = undefined;
+          localStorage.setItem(Constants.SAVE_INVOICE, 'true');
+          this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000});
+        }, (error) => {
+          this.overlayService.close();
+          this.confirmationService.confirm({
+            rejectVisible: false,
+            acceptLabel: 'OK',
+            key: 'err',
+            message: this.mess.getMessage('MSE00051'),
+            accept: () => {
+
+            }
+          });
+        });
+      }
+    });
+  }
+
   // download pdf
   exportAsPDF(div: any) {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);

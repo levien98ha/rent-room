@@ -20,4 +20,8 @@ export class InvoiceDetailService {
   saveInvocie(json) {
     return this.http.put<any>(PathAPI.PATH_INVOICE, json);
   }
+
+  deleteInvoice(json) {
+    return this.http.post<any>(PathAPI.PATH_DELETE_INVOCIE, json);
+  }
 }
