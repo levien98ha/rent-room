@@ -127,6 +127,7 @@ export class RecentlyComponent implements OnInit {
         this.listRecently = res.data;
         this.overlayService.close();
       }
+      this.overlayService.close();
     }, (err) => {
       this.overlayService.close();
       this.confirmationService.confirm({

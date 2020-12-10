@@ -20,13 +20,17 @@
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .carousel-cell {
   width: 32%;
   margin-bottom: 20px;
+}
+
+.carousel-cell:not(:nth-child(3n)) {
+  margin-right: 2%;
 }
 
 :host ::ng-deep .card-title h4{
