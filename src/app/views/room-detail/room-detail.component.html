@@ -221,14 +221,14 @@
                 <mdb-badge class="v-phone">
                     <a [href]="'tel:+84'+profile?.phonenumber">{{profile?.phonenumber}}</a>
                 </mdb-badge>
-                <mdb-badge class="v-mail">Send mail</mdb-badge>
+                <mdb-badge class="v-mail"><a [href]="'mailto:'+profile?.email">Send mail</a></mdb-badge>
             </div>
         </div>
         <div class="v-room-suggest">
             <div class="v-suggest-title">More Room</div>
             <ng-container *ngFor="let item of roomClone">
                 <!-- Card -->
-                <mdb-card [routerLink]="['/room', item._id]">
+                <mdb-card>
                     <div
                         class="view rgba-white-slight waves-light"
                         mdbWavesEffect
@@ -289,3 +289,8 @@
 </div>
 <p-toast position="bottom-left"></p-toast>
 <app-footer></app-footer>
+<p-confirmDialog
+    header="Required"
+    icon="pi pi-exclamation-triangle"
+    rejectVisible="false"
+></p-confirmDialog>

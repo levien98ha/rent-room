@@ -264,7 +264,15 @@ export class RoomDetailComponent implements OnInit {
         });
       });
     } else {
-      this.router.navigate(['/login']);
+      this.confirmationService.confirm({
+        rejectVisible: false,
+        acceptLabel: 'Accept',
+        message: 'You need login to mark room.',
+        accept: () => {
+          this.router.navigate(['/login']);
+        }
+      });
+      // this.router.navigate(['/login']);
     }
   }
 
@@ -282,7 +290,7 @@ export class RoomDetailComponent implements OnInit {
       this.confirmationService.confirm({
         rejectVisible: false,
         acceptLabel: 'Accept',
-        message: this.mess.getMessage('You need login to mark room.'),
+        message: 'You need login to mark room.',
         accept: () => {
           this.router.navigate(['/login']);
         }

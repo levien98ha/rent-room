@@ -119,7 +119,7 @@ export class ListRoomComponent implements OnInit {
       this.confirmationService.confirm({
         rejectVisible: false,
         acceptLabel: 'Accept',
-        message: this.mess.getMessage('You need login to mark room.'),
+        message: 'You need login to mark room.',
         accept: () => {
           this.router.navigate(['/login']);
         }
@@ -394,6 +394,7 @@ export class ListRoomComponent implements OnInit {
 
   getListRoom() {
     this.overlayService.open(Constants.OVERLAY_WAIT_SPIN);
+    this.search.page = 1;
     this.listRoomService.getListRoom(this.search).subscribe((res: any) => {
       if (res) {
         this.listRoom = res.data;

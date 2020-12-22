@@ -37,23 +37,28 @@ const routes: Routes = [
   },
   {
     path: 'invoice/:id',
-    component: InvoiceDetailComponent
+    component: InvoiceDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'invoice/create/:id',
-    component: CreateInvoiceComponent
+    component: CreateInvoiceComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'request-send',
-    component: RequestSendComponent
+    component: RequestSendComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'collection',
-    component: CollectionComponent
+    component: CollectionComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile',
-    component: UserComponent
+    component: UserComponent,
+    canActivate: [AuthGuard]
   },
 ];
 

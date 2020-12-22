@@ -36,7 +36,7 @@ export class Constants {
 
   public static PATH_USER_MYPAGE = '/home';
 
-  public static PATHS_TEMPLATE = ['/home', '/login', '/room', '/room/:id'];
+  public static PATHS_TEMPLATE = ['/home', '/login', '/room', '/room/:id', '/invoice/:id', '/invoice/create/:id', '/request-send', '/collection', '/profile'];
 
   public static PATH_LOGIN = '/login';
 

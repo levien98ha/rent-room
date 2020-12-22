@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
         const user = JSON.parse(localStorage.getItem(Constants.SESSION));
         if (!user) {
           this.router.navigate([Constants.PATH_LOGIN]);
+          // this.router.navigate(['login'], { queryParams: { returnUrl: state.url }});
           this.overLay.close();
           return true;
         }
